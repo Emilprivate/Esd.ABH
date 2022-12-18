@@ -3,7 +3,7 @@ project(P1-extension)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
 
-file(COPY Fonts/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY Ressources/Fonts/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 # Linux -pthread shenanigans
 if (CMAKE_SYSTEM_NAME STREQUAL Linux)
@@ -50,10 +50,10 @@ target_include_directories(sokol INTERFACE sokol)
 
 #=== EXECUTABLE:
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_executable(P1-extension WIN32 main.c)
+    add_executable(P1-extension WIN32 main.c UI/window_navigation_control.c UI/window_navigation_control.h)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT demo)
 else()
-    add_executable(P1-extension "main.c" "terminal_debug_menu.c" "terminal_debug_menu.h" "profile_management.c" "profile_management.h" "utilities.c" "utilities.h" user_interface.c user_interface.h)
+    add_executable(P1-extension "main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h" "profile_management.c" "profile_management.h" "utilities.c" "utilities.h" UI/user_interface.c UI/user_interface.h UI/window_navigation_control.c UI/window_navigation_control.h)
 endif()
 target_link_libraries(P1-extension sokol)
 

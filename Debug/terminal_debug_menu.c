@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "terminal_debug_menu.h"
-#include "utilities.h"
+#include "../utilities.h"
 
 #define MAX 30
 

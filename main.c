@@ -10,8 +10,8 @@
 #include "Libraries/cimgui/cimgui.h"
 
 #include "utilities.h"
-#include "terminal_debug_menu.h"
-#include "user_interface.h"
+#include "Debug/terminal_debug_menu.h"
+#include "UI/user_interface.h"
 
 #define WIDTH  800
 #define HEIGHT 600
