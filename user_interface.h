@@ -5,7 +5,7 @@
 
 #endif //CIMGUI_SOKOL_STARTERKIT_USER_INTERFACE_H
 
-void initialise_ui(int WIDTH, int HEIGHT);
+void initialise_ui(float WIDTH, float HEIGHT);
 
 typedef struct active_window_struct{
     bool render_login;
@@ -15,7 +15,6 @@ typedef struct active_window_struct{
     bool render_view_cart;
     bool render_settings;
     bool render_search;
-
 }t_active_window;
 
 // ImVec2 size, ImGuiCond size_cond, ImVec2 pos, ImGuiCond pos_cond, ImGuiWindowFlags windowflags

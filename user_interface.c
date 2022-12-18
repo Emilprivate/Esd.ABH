@@ -12,26 +12,28 @@ t_new_window     new_window_settings;
 
 // window prototypes
 void login_window();
+void register_window();
 
 typedef struct function_table_struct
 {
     const char* name;
     void (*func)(void);
-} t_function_table_entry;
+} t_function_table;
 
-t_function_table_entry function_table[] =
+t_function_table function_table[] =
         {
-                {"login_window", login_window}
+                {"login_window", login_window},
+                {"register_window", register_window}
         };
 
 // function prototypes
-void run_new_window(t_new_window newWindowInfo, void current_active_window());
-void update_program_settings(t_active_window window, t_program_status program, int id, bool status);
-void update_window_status(t_active_window activewindow, int currentActiveWidowId);
-void * current_active_window(t_function_table_entry functionTable[], int currentActiveWindowId);
+void run_new_window(t_new_window newWindowInfo, void callActiveWindow());
+void update_program_settings(t_active_window window, t_program_status * program, int id, bool window_status, bool settings_status);
+void update_window_status(t_active_window * activeWindow, int currentActiveWidowId);
+void * current_active_window(t_function_table functionTable[], int currentActiveWindowId);
 int find_active_window_id(t_active_window activeWindow);
 
-void initialise_ui(int WIDTH, int HEIGHT) {
+void initialise_ui(float WIDTH, float HEIGHT) {
     ImVec2 MAIN_FRAME = Vec2(WIDTH, HEIGHT);
     ImVec2 CENTER_POS = Vec2(WIDTH * 0.5f, HEIGHT * 0.5f);
 
@@ -56,8 +58,8 @@ void initialise_ui(int WIDTH, int HEIGHT) {
     igSetNextWindowPos(CENTER_POS, ImGuiCond_Always, Vec2(0.5f, 0.5f));
     igSetNextWindowSize(MAIN_FRAME, ImGuiCond_Once);
 
-    igBegin(" ", 0, window_flags);
-    igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 3.f);
+    igBegin("initial_ui", 0, window_flags);
+    igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 100.f);
     {
 
         ImVec2 MAIN_CHILD_FRAME = Vec2(400, 250);
@@ -73,65 +75,81 @@ void initialise_ui(int WIDTH, int HEIGHT) {
         }
 
         igSetNextWindowPos(CENTER_POS, ImGuiCond_Always, Vec2(0.5f, 0.5f));
-        igBeginChildFrame(" ", MAIN_CHILD_FRAME, ImGuiWindowFlags_ChildWindow);
+        igBeginChildFrame(1, MAIN_CHILD_FRAME, ImGuiWindowFlags_ChildWindow);
         {
 
             igSetCursorPos(Vec2(115, 35));
             igText("Please select an option");
 
             igSetCursorPos(Vec2(25, 75));
-            if (igButton("Login", Vec2(350, 50))) {
+            if (igButton("Login", Vec2(350, 50)))
+            {
                 active_window.render_login = true;
-                update_program_settings(active_window, program_status, find_active_window_id(active_window), true);
+                update_program_settings(active_window, &program_status, find_active_window_id(active_window), true, true);
             }
 
             igSetCursorPos(Vec2(25, 130));
-            if (igButton("Register", Vec2(350, 50))) {
+            if (igButton("Register", Vec2(350, 50)))
+            {
                 active_window.render_registration = true;
-                update_program_settings(active_window, program_status, find_active_window_id(active_window), true);
+                update_program_settings(active_window, &program_status, find_active_window_id(active_window), true, true);
             }
-
         }
         igEndChildFrame();
     }
     igPopStyleVar(1);
     igEnd();
 
+
     if (program_status.current_active_window_status && program_status.current_window_settings_status)
     {
         run_new_window(new_window_settings, current_active_window(function_table, program_status.current_active_window_id));
     }
-
 }
 
 void login_window()
 {
-    char username[32] = {0};
-    char password[32] = {0};
-
-    igInputText("Username", username, 32, ImGuiInputTextFlags_CharsNoBlank, 0, 0);
-    igInputText("Password", password, 32, ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_Password, 0, 0);
-    if (igButton("Submit", Vec2(120, 40)))
+    igSetCursorPos(Vec2(25, 150));
+    if (igButton("Submit", Vec2(350, 50)))
     {
-        // Perform login action here
-        printf("Username: %s\n", username);
-        printf("Password: %s\n", password);
+        printf("Logged in!\n");
+    }
+
+    igSetCursorPos(Vec2(150, 220));
+    if (igButton("<-", Vec2(100, 25)))
+    {
+        update_program_settings(active_window, &program_status, find_active_window_id(active_window), false, false);
     }
 }
 
-void run_new_window(t_new_window newWindowInfo, void current_active_window())
+void register_window()
+{
+    igSetCursorPos(Vec2(25, 150));
+    if (igButton("Submit", Vec2(350, 50)))
+    {
+        printf("Registered!\n");
+    }
+
+    igSetCursorPos(Vec2(150, 220));
+    if (igButton("<-", Vec2(100, 25)))
+    {
+        update_program_settings(active_window, &program_status, find_active_window_id(active_window), false, false);
+    }
+}
+
+void run_new_window(t_new_window newWindowInfo, void callActiveWindow())
 {
     igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f,0.5f));
     igSetNextWindowSize(newWindowInfo.size, newWindowInfo.size_cond);
 
-    igBegin(" ", 0, newWindowInfo.windowflags);
-    igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 3.f);
+    igBegin(function_table[program_status.current_active_window_id].name, 0, newWindowInfo.windowflags);
+    igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 100.f);
     {
 
         igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f,0.5f));
-        igBeginChildFrame("#main", newWindowInfo.child_size, ImGuiWindowFlags_ChildWindow);
+        igBeginChildFrame(1, newWindowInfo.child_size, ImGuiWindowFlags_ChildWindow);
         {
-            current_active_window();
+            callActiveWindow();
         }igEndChildFrame();
 
 
@@ -139,13 +157,12 @@ void run_new_window(t_new_window newWindowInfo, void current_active_window())
     igEnd();
 }
 
-void * current_active_window(t_function_table_entry functionTable[], int currentActiveWindowId)
+void * current_active_window(t_function_table functionTable[], int currentActiveWindowId)
 {
-    //printf("Current active window is %s", functionTable[currentActiveWindowId].name);
     return functionTable[currentActiveWindowId].func;
 }
 
-void update_window_status(t_active_window activeWindow, int currentActiveWidowId)
+void update_window_status(t_active_window * activeWindow, int currentActiveWidowId)
 {
     printf("Updating window statuses...\n");
     for (int j = 0; j < sizeof(activeWindow) / sizeof(bool); j++)
@@ -155,13 +172,16 @@ void update_window_status(t_active_window activeWindow, int currentActiveWidowId
             ((bool*)&activeWindow)[j] = false;
         }
     }
-    printf("Updated window statuses!\n");
+    printf("Updated window status!\n");
 }
 
-void update_program_settings(t_active_window window, t_program_status program, int id, bool status){
-    program.current_active_window_id = id;
-    program.current_active_window_status = status;
-    update_window_status(window, id);
+void update_program_settings(t_active_window window, t_program_status * program, int id, bool window_status, bool settings_status){
+    printf("Updating program settings...\n");
+    program->current_active_window_id = id;
+    program->current_active_window_status = window_status;
+    program->current_window_settings_status = settings_status;
+    update_window_status(&window, id);
+    printf("Updated program settings!\n");
 }
 
 int find_active_window_id(t_active_window activeWindow)

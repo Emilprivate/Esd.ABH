@@ -1,5 +1,0 @@
-/Users/emilpriv/Documents/GitHub/P1-extension/cmake-build-debug/CMakeFiles/cimgui.dir
-/Users/emilpriv/Documents/GitHub/P1-extension/cmake-build-debug/CMakeFiles/sokol.dir
-/Users/emilpriv/Documents/GitHub/P1-extension/cmake-build-debug/CMakeFiles/P1-extension.dir
-/Users/emilpriv/Documents/GitHub/P1-extension/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/emilpriv/Documents/GitHub/P1-extension/cmake-build-debug/CMakeFiles/rebuild_cache.dir
