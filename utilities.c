@@ -1,3 +1,6 @@
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+#include "Libraries/cimgui/cimgui.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -84,4 +87,41 @@ double deg2rad(double deg) {
 
 double rad2deg(double rad) {
     return (rad * 180 / PI);
+}
+
+ImVec2 Vec2(float x, float y)
+{
+    return (ImVec2){x, y};
+}
+
+ImVec4 Vec4(float a, float b, float c, float d)
+{
+    return (ImVec4){a, b, c, d};
+}
+
+void load_styles()
+{
+    ImVec4* colors = igGetStyle()->Colors;
+    {
+        colors[ImGuiCol_WindowBg] = Vec4(0.06f, 0.06f, 0.06f, 1.00f);
+
+        colors[ImGuiCol_FrameBg] = Vec4(0.11f, 0.11f, 0.11f, 1.00f);
+        colors[ImGuiCol_FrameBgHovered] = Vec4(0.11f, 0.11f, 0.11f, 1.00f);
+
+        colors[ImGuiCol_Button] = Vec4(1.00f, 0.00f, 0.2f, 1.00f);
+        colors[ImGuiCol_ButtonActive] = Vec4(1.00f, 0.0f, 0.0f, 1.00f);
+        colors[ImGuiCol_ButtonHovered] = Vec4(1.00f, 0.0f, 0.0f, 0.00f);
+
+        colors[ImGuiCol_TextDisabled] = Vec4(0.37f, 0.37f, 0.37f, 1.00f);
+    }
+
+    ImGuiStyle* style = igGetStyle();
+    {
+        style->WindowPadding = Vec2(0.4f, 0.4f);
+        style->WindowBorderSize = 0.5f;
+
+        style->FramePadding = Vec2(0.8f, 0.6f);
+        style->FrameRounding = 3.f;
+        style->FrameBorderSize = 1.f;
+    }
 }

@@ -13,8 +13,8 @@
 #include "terminal_debug_menu.h"
 #include "user_interface.h"
 
-#define WIDTH  1280
-#define HEIGHT 800
+#define WIDTH  800
+#define HEIGHT 600
 
 static void init(void);
 static void frame(void);

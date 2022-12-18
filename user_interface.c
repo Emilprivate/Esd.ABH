@@ -1,106 +1,183 @@
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
-#include "user_interface.h"
+
+#include <unistd.h>
 #include "Libraries/cimgui/cimgui.h"
 
-t_i_cs init;
-t_d_uii debug_ui;
-t_m_uii main_ui;
-t_s_uii session_ui;
+#include "user_interface.h"
+#include "utilities.h"
 
-ImVec2 Vec2(float x, float y)
+t_init_window    init_window;
+t_active_window  active_window;
+t_program_status program_status;
+t_new_window     new_window_settings;
+
+// window prototypes
+void login_window();
+
+typedef struct function_table_struct
 {
-    return (ImVec2){x, y};
-}
+    const char* name;
+    void (*func)(void);
+} t_function_table_entry;
 
-ImVec4 Vec4(float a, float b, float c, float d)
-{
-    return (ImVec4){a, b, c, d};
-}
+t_function_table_entry function_table[] =
+        {
+                {"login_window", login_window}
+        };
 
-void load_styles()
-{
-    ImVec4* colors = igGetStyle()->Colors;
-    {
-        colors[ImGuiCol_WindowBg] = Vec4(0.06f, 0.06f, 0.06f, 1.00f);
+// function prototypes
+void run_new_window(t_new_window newWindowInfo, void current_active_window());
+void update_window_status(t_active_window activewindow, int currentActiveWidowId);
+void * current_active_window(t_function_table_entry functionTable[], int currentActiveWindowId);
+int find_active_window_id(t_active_window activeWindow);
 
-        colors[ImGuiCol_FrameBg] = Vec4(0.11f, 0.11f, 0.11f, 1.00f);
-        colors[ImGuiCol_FrameBgHovered] = Vec4(0.11f, 0.11f, 0.11f, 1.00f);
+void initialise_ui(int WIDTH, int HEIGHT) {
+    ImVec2 MAIN_FRAME = Vec2(WIDTH, HEIGHT);
+    ImVec2 CENTER_POS = Vec2(WIDTH * 0.5f, HEIGHT * 0.5f);
 
-        colors[ImGuiCol_Button] = Vec4(1.00f, 0.00f, 0.2f, 1.00f);
-        colors[ImGuiCol_ButtonActive] = Vec4(1.00f, 0.0f, 0.0f, 1.00f);
-        colors[ImGuiCol_ButtonHovered] = Vec4(1.00f, 0.0f, 0.0f, 0.00f);
-
-        colors[ImGuiCol_TextDisabled] = Vec4(0.37f, 0.37f, 0.37f, 1.00f);
-    }
-
-    ImGuiStyle* style = igGetStyle();
-    {
-        style->WindowPadding = Vec2(0.4f, 0.4f);
-        style->WindowBorderSize = 0.5f;
-
-        style->FramePadding = Vec2(0.8f, 0.6f);
-        style->FrameRounding = 3.f;
-        style->FrameBorderSize = 1.f;
-    }
-}
-
-void initialise_ui(int WIDTH, int HEIGHT)
-{
-    ImVec2 CENTER = Vec2(WIDTH * 0.5f, HEIGHT * 0.5f);
-
-    if (!init.initialised)
-    {
+    if (!init_window.initialised) {
         igStyleColorsDark(NULL);
         load_styles();
 
-        init.initialised = true;
+        init_window.initialised = !init_window.initialised;
     }
 
-    igSetNextWindowPos(CENTER, ImGuiCond_Always, Vec2(0.5f,0.5f));
-    igSetNextWindowSize(Vec2(WIDTH, HEIGHT), ImGuiCond_Once);
+    // Create the main window
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoResize;
+    window_flags |= ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoCollapse;
+    window_flags |= ImGuiWindowFlags_NoScrollbar;
+    window_flags |= ImGuiWindowFlags_NoScrollWithMouse;
+    window_flags |= ImGuiWindowFlags_NoSavedSettings;
+    window_flags |= ImGuiWindowFlags_NoInputs;
 
-    igBegin(" ", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    igSetNextWindowPos(CENTER_POS, ImGuiCond_Always, Vec2(0.5f, 0.5f));
+    igSetNextWindowSize(MAIN_FRAME, ImGuiCond_Once);
+
+    igBegin(" ", 0, window_flags);
     igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 3.f);
     {
 
-        ImVec2 main_cf = Vec2(400, 250);
+        ImVec2 MAIN_CHILD_FRAME = Vec2(400, 250);
 
-        igSetNextWindowPos(CENTER, ImGuiCond_Always, Vec2(0.5f,0.5f));
-        igBeginChildFrame("#main", main_cf, ImGuiWindowFlags_ChildWindow);
+        if (!new_window_settings.init){
+            new_window_settings.size = MAIN_FRAME;
+            new_window_settings.size_cond = ImGuiCond_Once;
+            new_window_settings.pos = CENTER_POS;
+            new_window_settings.pos_cond = ImGuiCond_Always;
+            new_window_settings.child_size = MAIN_CHILD_FRAME;
+            new_window_settings.windowflags = window_flags;
+            new_window_settings.init = !new_window_settings.init;
+        }
+
+        igSetNextWindowPos(CENTER_POS, ImGuiCond_Always, Vec2(0.5f, 0.5f));
+        igBeginChildFrame(" ", MAIN_CHILD_FRAME, ImGuiWindowFlags_ChildWindow);
         {
 
             igSetCursorPos(Vec2(115, 35));
             igText("Please select an option");
 
             igSetCursorPos(Vec2(25, 75));
-            if(igButton("Login", Vec2(350, 50)))
-                main_ui.render_login = true;
+            if (igButton("Login", Vec2(350, 50))) {
+                active_window.render_login = true;
+                program_status.current_active_window_exists = true;
+                program_status.current_active_window_id = find_active_window_id(active_window);
+            }
 
             igSetCursorPos(Vec2(25, 130));
-            if(igButton("Register", Vec2(350, 50)))
-                main_ui.render_registration = true;
+            if (igButton("Register", Vec2(350, 50))) {
+                active_window.render_registration = true;
+                program_status.current_active_window_exists = true;
+                program_status.current_active_window_id = find_active_window_id(active_window);
+            }
 
+        }
+        igEndChildFrame();
+    }
+    igPopStyleVar(1);
+    igEnd();
 
+    if (program_status.current_active_window_exists && program_status.windows_settings_updated)
+    {
+        run_new_window(new_window_settings, current_active_window(function_table, program_status.current_active_window_id));
+    }else if (program_status.current_active_window_exists && !program_status.windows_settings_updated)
+    {
+        update_window_status(active_window, program_status.current_active_window_id);
+        program_status.windows_settings_updated = true;
+    }
 
+}
 
-            /*
-                         igSetCursorPos(Vec2(0, 143));
-            if(igButton("Turn on Demo Window", Vec2(400, 50)))
-                debug_ui.render_demo_window = !debug_ui.render_demo_window;
+void login_window()
+{
+    char username[32] = {0};
+    char password[32] = {0};
 
-            if(igButton("Turn on Debug Window", Vec2(400, 50)))
-                debug_ui.render_debuglog_window = !debug_ui.render_debuglog_window;*/
+    igInputText("Username", username, 32, ImGuiInputTextFlags_CharsNoBlank, 0, 0);
+    igInputText("Password", password, 32, ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_Password, 0, 0);
+    if (igButton("Submit", Vec2(120, 40)))
+    {
+        // Perform login action here
+        printf("Username: %s\n", username);
+        printf("Password: %s\n", password);
+    }
+}
 
-            if (debug_ui.render_debuglog_window)
-                igShowDebugLogWindow(NULL);
-            else if (debug_ui.render_demo_window)
-                igShowDemoWindow(NULL);
+void run_new_window(t_new_window newWindowInfo, void current_active_window())
+{
+    igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f,0.5f));
+    igSetNextWindowSize(newWindowInfo.size, newWindowInfo.size_cond);
 
+    igBegin(" ", 0, newWindowInfo.windowflags);
+    igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 3.f);
+    {
+
+        igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f,0.5f));
+        igBeginChildFrame("#main", newWindowInfo.child_size, ImGuiWindowFlags_ChildWindow);
+        {
+            current_active_window();
         }igEndChildFrame();
+
 
     }igPopStyleVar(1);
     igEnd();
 }
 
+void * current_active_window(t_function_table_entry functionTable[], int currentActiveWindowId)
+{
+    //printf("Current active window is %s", functionTable[currentActiveWindowId].name);
+    return functionTable[currentActiveWindowId].func;
+}
+
+void update_window_status(t_active_window activeWindow, int currentActiveWidowId)
+{
+    printf("Updating window statuses...\n");
+    for (int j = 0; j < sizeof(activeWindow) / sizeof(bool); j++)
+    {
+        if (currentActiveWidowId != j)
+        {
+            ((bool*)&activeWindow)[j] = false;
+        }
+    }
+    printf("Updated window statuses!\n");
+}
 
 
+
+int find_active_window_id(t_active_window activeWindow)
+{
+    printf("Finding active window id...\n");
+    // Loop through each member of the struct
+    for (int i = 0; i < sizeof(activeWindow) / sizeof(bool); i++) {
+        // Check if the current member is true
+        if (((bool*)&activeWindow)[i]) {
+            printf("Found current active window id: %d\n", i);
+            printf("Setting current active window id to %d!\n", i);
+            return i;
+        }
+    }
+
+    return -1;
+}
