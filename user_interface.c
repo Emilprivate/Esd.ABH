@@ -18,22 +18,22 @@ void register_window();
 
 typedef struct function_table_struct
 {
+    const int id;
     const char* name;
     void (*func)(void);
 } t_function_table;
 
 t_function_table function_table[] =
         {
-                {"login_window", login_window},
-                {"register_window", register_window}
+                {0, "login_window", login_window},
+                {1, "register_window", register_window}
         };
 
 // function prototypes
 void run_new_window(t_new_window newWindowInfo, void callActiveWindow());
 void update_program_settings(t_active_window * window, t_program_status * program, int id, bool window_status, bool settings_status);
-void update_window_status(t_active_window * activeWindow, int currentActiveWidowId);
+void update_window_status(t_active_window * activeWindow);
 void * current_active_window(t_function_table functionTable[], int currentActiveWindowId);
-int find_active_window_id(t_active_window activeWindow);
 
 void initialise_ui(float WIDTH, float HEIGHT) {
     ImVec2 MAIN_FRAME = Vec2(WIDTH, HEIGHT);
@@ -87,14 +87,14 @@ void initialise_ui(float WIDTH, float HEIGHT) {
             if (igButton("Login", Vec2(350, 50)))
             {
                 active_window.render_login = true;
-                update_program_settings(&active_window, &program_status, find_active_window_id(active_window), true, true);
+                update_program_settings(&active_window, &program_status, 0, true, true);
             }
 
             igSetCursorPos(Vec2(25, 130));
             if (igButton("Register", Vec2(350, 50)))
             {
                 active_window.render_registration = true;
-                update_program_settings(&active_window, &program_status, find_active_window_id(active_window), true, true);
+                update_program_settings(&active_window, &program_status, 1, true, true);
             }
         }
         igEndChildFrame();
@@ -120,7 +120,7 @@ void login_window()
     igSetCursorPos(Vec2(150, 220));
     if (igButton("<-", Vec2(100, 25)))
     {
-        update_program_settings(&active_window, &program_status, find_active_window_id(active_window), false, false);
+        update_program_settings(&active_window, &program_status, -1, false, false);
     }
 }
 
@@ -135,10 +135,11 @@ void register_window()
     igSetCursorPos(Vec2(150, 220));
     if (igButton("<-", Vec2(100, 25)))
     {
-        update_program_settings(&active_window, &program_status, find_active_window_id(active_window), false, false);
+        update_program_settings(&active_window, &program_status, -1, false, false);
     }
 }
 
+// run the new window
 void run_new_window(t_new_window newWindowInfo, void callActiveWindow())
 {
     igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f,0.5f));
@@ -159,17 +160,19 @@ void run_new_window(t_new_window newWindowInfo, void callActiveWindow())
     igEnd();
 }
 
+// return the function of the current active window to be called
 void * current_active_window(t_function_table functionTable[], int currentActiveWindowId)
 {
     return functionTable[currentActiveWindowId].func;
 }
 
-void update_window_status(t_active_window * activeWindow, int currentActiveWidowId)
+// Updates the window status to set all but the current active window to false
+void update_window_status(t_active_window * activeWindow)
 {
     printf("Updating window statuses...\n");
     for (int j = 0; j < sizeof(activeWindow) / sizeof(bool); j++)
     {
-        if (currentActiveWidowId != j)
+        if (program_status.current_active_window_id != j)
         {
             ((bool*)&activeWindow)[j] = false;
         }
@@ -177,27 +180,17 @@ void update_window_status(t_active_window * activeWindow, int currentActiveWidow
     printf("Updated window status!\n");
 }
 
-void update_program_settings(t_active_window * window, t_program_status * program, int id, bool window_status, bool settings_status){
+
+// Updates the program settings with the latest window settings
+void update_program_settings(t_active_window * window, t_program_status * program, int id,
+                             bool window_status, bool settings_status){
     printf("Updating program settings...\n");
+
     program->current_active_window_id = id;
     program->current_active_window_status = window_status;
     program->current_window_settings_status = settings_status;
-    update_window_status(window, id);
+
+    update_window_status(window);
+
     printf("Updated program settings!\n");
-}
-
-int find_active_window_id(t_active_window activeWindow)
-{
-    printf("Finding active window id...\n");
-    // Loop through each member of the struct
-    for (int i = 0; i < sizeof(activeWindow) / sizeof(bool); i++) {
-        // Check if the current member is true
-        if (((bool*)&activeWindow)[i]) {
-            printf("Found current active window id: %d\n", i);
-            printf("Setting current active window id to %d!\n", i);
-            return i;
-        }
-    }
-
-    return -1;
 }
