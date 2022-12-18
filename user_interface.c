@@ -10,6 +10,8 @@ t_active_window  active_window;
 t_program_status program_status;
 t_new_window     new_window_settings;
 
+// TODO: Fix the "go back" button
+
 // window prototypes
 void login_window();
 void register_window();
@@ -28,7 +30,7 @@ t_function_table function_table[] =
 
 // function prototypes
 void run_new_window(t_new_window newWindowInfo, void callActiveWindow());
-void update_program_settings(t_active_window window, t_program_status * program, int id, bool window_status, bool settings_status);
+void update_program_settings(t_active_window * window, t_program_status * program, int id, bool window_status, bool settings_status);
 void update_window_status(t_active_window * activeWindow, int currentActiveWidowId);
 void * current_active_window(t_function_table functionTable[], int currentActiveWindowId);
 int find_active_window_id(t_active_window activeWindow);
@@ -85,14 +87,14 @@ void initialise_ui(float WIDTH, float HEIGHT) {
             if (igButton("Login", Vec2(350, 50)))
             {
                 active_window.render_login = true;
-                update_program_settings(active_window, &program_status, find_active_window_id(active_window), true, true);
+                update_program_settings(&active_window, &program_status, find_active_window_id(active_window), true, true);
             }
 
             igSetCursorPos(Vec2(25, 130));
             if (igButton("Register", Vec2(350, 50)))
             {
                 active_window.render_registration = true;
-                update_program_settings(active_window, &program_status, find_active_window_id(active_window), true, true);
+                update_program_settings(&active_window, &program_status, find_active_window_id(active_window), true, true);
             }
         }
         igEndChildFrame();
@@ -110,7 +112,7 @@ void initialise_ui(float WIDTH, float HEIGHT) {
 void login_window()
 {
     igSetCursorPos(Vec2(25, 150));
-    if (igButton("Submit", Vec2(350, 50)))
+    if (igButton("Login", Vec2(350, 50)))
     {
         printf("Logged in!\n");
     }
@@ -118,14 +120,14 @@ void login_window()
     igSetCursorPos(Vec2(150, 220));
     if (igButton("<-", Vec2(100, 25)))
     {
-        update_program_settings(active_window, &program_status, find_active_window_id(active_window), false, false);
+        update_program_settings(&active_window, &program_status, find_active_window_id(active_window), false, false);
     }
 }
 
 void register_window()
 {
     igSetCursorPos(Vec2(25, 150));
-    if (igButton("Submit", Vec2(350, 50)))
+    if (igButton("Register", Vec2(350, 50)))
     {
         printf("Registered!\n");
     }
@@ -133,7 +135,7 @@ void register_window()
     igSetCursorPos(Vec2(150, 220));
     if (igButton("<-", Vec2(100, 25)))
     {
-        update_program_settings(active_window, &program_status, find_active_window_id(active_window), false, false);
+        update_program_settings(&active_window, &program_status, find_active_window_id(active_window), false, false);
     }
 }
 
@@ -175,12 +177,12 @@ void update_window_status(t_active_window * activeWindow, int currentActiveWidow
     printf("Updated window status!\n");
 }
 
-void update_program_settings(t_active_window window, t_program_status * program, int id, bool window_status, bool settings_status){
+void update_program_settings(t_active_window * window, t_program_status * program, int id, bool window_status, bool settings_status){
     printf("Updating program settings...\n");
     program->current_active_window_id = id;
     program->current_active_window_status = window_status;
     program->current_window_settings_status = settings_status;
-    update_window_status(&window, id);
+    update_window_status(window, id);
     printf("Updated program settings!\n");
 }
 
