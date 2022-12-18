@@ -30,8 +30,8 @@ typedef struct new_window_struct{
 }t_new_window;
 
 typedef struct program_status{
-    bool current_active_window_exists;
-    bool windows_settings_updated;
+    bool current_active_window_status;
+    bool current_window_settings_status;
     int current_active_window_id;
     bool logout;
     bool quit_program;

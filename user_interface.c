@@ -27,6 +27,7 @@ t_function_table_entry function_table[] =
 
 // function prototypes
 void run_new_window(t_new_window newWindowInfo, void current_active_window());
+void update_program_settings(t_active_window window, t_program_status program, int id, bool status);
 void update_window_status(t_active_window activewindow, int currentActiveWidowId);
 void * current_active_window(t_function_table_entry functionTable[], int currentActiveWindowId);
 int find_active_window_id(t_active_window activeWindow);
@@ -82,15 +83,13 @@ void initialise_ui(int WIDTH, int HEIGHT) {
             igSetCursorPos(Vec2(25, 75));
             if (igButton("Login", Vec2(350, 50))) {
                 active_window.render_login = true;
-                program_status.current_active_window_exists = true;
-                program_status.current_active_window_id = find_active_window_id(active_window);
+                update_program_settings(active_window, program_status, find_active_window_id(active_window), true);
             }
 
             igSetCursorPos(Vec2(25, 130));
             if (igButton("Register", Vec2(350, 50))) {
                 active_window.render_registration = true;
-                program_status.current_active_window_exists = true;
-                program_status.current_active_window_id = find_active_window_id(active_window);
+                update_program_settings(active_window, program_status, find_active_window_id(active_window), true);
             }
 
         }
@@ -99,13 +98,9 @@ void initialise_ui(int WIDTH, int HEIGHT) {
     igPopStyleVar(1);
     igEnd();
 
-    if (program_status.current_active_window_exists && program_status.windows_settings_updated)
+    if (program_status.current_active_window_status && program_status.current_window_settings_status)
     {
         run_new_window(new_window_settings, current_active_window(function_table, program_status.current_active_window_id));
-    }else if (program_status.current_active_window_exists && !program_status.windows_settings_updated)
-    {
-        update_window_status(active_window, program_status.current_active_window_id);
-        program_status.windows_settings_updated = true;
     }
 
 }
@@ -164,7 +159,11 @@ void update_window_status(t_active_window activeWindow, int currentActiveWidowId
     printf("Updated window statuses!\n");
 }
 
-
+void update_program_settings(t_active_window window, t_program_status program, int id, bool status){
+    program.current_active_window_id = id;
+    program.current_active_window_status = status;
+    update_window_status(window, id);
+}
 
 int find_active_window_id(t_active_window activeWindow)
 {
