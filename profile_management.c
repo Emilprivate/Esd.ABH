@@ -22,7 +22,7 @@ bool validate_credentials_in_database(FILE * file, char * file_name, char userna
     return false;
 }
 
-t_user_profile create_profile(int id)
+t_user_profile terminal_create_user(int id)
 {
     t_user_profile new_profile;
 

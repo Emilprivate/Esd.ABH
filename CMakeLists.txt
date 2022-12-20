@@ -50,10 +50,10 @@ target_include_directories(sokol INTERFACE sokol)
 
 #=== EXECUTABLE:
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_executable(P1-extension WIN32 main.c UI/window_navigation_control.c UI/window_navigation_control.h user_operations.c user_operations.h)
+    add_executable(P1-extension WIN32 "main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h" "profile_management.c" "profile_management.h" "utilities.c" "utilities.h" UI/user_interface.c UI/user_interface.h UI/window_navigation_control.c UI/window_navigation_control.h)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT demo)
 else()
-    add_executable(P1-extension "main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h" "profile_management.c" "profile_management.h" "utilities.c" "utilities.h" UI/user_interface.c UI/user_interface.h UI/window_navigation_control.c UI/window_navigation_control.h user_operations.c user_operations.h)
+    add_executable(P1-extension "main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h" "profile_management.c" "profile_management.h" "utilities.c" "utilities.h" UI/user_interface.c UI/user_interface.h UI/window_navigation_control.c UI/window_navigation_control.h)
 endif()
 target_link_libraries(P1-extension sokol)
 

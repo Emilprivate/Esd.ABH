@@ -1,7 +1,7 @@
 // sokol implementation library on non-Apple platforms
 #define SOKOL_IMPL
 #if defined(_WIN32)
-#define SOKOL_D3D11
+#define SOKOL_GLCORE33
 #elif defined(__EMSCRIPTEN__)
 #define SOKOL_GLES2
 #elif defined(__APPLE__)

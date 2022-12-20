@@ -1,10 +1,14 @@
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
 #include "Libraries/cimgui/cimgui.h"
 
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+
 
 #include "utilities.h"
 

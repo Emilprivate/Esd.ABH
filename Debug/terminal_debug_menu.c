@@ -5,8 +5,6 @@
 #include "terminal_debug_menu.h"
 #include "../utilities.h"
 
-#define MAX 30
-
 void main_menu(t_user_profile profile, time_t login_time);
 void login_page(FILE * file, char * file_name);
 void registration_page(FILE * file, char * file_name);
@@ -120,7 +118,7 @@ void registration_page(FILE * file, char * file_name)
     t_user_profile * database = load_database(file, file_name);
 
     int id = count_lines_in_file(file, file_name);
-    t_user_profile new_profile = create_profile(id);
+    t_user_profile new_profile = terminal_create_user(id);
 
     upload_profile(file, file_name, new_profile, database);
 
