@@ -27,11 +27,15 @@ void run_new_window(t_new_window newWindowInfo, void callActiveWindow()) {
     igEnd();
 }
 
-void *current_active_window(t_function_table functionTable[], int id) {
+void *current_active_window(t_function_table functionTable[], int id)
+{
     return functionTable[id].func;
 }
 
-void update_window_status(t_active_window *activeWindow, int id) {
+void update_window_status(t_active_window *activeWindow, t_program_status *program, int id) {
+
+    program->current_active_window_id = id;
+
     printf("Updating window statuses...\n");
     for (int j = 0; j < sizeof(activeWindow) / sizeof(bool); j++) {
         if (id != j) {
@@ -39,17 +43,4 @@ void update_window_status(t_active_window *activeWindow, int id) {
         }
     }
     printf("Updated window status!\n");
-}
-
-void update_program_settings(t_active_window *window, t_program_status *program, int id,
-                             bool window_status, bool settings_status) {
-    printf("Updating program settings...\n");
-
-    program->current_active_window_id = id;
-    program->current_active_window_status = window_status;
-    program->current_window_settings_status = settings_status;
-
-    update_window_status(window, program->current_active_window_id);
-
-    printf("Updated program settings!\n");
 }

@@ -11,13 +11,18 @@ t_init_window InitWindow;
 t_active_window ActiveWindow;
 t_program_status ProgramStatus;
 t_new_window WindowSettings;
-t_function_table FunctionTable[] =
-        {
-                {0, "login_window",    login_window},
-                {1, "register_window", register_window}
+t_login_user LoginUser;
+t_init_file InitFile;
+
+t_function_table FunctionTable[] ={
+                {0, "initialise_window", initialise_window},
+                {1, "main_window", 0},
+                {2, "login_window", login_window},
+                {3, "register_window", register_window}
         };
 
-void initialise_ui(float WIDTH, float HEIGHT) {
+void initialise_ui(float WIDTH, float HEIGHT)
+{
     ImVec2 MAIN_FRAME = Vec2(WIDTH, HEIGHT);
     ImVec2 CENTER_POS = Vec2(WIDTH * 0.5f, HEIGHT * 0.5f);
     ImVec2 MAIN_CHILD_FRAME = Vec2(400, 250);
@@ -32,7 +37,8 @@ void initialise_ui(float WIDTH, float HEIGHT) {
     window_flags |= ImGuiWindowFlags_NoSavedSettings;
     window_flags |= ImGuiWindowFlags_NoInputs;
 
-    if (!InitWindow.initialised) {
+    if (!InitWindow.initialised)
+    {
         igStyleColorsDark(NULL);
         load_styles();
 
@@ -43,66 +49,78 @@ void initialise_ui(float WIDTH, float HEIGHT) {
         WindowSettings.child_size = MAIN_CHILD_FRAME;
         WindowSettings.windowflags = window_flags;
 
+        ProgramStatus.current_active_window_id = 0;
+
+        InitFile.file_name = "Userprofiles.txt";
+        InitFile.file = NULL;
+
         InitWindow.initialised = !InitWindow.initialised;
     }
 
-    igSetNextWindowPos(CENTER_POS, ImGuiCond_Always, Vec2(0.5f, 0.5f));
-    igSetNextWindowSize(MAIN_FRAME, ImGuiCond_Once);
+    run_new_window(WindowSettings, current_active_window(FunctionTable, ProgramStatus.current_active_window_id));
+}
 
-    igBegin("initial ui", 0, window_flags);
-    igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 100.f);
+void initialise_window()
+{
+    igSetCursorPos(Vec2(115, 35));
+    igText("Please select an option");
+
+    igSetCursorPos(Vec2(25, 75));
+    if (igButton("Login", Vec2(350, 50)))
     {
-
-        igSetNextWindowPos(CENTER_POS, ImGuiCond_Always, Vec2(0.5f, 0.5f));
-        igBeginChildFrame(1, MAIN_CHILD_FRAME, ImGuiWindowFlags_ChildWindow);
-        {
-
-            igSetCursorPos(Vec2(115, 35));
-            igText("Please select an option");
-
-            igSetCursorPos(Vec2(25, 75));
-            if (igButton("Login", Vec2(350, 50))) {
-                ActiveWindow.render_login = true;
-                update_program_settings(&ActiveWindow, &ProgramStatus, 0, true, true);
-            }
-
-            igSetCursorPos(Vec2(25, 130));
-            if (igButton("Register", Vec2(350, 50))) {
-                ActiveWindow.render_registration = true;
-                update_program_settings(&ActiveWindow, &ProgramStatus, 1, true, true);
-            }
-        }
-        igEndChildFrame();
+        ActiveWindow.render_login = true;
+        update_window_status(&ActiveWindow, &ProgramStatus, 2);
     }
-    igPopStyleVar(1);
-    igEnd();
 
-
-    if (ProgramStatus.current_active_window_status && ProgramStatus.current_window_settings_status) {
-        run_new_window(WindowSettings, current_active_window(FunctionTable, ProgramStatus.current_active_window_id));
+    igSetCursorPos(Vec2(25, 130));
+    if (igButton("Register", Vec2(350, 50)))
+    {
+        ActiveWindow.render_registration = true;
+        update_window_status(&ActiveWindow, &ProgramStatus, 3);
     }
 }
 
-void login_window() {
+void login_window()
+{
+
+    igSetCursorPos(Vec2(35, 30));
+    igText("Username");
+    igSetCursorPos(Vec2(35, 50));
+    igInputText("##", LoginUser.temp_username, 64, 0, NULL, NULL);
+
+    igSetCursorPos(Vec2(35, 80));
+    igText("Password");
+    igSetCursorPos(Vec2(35, 100));
+    igInputText("##", LoginUser.temp_password, 64, 0, NULL, NULL);
+
     igSetCursorPos(Vec2(25, 150));
-    if (igButton("Login", Vec2(350, 50))) {
-        printf("Logged in!\n");
+    if (igButton("Login", Vec2(350, 50)))
+    {
+        // TODO: Login backend
     }
 
     igSetCursorPos(Vec2(150, 220));
-    if (igButton("<-", Vec2(100, 25))) {
-        update_program_settings(&ActiveWindow, &ProgramStatus, -1, false, false);
+    if (igButton("<-", Vec2(100, 25)))
+    {
+        update_window_status(&ActiveWindow, &ProgramStatus, 0);
     }
+
+
 }
 
-void register_window() {
+void register_window()
+{
     igSetCursorPos(Vec2(25, 150));
-    if (igButton("Register", Vec2(350, 50))) {
-        printf("Registered!\n");
+    if (igButton("Register", Vec2(350, 50)))
+    {
+        // TODO: Register backend
+        int id = count_lines_in_file(InitFile.file, InitFile.file_name);
+
     }
 
     igSetCursorPos(Vec2(150, 220));
-    if (igButton("<-", Vec2(100, 25))) {
-        update_program_settings(&ActiveWindow, &ProgramStatus, -1, false, false);
+    if (igButton("<-", Vec2(100, 25)))
+    {
+        update_window_status(&ActiveWindow, &ProgramStatus, 0);
     }
 }

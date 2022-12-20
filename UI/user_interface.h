@@ -7,6 +7,7 @@
 
 //External prototypes
 void initialise_ui(float WIDTH, float HEIGHT);
+void initialise_window();
 void login_window();
 void register_window();
 

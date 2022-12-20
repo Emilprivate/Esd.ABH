@@ -8,8 +8,6 @@
 typedef struct active_window_struct{
     bool render_login;
     bool render_registration;
-
-    bool render_main_menu;
     bool render_view_profile;
     bool render_view_cart;
     bool render_settings;
@@ -18,10 +16,7 @@ typedef struct active_window_struct{
 }t_active_window;
 
 typedef struct program_status_struct{
-    bool current_active_window_status;
-    bool current_window_settings_status;
     int current_active_window_id;
-    bool go_back;
     bool logout;
     bool quit_program;
 }t_program_status;
@@ -48,7 +43,6 @@ typedef struct function_table_struct {
 
 //External prototypes
 void run_new_window(t_new_window newWindowInfo, void callActiveWindow());
-void update_program_settings(t_active_window *window, t_program_status *program, int id, bool window_status,
-                             bool settings_status);
-void update_window_status(t_active_window *activeWindow, int id);
+void update_program_settings(t_active_window *window, t_program_status *program, int id, bool go_back);
+void update_window_status(t_active_window *activeWindow, t_program_status *program, int id);
 void *current_active_window(t_function_table functionTable[], int id);

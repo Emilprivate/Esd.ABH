@@ -33,7 +33,7 @@ sapp_desc sokol_main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
 
-        srand(time(NULL));
+    srand(time(NULL));
 
     FILE * file = NULL;
     char * file_name = "Userprofiles.txt";

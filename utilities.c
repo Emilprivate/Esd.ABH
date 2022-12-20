@@ -72,7 +72,6 @@ double distance(double lat1, double lon1, double lat2, double lon2) {
     else {
         theta = lon1 - lon2;
         dist = sin(deg2rad(lat1)) * sin(deg2rad(lat2)) + cos(deg2rad(lat1)) * cos(deg2rad(lat2)) * cos(deg2rad(theta));
-        //returns the arc cosine (inverse cosine) of a number in radians.
         dist = acos(dist);
         dist = rad2deg(dist);
         dist = dist * 60 * 1.1515;
@@ -120,7 +119,7 @@ void load_styles()
         style->WindowPadding = Vec2(0.4f, 0.4f);
         style->WindowBorderSize = 0.5f;
 
-        style->FramePadding = Vec2(0.8f, 0.6f);
+        style->FramePadding = Vec2(5.5f, 5.5f);
         style->FrameRounding = 3.f;
         style->FrameBorderSize = 1.f;
     }
