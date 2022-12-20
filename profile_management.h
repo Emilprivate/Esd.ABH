@@ -27,8 +27,13 @@ typedef struct login_user_struct{
     bool init;
     char temp_username[MAX];
     char temp_password[MAX];
-    time_t login_time;
 }t_login_user;
+
+typedef struct session_struct{
+    time_t login_time;
+    time_t logout_time;
+    time_t session_time;
+}t_session;
 
 typedef struct init_file_struct{
     FILE * file;

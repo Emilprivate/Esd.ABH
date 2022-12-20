@@ -4,20 +4,24 @@
 #include "../utilities.h"
 
 #include "user_interface.h"
-#include "window_navigation_control.h"
+#include "..\user_operations.h"
+
+//Internal prototypes
+void initial_window();
+void login_window();
+void register_window();
+void main_window();
 
 //Struct initialisations
-t_init_window InitWindow;
-t_active_window ActiveWindow;
+t_init_window    InitWindow;
 t_program_status ProgramStatus;
-t_new_window WindowSettings;
-t_login_user LoginUser;
-t_init_file InitFile;
-
+t_new_window     WindowSettings;
+t_login_user     LoginUser;
+t_init_file      InitFile;
 t_function_table FunctionTable[] ={
-                {0, "initialise_window", initialise_window},
-                {1, "main_window", 0},
-                {2, "login_window", login_window},
+                {0, "initial_window",  initial_window},
+                {1, "main_window",     main_window},
+                {2, "login_window",    login_window},
                 {3, "register_window", register_window}
         };
 
@@ -60,7 +64,7 @@ void initialise_ui(float WIDTH, float HEIGHT)
     run_new_window(WindowSettings, current_active_window(FunctionTable, ProgramStatus.current_active_window_id));
 }
 
-void initialise_window()
+void initial_window()
 {
     igSetCursorPos(Vec2(115, 35));
     igText("Please select an option");
@@ -68,59 +72,71 @@ void initialise_window()
     igSetCursorPos(Vec2(25, 75));
     if (igButton("Login", Vec2(350, 50)))
     {
-        ActiveWindow.render_login = true;
-        update_window_status(&ActiveWindow, &ProgramStatus, 2);
+        update_window_status(&ProgramStatus, 2);
     }
 
     igSetCursorPos(Vec2(25, 130));
     if (igButton("Register", Vec2(350, 50)))
     {
-        ActiveWindow.render_registration = true;
-        update_window_status(&ActiveWindow, &ProgramStatus, 3);
+        update_window_status(&ProgramStatus, 3);
     }
+}
+
+void main_window()
+{
+
 }
 
 void login_window()
 {
+    igSetCursorPos(Vec2(25, 230));
+    igText("Status: %s", ProgramStatus.output_status != NULL ? ProgramStatus.output_status : "...");
 
-    igSetCursorPos(Vec2(35, 30));
+    igSetCursorPos(Vec2(68, 50));
     igText("Username");
-    igSetCursorPos(Vec2(35, 50));
-    igInputText("##", LoginUser.temp_username, 64, 0, NULL, NULL);
 
-    igSetCursorPos(Vec2(35, 80));
+    igSetCursorPos(Vec2(68, 70));
+    igInputText("##", LoginUser.temp_username, MAX, 0, NULL, NULL);
+
+    igSetCursorPos(Vec2(68, 100));
     igText("Password");
-    igSetCursorPos(Vec2(35, 100));
-    igInputText("##", LoginUser.temp_password, 64, 0, NULL, NULL);
 
-    igSetCursorPos(Vec2(25, 150));
+    igSetCursorPos(Vec2(68, 120));
+    igInputText("###", LoginUser.temp_password, MAX, 0, NULL, NULL);
+
+    igSetCursorPos(Vec2(25, 175));
     if (igButton("Login", Vec2(350, 50)))
     {
-        // TODO: Login backend
+        if (login_operation(InitFile.file, InitFile.file_name, LoginUser))
+        {
+            update_window_status(&ProgramStatus, 1);
+        }else{
+            update_output_status(&ProgramStatus, "Failed to login!");
+        }
     }
 
-    igSetCursorPos(Vec2(150, 220));
-    if (igButton("<-", Vec2(100, 25)))
+    igSetCursorPos(Vec2(5, 5));
+    if (igButton("<", Vec2(25, 25)))
     {
-        update_window_status(&ActiveWindow, &ProgramStatus, 0);
+        update_window_status(&ProgramStatus, 0);
     }
-
-
 }
 
 void register_window()
 {
-    igSetCursorPos(Vec2(25, 150));
+    igSetCursorPos(Vec2(25, 230));
+    igText("Status: %s", ProgramStatus.output_status != NULL ? ProgramStatus.output_status : "...");
+
+    igSetCursorPos(Vec2(25, 175));
     if (igButton("Register", Vec2(350, 50)))
     {
-        // TODO: Register backend
-        int id = count_lines_in_file(InitFile.file, InitFile.file_name);
+        int database_id = count_lines_in_file(InitFile.file, InitFile.file_name);
 
     }
 
-    igSetCursorPos(Vec2(150, 220));
-    if (igButton("<-", Vec2(100, 25)))
+    igSetCursorPos(Vec2(5, 5));
+    if (igButton("<", Vec2(25, 25)))
     {
-        update_window_status(&ActiveWindow, &ProgramStatus, 0);
+        update_window_status(&ProgramStatus, 0);
     }
 }

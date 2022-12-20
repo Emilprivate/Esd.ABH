@@ -5,5 +5,5 @@
 
 #include <stdbool.h>
 
-void login_operation(FILE * file, char * file_name, t_login_user login_user);
-void registration_operation(FILE * file, char * file_name, t_user_profile profile);
+bool login_operation(FILE * file, char * file_name, t_login_user login_user);
+bool registration_operation(FILE * file, char * file_name, t_user_profile profile);

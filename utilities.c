@@ -7,15 +7,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
+#include <unistd.h>
 
 
 #include "utilities.h"
+
 
 #define SECONDS_PER_WEEK   (7 * 24 * (60 * 60))
 #define SECONDS_PER_DAY    (24 * (60 * 60))
 #define SECONDS_PER_HOUR   (60 * 60)
 #define SECONDS_PER_MINUTE (60)
+
+//Function that changes the value of t_program_status->output_status (char) based on parameter
+void update_output_status(t_program_status *program, char * status)
+{
+    program->output_status = status;
+}
 
 const char* string_from_enum_transport(e_transport eTransport)
 {
