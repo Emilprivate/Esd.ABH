@@ -13,8 +13,8 @@
 #include "Debug/terminal_debug_menu.h"
 #include "UI/user_interface.h"
 
-#define WIDTH  800
-#define HEIGHT 600
+#define WIDTH  1000
+#define HEIGHT 800
 
 static void init(void);
 static void frame(void);
@@ -25,11 +25,12 @@ static void init_font();
 void debug_admin_profile(FILE * file, char * file_name);
 void initialise_database(FILE * file, char * file_name);
 
-static struct {
+static struct{
     sg_pass_action pass_action;
 } state;
 
-sapp_desc sokol_main(int argc, char* argv[]) {
+sapp_desc sokol_main(int argc, char* argv[])
+{
     (void)argc;
     (void)argv;
 
@@ -42,10 +43,8 @@ sapp_desc sokol_main(int argc, char* argv[]) {
 
     debug_admin_profile(file, file_name);
 
-    /*terminal_debug_menu*/
-    //initial_screen();
-
-    return (sapp_desc){
+    return (sapp_desc)
+    {
             .init_cb = init,
             .frame_cb = frame,
             .cleanup_cb = cleanup,
@@ -57,12 +56,11 @@ sapp_desc sokol_main(int argc, char* argv[]) {
     };
 }
 
-static void init(void) {
-
+static void init(void)
+{
     sg_setup(&(sg_desc){ .context = sapp_sgcontext() });
     simgui_setup(&(simgui_desc_t){ 0 });
 
-    // initial clear color
     state.pass_action = (sg_pass_action) {
         .colors[0] = { .action = SG_ACTION_CLEAR, .value = { 0.6f, 0.6f, 0.6f, 1.0f } }
     };
@@ -77,7 +75,6 @@ static void frame(void) {
         .dpi_scale = sapp_dpi_scale(),
     });
 
-    //UI gets initialised here
     initialise_ui(WIDTH, HEIGHT);
 
     sg_begin_default_pass(&state.pass_action, sapp_width(), sapp_height());
@@ -88,12 +85,14 @@ static void frame(void) {
     sg_commit();
 }
 
-static void cleanup(void) {
+static void cleanup(void)
+{
     simgui_shutdown();
     sg_shutdown();
 }
 
-static void event(const sapp_event* ev) {
+static void event(const sapp_event* ev)
+{
     simgui_handle_event(ev);
 }
 
@@ -112,8 +111,6 @@ void initialise_database(FILE * file, char * file_name)
     fclose(file);
 }
 
-//Work in progress
-//Assertion failed: (0), function _sg_validate_end, file sokol_gfx.h, line 14228.
 void init_font()
 {
     ImGuiIO * io = igGetIO();

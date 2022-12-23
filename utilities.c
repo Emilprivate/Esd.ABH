@@ -12,7 +12,6 @@
 
 #include "utilities.h"
 
-
 #define SECONDS_PER_WEEK   (7 * 24 * (60 * 60))
 #define SECONDS_PER_DAY    (24 * (60 * 60))
 #define SECONDS_PER_HOUR   (60 * 60)
@@ -60,7 +59,8 @@ int count_lines_in_file(FILE * file, char *file_name)
     return count_lines;
 }
 
-void session_time_calculator(int input){
+void session_time_calculator(int input)
+{
     int min, hour;
 
     input    = input % SECONDS_PER_WEEK;
@@ -75,12 +75,15 @@ void session_time_calculator(int input){
     printf("Session was active for %d hours, %d minutes, %d seconds\n\n", hour, min, input);
 }
 
-double distance(double lat1, double lon1, double lat2, double lon2) {
+double distance(double lat1, double lon1, double lat2, double lon2)
+{
     double theta, dist;
-    if ((lat1 == lat2) && (lon1 == lon2)) {
+    if ((lat1 == lat2) && (lon1 == lon2))
+    {
         return 0;
     }
-    else {
+    else
+    {
         theta = lon1 - lon2;
         dist = sin(deg2rad(lat1)) * sin(deg2rad(lat2)) + cos(deg2rad(lat1)) * cos(deg2rad(lat2)) * cos(deg2rad(theta));
         dist = acos(dist);
@@ -91,11 +94,13 @@ double distance(double lat1, double lon1, double lat2, double lon2) {
     return dist;
 }
 
-double deg2rad(double deg) {
+double deg2rad(double deg)
+{
     return (deg * PI / 180);
 }
 
-double rad2deg(double rad) {
+double rad2deg(double rad)
+{
     return (rad * 180 / PI);
 }
 

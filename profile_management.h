@@ -12,10 +12,10 @@ typedef enum transport_options{Walk, Bicycle, Car, Bus}e_transport;
 
 typedef struct user_profile_struct{
     int         id;
-    char        name[30];
-    char        address[30];
-    char        username[30];
-    char        password[30];
+    char        name[MAX];
+    char        address[MAX];
+    char        username[MAX];
+    char        password[MAX];
     double      longitude;
     double      latitude;
     double      max_distance;
