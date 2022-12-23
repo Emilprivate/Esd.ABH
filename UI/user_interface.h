@@ -8,7 +8,7 @@
 //External prototypes
 void initialise_ui(float WIDTH, float HEIGHT);
 void initialise_registration_window_settings(float WIDTH, float HEIGHT, ImGuiWindowFlags window_flags);
-void initialise_initial_login_window_settings(float WIDTH, float HEIGHT, ImGuiWindowFlags window_flags);
+void initialise_initial_window_settings(float WIDTH, float HEIGHT, ImGuiWindowFlags window_flags);
 void initialise_main_window_settings(float WIDTH, float HEIGHT, ImGuiWindowFlags window_flags);
 
 typedef struct debug_ui_interaction_struct{

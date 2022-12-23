@@ -29,7 +29,7 @@ void *current_active_window(t_function_table functionTable[], int id)
     return functionTable[id].func;
 }
 
-void update_window_status(t_program_status *program, t_new_window window_settings, int id)
+void update_window_settings(t_program_status *program, t_new_window window_settings, int id)
 {
     update_output_status(program, "...");
     program->current_active_window_id = id;
@@ -42,6 +42,6 @@ void update_window_status(t_program_status *program, t_new_window window_setting
             initialise_registration_window_settings(window_settings.WIDTH, window_settings.HEIGHT,window_settings.windowflags);
             break;
         default:
-            initialise_initial_login_window_settings(window_settings.WIDTH, window_settings.HEIGHT, window_settings.windowflags);
+            initialise_initial_window_settings(window_settings.WIDTH, window_settings.HEIGHT,window_settings.windowflags);
     }
 }

@@ -2,9 +2,9 @@
 
 #include "../Libraries/cimgui/cimgui.h"
 #include "../utilities.h"
+#include "../user_operations.h"
 
 #include "user_interface.h"
-#include "..\user_operations.h"
 
 //Internal prototypes
 void initial_window();
@@ -51,9 +51,9 @@ void initialise_ui(float WIDTH, float HEIGHT)
         WindowSettings.WIDTH = WIDTH;
         WindowSettings.HEIGHT = HEIGHT;
 
-        initialise_initial_login_window_settings(WIDTH, HEIGHT, window_flags);
+        initialise_initial_window_settings(WIDTH, HEIGHT, window_flags);
 
-        update_window_status(&ProgramStatus, WindowSettings, 0);
+        update_window_settings(&ProgramStatus, WindowSettings, 0);
 
         InitWindow.initialised = !InitWindow.initialised;
     }
@@ -69,13 +69,13 @@ void initial_window()
     igSetCursorPos(Vec2(25, 75));
     if (igButton("Login", Vec2(350, 50)))
     {
-        update_window_status(&ProgramStatus, WindowSettings, 2);
+        update_window_settings(&ProgramStatus, WindowSettings, 2);
     }
 
     igSetCursorPos(Vec2(25, 130));
     if (igButton("Register", Vec2(350, 50)))
     {
-        update_window_status(&ProgramStatus, WindowSettings, 3);
+        update_window_settings(&ProgramStatus, WindowSettings, 3);
     }
 }
 
@@ -87,7 +87,7 @@ void main_window()
     igSetCursorPos(Vec2(25, 75));
     if (igButton("Logout", Vec2(350, 50)))
     {
-        update_window_status(&ProgramStatus, WindowSettings, 0);
+        update_window_settings(&ProgramStatus, WindowSettings, 0);
     }
 }
 
@@ -100,20 +100,20 @@ void login_window()
     igText("Username");
 
     igSetCursorPos(Vec2(68, 70));
-    igInputText(" ", LoginUser.temp_username, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
+    igInputText("##login_username", LoginUser.temp_username, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
 
     igSetCursorPos(Vec2(68, 100));
     igText("Password");
 
     igSetCursorPos(Vec2(68, 120));
-    igInputText("  ", LoginUser.temp_password, MAX, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
+    igInputText("##login_password", LoginUser.temp_password, MAX, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
 
     igSetCursorPos(Vec2(25, 175));
     if (igButton("Login", Vec2(350, 50)))
     {
         if (login_operation(InitFile.file, InitFile.file_name, LoginUser))
         {
-            update_window_status(&ProgramStatus, WindowSettings, 1);
+            update_window_settings(&ProgramStatus, WindowSettings, 1);
         }
         else
         {
@@ -124,7 +124,7 @@ void login_window()
     igSetCursorPos(Vec2(5, 5));
     if (igButton("<", Vec2(25, 25)))
     {
-        update_window_status(&ProgramStatus, WindowSettings, 0);
+        update_window_settings(&ProgramStatus, WindowSettings, 0);
     }
 }
 
@@ -141,7 +141,7 @@ void register_window()
     igText("Name");
 
     igSetCursorPos(Vec2(25, 60));
-    igInputText(" ", UserProfile.name, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
+    igInputText("##name", UserProfile.name, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
 
     //----------------------------------------------------------------------------------
 
@@ -149,7 +149,7 @@ void register_window()
     igText("Address");
 
     igSetCursorPos(Vec2(25, 110));
-    igInputText("  ", UserProfile.address, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
+    igInputText("##address", UserProfile.address, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
 
     //----------------------------------------------------------------------------------
 
@@ -157,7 +157,7 @@ void register_window()
     igText("Username");
 
     igSetCursorPos(Vec2(25, 160));
-    igInputText("   ", UserProfile.username, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
+    igInputText("##register_username", UserProfile.username, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
 
     //----------------------------------------------------------------------------------
 
@@ -165,7 +165,7 @@ void register_window()
     igText("Password");
 
     igSetCursorPos(Vec2(25, 210));
-    igInputText("    ", UserProfile.password, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
+    igInputText("##register_password", UserProfile.password, MAX, ImGuiInputTextFlags_CharsNoBlank, NULL, NULL);
 
     //----------------------------------------------------------------------------------
 
@@ -179,7 +179,7 @@ void register_window()
     igText("Age");
 
     igSetCursorPos(Vec2(200, 60));
-    igInputScalar("     ", ImGuiDataType_U8, &UserProfile.age, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
+    igInputScalar("##age", ImGuiDataType_U8, &UserProfile.age, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
 
     //----------------------------------------------------------------------------------
 
@@ -187,14 +187,14 @@ void register_window()
     igText("Longitude");
 
     igSetCursorPos(Vec2(200, 110));
-    igInputScalar("      ", ImGuiDataType_Double, &UserProfile.longitude, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
+    igInputScalar("##longitude", ImGuiDataType_Double, &UserProfile.longitude, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
     //----------------------------------------------------------------------------------
 
     igSetCursorPos(Vec2(200, 140));
     igText("Latitude");
 
     igSetCursorPos(Vec2(200, 160));
-    igInputScalar("       ", ImGuiDataType_Double, &UserProfile.latitude, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
+    igInputScalar("##latitude", ImGuiDataType_Double, &UserProfile.latitude, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
 
     //----------------------------------------------------------------------------------
 
@@ -202,7 +202,7 @@ void register_window()
     igText("Max traveling distance");
 
     igSetCursorPos(Vec2(200, 210));
-    igInputScalar("        ", ImGuiDataType_Double, &UserProfile.max_distance, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
+    igInputScalar("##max_traveling_distance", ImGuiDataType_Double, &UserProfile.max_distance, NULL, NULL, NULL, ImGuiInputTextFlags_CharsDecimal);
 
     //----------------------------------------------------------------------------------
 
@@ -223,11 +223,11 @@ void register_window()
     igSetCursorPos(Vec2(5, 5));
     if (igButton("<", Vec2(25, 25)))
     {
-        update_window_status(&ProgramStatus, WindowSettings, 0);
+        update_window_settings(&ProgramStatus, WindowSettings, 0);
     }
 }
 
-void initialise_initial_login_window_settings(float WIDTH, float HEIGHT, ImGuiWindowFlags window_flags)
+void initialise_initial_window_settings(float WIDTH, float HEIGHT, ImGuiWindowFlags window_flags)
 {
     ImVec2 MAIN_FRAME = Vec2(WIDTH, HEIGHT);
     ImVec2 CENTER_POS = Vec2(WIDTH * 0.5f, HEIGHT * 0.5f);
