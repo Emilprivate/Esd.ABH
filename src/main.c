@@ -50,7 +50,7 @@ sapp_desc sokol_main(int argc, char* argv[])
             .frame_cb = frame,
             .cleanup_cb = cleanup,
             .event_cb = event,
-            .window_title = "Welcome to P1-extension | By Emil S. Doganci",
+            .window_title = "Automatic-Bargain-Hunting | By Emil S. Doganci",
             .width = WIDTH,
             .height = HEIGHT,
             .icon.sokol_default = true,

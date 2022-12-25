@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(P1-extension)
+project(Automatic-Bargain-Hunting)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
 
@@ -50,36 +50,36 @@ target_include_directories(sokol INTERFACE sokol)
 
 #=== EXECUTABLE:
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_executable(P1-extension WIN32 "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
+    add_executable(Automatic-Bargain-Hunting WIN32 "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
             "src/Source/profile_management.c" "src/Header/profile_management.h"
             "src/Source/utilities.c" "src/Header/utilities.h"
             "src/UI/Source/user_interface.c" "src/UI/Header/user_interface.h"
             "src/UI/Source/window_navigation_control.c" "src/UI/Header/window_navigation_control.h"
             "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/Source/ui_window_settings.c src/UI/Header/ui_window_settings.h)
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT P1-extension)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Automatic-Bargain-Hunting)
 else()
-    add_executable(P1-extension "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
+    add_executable(Automatic-Bargain-Hunting "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
             "src/Source/profile_management.c" "src/Header/profile_management.h"
             "src/Source/utilities.c" "src/Header/utilities.h"
             "src/UI/Source/user_interface.c" "src/UI/Header/user_interface.h"
             "src/UI/Source/window_navigation_control.c" "src/UI/Header/window_navigation_control.h"
             "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/Source/ui_window_settings.c src/UI/Header/ui_window_settings.h)
 endif()
-target_link_libraries(P1-extension sokol)
+target_link_libraries(Automatic-Bargain-Hunting sokol)
 
 # Emscripten-specific linker options
 if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
     # use our own minimal shell.html
-    target_link_options(P1-extension PRIVATE --shell-file ../sokol/shell.html)
+    target_link_options(Automatic-Bargain-Hunting PRIVATE --shell-file ../sokol/shell.html)
     # WASM+JS size optimizations
-    target_link_options(P1-extension PRIVATE -sNO_FILESYSTEM=1 -sASSERTIONS=0 -sMALLOC=emmalloc --closure=1)
+    target_link_options(Automatic-Bargain-Hunting PRIVATE -sNO_FILESYSTEM=1 -sASSERTIONS=0 -sMALLOC=emmalloc --closure=1)
 endif()
 
 # explicitly strip dead code
 if (CMAKE_C_COMPILER_ID MATCHES "Clang" AND NOT CMAKE_SYSTEM_NAME STREQUAL Emscripten)
-    target_link_options(P1-extension PRIVATE LINKER:-dead_strip)
+    target_link_options(Automatic-Bargain-Hunting PRIVATE LINKER:-dead_strip)
 endif()
 
 # this hack removes the xxx-CMakeForceLinker.cxx dummy file
-set_target_properties(P1-extension PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(Automatic-Bargain-Hunting PROPERTIES LINKER_LANGUAGE CXX)
