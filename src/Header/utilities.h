@@ -1,15 +1,8 @@
-#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
-
 #ifndef P1_PROTOTYPE_UTILITIES_H
 #define P1_PROTOTYPE_UTILITIES_H
 
-#endif //P1_PROTOTYPE_UTILITIES_H
-
-#include "Libraries/cimgui/cimgui.h"
-#include "UI/window_navigation_control.h"
-#include "profile_management.h"
-
-#define PI 3.14159265358979323846
+#include "../Definitions/enum_definitions.h"
+#include "../Definitions/struct_definitions.h"
 
 void update_output_status(t_program_status * program, char * status);
 const char* string_from_enum_transport(e_transport eTransport);
@@ -23,3 +16,5 @@ double rad2deg(double);
 void load_styles();
 ImVec4 Vec4(float a, float b, float c, float d);
 ImVec2 Vec2(float x, float y);
+
+#endif //P1_PROTOTYPE_UTILITIES_H

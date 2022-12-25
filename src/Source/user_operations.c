@@ -1,25 +1,25 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 
-#include "utilities.h"
-#include "user_operations.h"
+#include "../Definitions/struct_definitions.h"
 
-t_session Session;
+#include "../Header/user_operations.h"
+#include "../Header/profile_management.h"
+#include "../Header/utilities.h"
 
-bool login_operation(FILE * file, char * file_name, t_login_user login_user)
+bool login_operation(FILE * file, char * file_name, t_login_user login_user, t_user_profile * profile_match)
 {
     t_user_profile * database = load_database(file, file_name);
 
     int id = 0;
 
-    if (!validate_credentials_in_database(file, file_name,login_user.temp_username, login_user.temp_password,database, &id, true))
+    if (!validate_credentials_in_database(file, file_name, login_user.temp_username, login_user.temp_password,database, &id, true))
     {
         return false;
     }
 
-    time(&Session.login_time);
+    *profile_match = database[id];
 
     return true;
 }

@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include "../src/Definitions/struct_definitions.h"
+#include "../src/Header/profile_management.h"
+#include "../src/Header/utilities.h"
 #include "terminal_debug_menu.h"
-#include "../utilities.h"
 
 void main_menu(t_user_profile profile, time_t login_time);
 void login_page(FILE * file, char * file_name);

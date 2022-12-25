@@ -1,7 +1,10 @@
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include "utilities.h"
+#include <string.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include "../Definitions/struct_definitions.h"
+#include "../Header/utilities.h"
+#include "../Header/profile_management.h"
 
 #define TRANSPORT_OPTIONS 4 //Amount of transport options
 

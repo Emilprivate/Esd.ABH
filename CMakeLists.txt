@@ -50,20 +50,20 @@ target_include_directories(sokol INTERFACE sokol)
 
 #=== EXECUTABLE:
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_executable(P1-extension WIN32 "main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
-            "profile_management.c" "profile_management.h"
-            "utilities.c" "utilities.h"
-            "UI/user_interface.c" "UI/user_interface.h"
-            "UI/window_navigation_control.c" "UI/window_navigation_control.h"
-            "user_operations.c" "user_operations.h")
+    add_executable(P1-extension WIN32 "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
+            "src/Source/profile_management.c" "src/Header/profile_management.h"
+            "src/Source/utilities.c" "src/Header/utilities.h"
+            "src/UI/Source/user_interface.c" "src/UI/Header/user_interface.h"
+            "src/UI/Source/window_navigation_control.c" "src/UI/Header/window_navigation_control.h"
+            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/Source/ui_window_settings.c src/UI/Header/ui_window_settings.h)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT P1-extension)
 else()
-    add_executable(P1-extension "main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
-            "profile_management.c" "profile_management.h"
-            "utilities.c" "utilities.h"
-            "UI/user_interface.c" "UI/user_interface.h"
-            "UI/window_navigation_control.c" "UI/window_navigation_control.h"
-            "user_operations.c" "user_operations.h")
+    add_executable(P1-extension "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
+            "src/Source/profile_management.c" "src/Header/profile_management.h"
+            "src/Source/utilities.c" "src/Header/utilities.h"
+            "src/UI/Source/user_interface.c" "src/UI/Header/user_interface.h"
+            "src/UI/Source/window_navigation_control.c" "src/UI/Header/window_navigation_control.h"
+            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/Source/ui_window_settings.c src/UI/Header/ui_window_settings.h)
 endif()
 target_link_libraries(P1-extension sokol)
 

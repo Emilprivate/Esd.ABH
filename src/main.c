@@ -3,18 +3,19 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "Libraries/sokol/sokol_app.h"
-#include "Libraries/sokol/sokol_gfx.h"
-#include "Libraries/sokol/sokol_glue.h"
-#include "Libraries/sokol/sokol_imgui.h"
-#include "Libraries/cimgui/cimgui.h"
+#include "../Libraries/sokol/sokol_app.h"
+#include "../Libraries/sokol/sokol_gfx.h"
+#include "../Libraries/sokol/sokol_glue.h"
+#include "../Libraries/sokol/sokol_imgui.h"
+#include "cimgui.h"
 
-#include "utilities.h"
-#include "Debug/terminal_debug_menu.h"
-#include "UI/user_interface.h"
+#include "Header/utilities.h"
+#include "UI/Header/user_interface.h"
+#include "Definitions/struct_definitions.h"
+#include "Header/profile_management.h"
 
-#define WIDTH  1000
-#define HEIGHT 800
+#define WIDTH  750
+#define HEIGHT 600
 
 static void init(void);
 static void frame(void);

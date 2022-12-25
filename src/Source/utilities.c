@@ -1,16 +1,13 @@
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
-#include "Libraries/cimgui/cimgui.h"
-
-#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
-#include <unistd.h>
 
+#include "cimgui.h"
 
-#include "utilities.h"
+#include "../Header/utilities.h"
+
+#define PI 3.14159265358979323846
 
 #define SECONDS_PER_WEEK   (7 * 24 * (60 * 60))
 #define SECONDS_PER_DAY    (24 * (60 * 60))
