@@ -738,6 +738,7 @@
         distribution.
 */
 #define SOKOL_GFX_INCLUDED (1)
+
 #include <stddef.h>     // size_t
 #include <stdint.h>
 #include <stdbool.h>
@@ -781,12 +782,24 @@ extern "C" {
     The resource ids are wrapped into a struct so that the compiler
     can complain when the wrong resource type is used.
 */
-typedef struct sg_buffer   { uint32_t id; } sg_buffer;
-typedef struct sg_image    { uint32_t id; } sg_image;
-typedef struct sg_shader   { uint32_t id; } sg_shader;
-typedef struct sg_pipeline { uint32_t id; } sg_pipeline;
-typedef struct sg_pass     { uint32_t id; } sg_pass;
-typedef struct sg_context  { uint32_t id; } sg_context;
+typedef struct sg_buffer {
+    uint32_t id;
+} sg_buffer;
+typedef struct sg_image {
+    uint32_t id;
+} sg_image;
+typedef struct sg_shader {
+    uint32_t id;
+} sg_shader;
+typedef struct sg_pipeline {
+    uint32_t id;
+} sg_pipeline;
+typedef struct sg_pass {
+    uint32_t id;
+} sg_pass;
+typedef struct sg_context {
+    uint32_t id;
+} sg_context;
 
 /*
     sg_range is a pointer-size-pair struct used to pass memory blobs into
@@ -796,7 +809,7 @@ typedef struct sg_context  { uint32_t id; } sg_context;
     SG_RANGE_REF macro as a solution which compiles both in C and C++.
 */
 typedef struct sg_range {
-    const void* ptr;
+    const void *ptr;
     size_t size;
 } sg_range;
 
@@ -833,7 +846,9 @@ enum {
 
     An RGBA color value.
 */
-typedef struct sg_color { float r, g, b, a; } sg_color;
+typedef struct sg_color {
+    float r, g, b, a;
+} sg_color;
 
 /*
     sg_backend
@@ -996,9 +1011,9 @@ typedef struct sg_pixelformat_info {
     bool blend;         // alpha-blending is supported
     bool msaa;          // pixel format can be used as MSAA render target
     bool depth;         // pixel format is a depth format
-    #if defined(SOKOL_ZIG_BINDINGS)
+#if defined(SOKOL_ZIG_BINDINGS)
     uint32_t __pad[3];
-    #endif
+#endif
 } sg_pixelformat_info;
 
 /*
@@ -1015,9 +1030,9 @@ typedef struct sg_features {
     bool image_clamp_to_border;         // border color and clamp-to-border UV-wrap mode is supported
     bool mrt_independent_blend_state;   // multiple-render-target rendering can use per-render-target blend state
     bool mrt_independent_write_mask;    // multiple-render-target rendering can use per-render-target color write masks
-    #if defined(SOKOL_ZIG_BINDINGS)
+#if defined(SOKOL_ZIG_BINDINGS)
     uint32_t __pad[3];
-    #endif
+#endif
 } sg_features;
 
 /*
@@ -1593,22 +1608,22 @@ typedef enum sg_blend_op {
 */
 typedef enum sg_color_mask {
     _SG_COLORMASK_DEFAULT = 0,    /* value 0 reserved for default-init */
-    SG_COLORMASK_NONE   = 0x10,   /* special value for 'all channels disabled */
-    SG_COLORMASK_R      = 0x1,
-    SG_COLORMASK_G      = 0x2,
-    SG_COLORMASK_RG     = 0x3,
-    SG_COLORMASK_B      = 0x4,
-    SG_COLORMASK_RB     = 0x5,
-    SG_COLORMASK_GB     = 0x6,
-    SG_COLORMASK_RGB    = 0x7,
-    SG_COLORMASK_A      = 0x8,
-    SG_COLORMASK_RA     = 0x9,
-    SG_COLORMASK_GA     = 0xA,
-    SG_COLORMASK_RGA    = 0xB,
-    SG_COLORMASK_BA     = 0xC,
-    SG_COLORMASK_RBA    = 0xD,
-    SG_COLORMASK_GBA    = 0xE,
-    SG_COLORMASK_RGBA   = 0xF,
+    SG_COLORMASK_NONE = 0x10,   /* special value for 'all channels disabled */
+    SG_COLORMASK_R = 0x1,
+    SG_COLORMASK_G = 0x2,
+    SG_COLORMASK_RG = 0x3,
+    SG_COLORMASK_B = 0x4,
+    SG_COLORMASK_RB = 0x5,
+    SG_COLORMASK_GB = 0x6,
+    SG_COLORMASK_RGB = 0x7,
+    SG_COLORMASK_A = 0x8,
+    SG_COLORMASK_RA = 0x9,
+    SG_COLORMASK_GA = 0xA,
+    SG_COLORMASK_RGA = 0xB,
+    SG_COLORMASK_BA = 0xC,
+    SG_COLORMASK_RBA = 0xD,
+    SG_COLORMASK_GBA = 0xE,
+    SG_COLORMASK_RGBA = 0xF,
     _SG_COLORMASK_FORCE_U32 = 0x7FFFFFFF
 } sg_color_mask;
 
@@ -1774,15 +1789,15 @@ typedef struct sg_buffer_desc {
     sg_buffer_type type;
     sg_usage usage;
     sg_range data;
-    const char* label;
+    const char *label;
     /* GL specific */
     uint32_t gl_buffers[SG_NUM_INFLIGHT_FRAMES];
     /* Metal specific */
-    const void* mtl_buffers[SG_NUM_INFLIGHT_FRAMES];
+    const void *mtl_buffers[SG_NUM_INFLIGHT_FRAMES];
     /* D3D11 specific */
-    const void* d3d11_buffer;
+    const void *d3d11_buffer;
     /* WebGPU specific */
-    const void* wgpu_buffer;
+    const void *wgpu_buffer;
     uint32_t _end_canary;
 } sg_buffer_desc;
 
@@ -1888,17 +1903,17 @@ typedef struct sg_image_desc {
     float min_lod;
     float max_lod;
     sg_image_data data;
-    const char* label;
+    const char *label;
     /* GL specific */
     uint32_t gl_textures[SG_NUM_INFLIGHT_FRAMES];
     uint32_t gl_texture_target;
     /* Metal specific */
-    const void* mtl_textures[SG_NUM_INFLIGHT_FRAMES];
+    const void *mtl_textures[SG_NUM_INFLIGHT_FRAMES];
     /* D3D11 specific */
-    const void* d3d11_texture;
-    const void* d3d11_shader_resource_view;
+    const void *d3d11_texture;
+    const void *d3d11_shader_resource_view;
     /* WebGPU specific */
-    const void* wgpu_texture;
+    const void *wgpu_texture;
     uint32_t _end_canary;
 } sg_image_desc;
 
@@ -1938,13 +1953,13 @@ typedef struct sg_image_desc {
     vertex shader stage and "ps_4_0" for the pixel shader stage.
 */
 typedef struct sg_shader_attr_desc {
-    const char* name;           // GLSL vertex attribute name (only strictly required for GLES2)
-    const char* sem_name;       // HLSL semantic name
+    const char *name;           // GLSL vertex attribute name (only strictly required for GLES2)
+    const char *sem_name;       // HLSL semantic name
     int sem_index;              // HLSL semantic index
 } sg_shader_attr_desc;
 
 typedef struct sg_shader_uniform_desc {
-    const char* name;
+    const char *name;
     sg_uniform_type type;
     int array_count;
 } sg_shader_uniform_desc;
@@ -1956,16 +1971,16 @@ typedef struct sg_shader_uniform_block_desc {
 } sg_shader_uniform_block_desc;
 
 typedef struct sg_shader_image_desc {
-    const char* name;
+    const char *name;
     sg_image_type image_type;
     sg_sampler_type sampler_type;
 } sg_shader_image_desc;
 
 typedef struct sg_shader_stage_desc {
-    const char* source;
+    const char *source;
     sg_range bytecode;
-    const char* entry;
-    const char* d3d11_target;
+    const char *entry;
+    const char *d3d11_target;
     sg_shader_uniform_block_desc uniform_blocks[SG_MAX_SHADERSTAGE_UBS];
     sg_shader_image_desc images[SG_MAX_SHADERSTAGE_IMAGES];
 } sg_shader_stage_desc;
@@ -1975,7 +1990,7 @@ typedef struct sg_shader_desc {
     sg_shader_attr_desc attrs[SG_MAX_VERTEX_ATTRIBUTES];
     sg_shader_stage_desc vs;
     sg_shader_stage_desc fs;
-    const char* label;
+    const char *label;
     uint32_t _end_canary;
 } sg_shader_desc;
 
@@ -2052,18 +2067,18 @@ typedef struct sg_buffer_layout_desc {
     int stride;
     sg_vertex_step step_func;
     int step_rate;
-    #if defined(SOKOL_ZIG_BINDINGS)
+#if defined(SOKOL_ZIG_BINDINGS)
     uint32_t __pad[2];
-    #endif
+#endif
 } sg_buffer_layout_desc;
 
 typedef struct sg_vertex_attr_desc {
     int buffer_index;
     int offset;
     sg_vertex_format format;
-    #if defined(SOKOL_ZIG_BINDINGS)
+#if defined(SOKOL_ZIG_BINDINGS)
     uint32_t __pad[2];
-    #endif
+#endif
 } sg_vertex_attr_desc;
 
 typedef struct sg_layout_desc {
@@ -2127,7 +2142,7 @@ typedef struct sg_pipeline_desc {
     int sample_count;
     sg_color blend_color;
     bool alpha_to_coverage_enabled;
-    const char* label;
+    const char *label;
     uint32_t _end_canary;
 } sg_pipeline_desc;
 
@@ -2163,7 +2178,7 @@ typedef struct sg_pass_desc {
     uint32_t _start_canary;
     sg_pass_attachment_desc color_attachments[SG_MAX_COLOR_ATTACHMENTS];
     sg_pass_attachment_desc depth_stencil_attachment;
-    const char* label;
+    const char *label;
     uint32_t _end_canary;
 } sg_pass_desc;
 
@@ -2180,67 +2195,127 @@ typedef struct sg_pass_desc {
     new trace hooks to form a proper call chain.
 */
 typedef struct sg_trace_hooks {
-    void* user_data;
-    void (*reset_state_cache)(void* user_data);
-    void (*make_buffer)(const sg_buffer_desc* desc, sg_buffer result, void* user_data);
-    void (*make_image)(const sg_image_desc* desc, sg_image result, void* user_data);
-    void (*make_shader)(const sg_shader_desc* desc, sg_shader result, void* user_data);
-    void (*make_pipeline)(const sg_pipeline_desc* desc, sg_pipeline result, void* user_data);
-    void (*make_pass)(const sg_pass_desc* desc, sg_pass result, void* user_data);
-    void (*destroy_buffer)(sg_buffer buf, void* user_data);
-    void (*destroy_image)(sg_image img, void* user_data);
-    void (*destroy_shader)(sg_shader shd, void* user_data);
-    void (*destroy_pipeline)(sg_pipeline pip, void* user_data);
-    void (*destroy_pass)(sg_pass pass, void* user_data);
-    void (*update_buffer)(sg_buffer buf, const sg_range* data, void* user_data);
-    void (*update_image)(sg_image img, const sg_image_data* data, void* user_data);
-    void (*append_buffer)(sg_buffer buf, const sg_range* data, int result, void* user_data);
-    void (*begin_default_pass)(const sg_pass_action* pass_action, int width, int height, void* user_data);
-    void (*begin_pass)(sg_pass pass, const sg_pass_action* pass_action, void* user_data);
-    void (*apply_viewport)(int x, int y, int width, int height, bool origin_top_left, void* user_data);
-    void (*apply_scissor_rect)(int x, int y, int width, int height, bool origin_top_left, void* user_data);
-    void (*apply_pipeline)(sg_pipeline pip, void* user_data);
-    void (*apply_bindings)(const sg_bindings* bindings, void* user_data);
-    void (*apply_uniforms)(sg_shader_stage stage, int ub_index, const sg_range* data, void* user_data);
-    void (*draw)(int base_element, int num_elements, int num_instances, void* user_data);
-    void (*end_pass)(void* user_data);
-    void (*commit)(void* user_data);
-    void (*alloc_buffer)(sg_buffer result, void* user_data);
-    void (*alloc_image)(sg_image result, void* user_data);
-    void (*alloc_shader)(sg_shader result, void* user_data);
-    void (*alloc_pipeline)(sg_pipeline result, void* user_data);
-    void (*alloc_pass)(sg_pass result, void* user_data);
-    void (*dealloc_buffer)(sg_buffer buf_id, void* user_data);
-    void (*dealloc_image)(sg_image img_id, void* user_data);
-    void (*dealloc_shader)(sg_shader shd_id, void* user_data);
-    void (*dealloc_pipeline)(sg_pipeline pip_id, void* user_data);
-    void (*dealloc_pass)(sg_pass pass_id, void* user_data);
-    void (*init_buffer)(sg_buffer buf_id, const sg_buffer_desc* desc, void* user_data);
-    void (*init_image)(sg_image img_id, const sg_image_desc* desc, void* user_data);
-    void (*init_shader)(sg_shader shd_id, const sg_shader_desc* desc, void* user_data);
-    void (*init_pipeline)(sg_pipeline pip_id, const sg_pipeline_desc* desc, void* user_data);
-    void (*init_pass)(sg_pass pass_id, const sg_pass_desc* desc, void* user_data);
-    void (*uninit_buffer)(sg_buffer buf_id, void* user_data);
-    void (*uninit_image)(sg_image img_id, void* user_data);
-    void (*uninit_shader)(sg_shader shd_id, void* user_data);
-    void (*uninit_pipeline)(sg_pipeline pip_id, void* user_data);
-    void (*uninit_pass)(sg_pass pass_id, void* user_data);
-    void (*fail_buffer)(sg_buffer buf_id, void* user_data);
-    void (*fail_image)(sg_image img_id, void* user_data);
-    void (*fail_shader)(sg_shader shd_id, void* user_data);
-    void (*fail_pipeline)(sg_pipeline pip_id, void* user_data);
-    void (*fail_pass)(sg_pass pass_id, void* user_data);
-    void (*push_debug_group)(const char* name, void* user_data);
-    void (*pop_debug_group)(void* user_data);
-    void (*err_buffer_pool_exhausted)(void* user_data);
-    void (*err_image_pool_exhausted)(void* user_data);
-    void (*err_shader_pool_exhausted)(void* user_data);
-    void (*err_pipeline_pool_exhausted)(void* user_data);
-    void (*err_pass_pool_exhausted)(void* user_data);
-    void (*err_context_mismatch)(void* user_data);
-    void (*err_pass_invalid)(void* user_data);
-    void (*err_draw_invalid)(void* user_data);
-    void (*err_bindings_invalid)(void* user_data);
+    void *user_data;
+
+    void (*reset_state_cache)(void *user_data);
+
+    void (*make_buffer)(const sg_buffer_desc *desc, sg_buffer result, void *user_data);
+
+    void (*make_image)(const sg_image_desc *desc, sg_image result, void *user_data);
+
+    void (*make_shader)(const sg_shader_desc *desc, sg_shader result, void *user_data);
+
+    void (*make_pipeline)(const sg_pipeline_desc *desc, sg_pipeline result, void *user_data);
+
+    void (*make_pass)(const sg_pass_desc *desc, sg_pass result, void *user_data);
+
+    void (*destroy_buffer)(sg_buffer buf, void *user_data);
+
+    void (*destroy_image)(sg_image img, void *user_data);
+
+    void (*destroy_shader)(sg_shader shd, void *user_data);
+
+    void (*destroy_pipeline)(sg_pipeline pip, void *user_data);
+
+    void (*destroy_pass)(sg_pass pass, void *user_data);
+
+    void (*update_buffer)(sg_buffer buf, const sg_range *data, void *user_data);
+
+    void (*update_image)(sg_image img, const sg_image_data *data, void *user_data);
+
+    void (*append_buffer)(sg_buffer buf, const sg_range *data, int result, void *user_data);
+
+    void (*begin_default_pass)(const sg_pass_action *pass_action, int width, int height, void *user_data);
+
+    void (*begin_pass)(sg_pass pass, const sg_pass_action *pass_action, void *user_data);
+
+    void (*apply_viewport)(int x, int y, int width, int height, bool origin_top_left, void *user_data);
+
+    void (*apply_scissor_rect)(int x, int y, int width, int height, bool origin_top_left, void *user_data);
+
+    void (*apply_pipeline)(sg_pipeline pip, void *user_data);
+
+    void (*apply_bindings)(const sg_bindings *bindings, void *user_data);
+
+    void (*apply_uniforms)(sg_shader_stage stage, int ub_index, const sg_range *data, void *user_data);
+
+    void (*draw)(int base_element, int num_elements, int num_instances, void *user_data);
+
+    void (*end_pass)(void *user_data);
+
+    void (*commit)(void *user_data);
+
+    void (*alloc_buffer)(sg_buffer result, void *user_data);
+
+    void (*alloc_image)(sg_image result, void *user_data);
+
+    void (*alloc_shader)(sg_shader result, void *user_data);
+
+    void (*alloc_pipeline)(sg_pipeline result, void *user_data);
+
+    void (*alloc_pass)(sg_pass result, void *user_data);
+
+    void (*dealloc_buffer)(sg_buffer buf_id, void *user_data);
+
+    void (*dealloc_image)(sg_image img_id, void *user_data);
+
+    void (*dealloc_shader)(sg_shader shd_id, void *user_data);
+
+    void (*dealloc_pipeline)(sg_pipeline pip_id, void *user_data);
+
+    void (*dealloc_pass)(sg_pass pass_id, void *user_data);
+
+    void (*init_buffer)(sg_buffer buf_id, const sg_buffer_desc *desc, void *user_data);
+
+    void (*init_image)(sg_image img_id, const sg_image_desc *desc, void *user_data);
+
+    void (*init_shader)(sg_shader shd_id, const sg_shader_desc *desc, void *user_data);
+
+    void (*init_pipeline)(sg_pipeline pip_id, const sg_pipeline_desc *desc, void *user_data);
+
+    void (*init_pass)(sg_pass pass_id, const sg_pass_desc *desc, void *user_data);
+
+    void (*uninit_buffer)(sg_buffer buf_id, void *user_data);
+
+    void (*uninit_image)(sg_image img_id, void *user_data);
+
+    void (*uninit_shader)(sg_shader shd_id, void *user_data);
+
+    void (*uninit_pipeline)(sg_pipeline pip_id, void *user_data);
+
+    void (*uninit_pass)(sg_pass pass_id, void *user_data);
+
+    void (*fail_buffer)(sg_buffer buf_id, void *user_data);
+
+    void (*fail_image)(sg_image img_id, void *user_data);
+
+    void (*fail_shader)(sg_shader shd_id, void *user_data);
+
+    void (*fail_pipeline)(sg_pipeline pip_id, void *user_data);
+
+    void (*fail_pass)(sg_pass pass_id, void *user_data);
+
+    void (*push_debug_group)(const char *name, void *user_data);
+
+    void (*pop_debug_group)(void *user_data);
+
+    void (*err_buffer_pool_exhausted)(void *user_data);
+
+    void (*err_image_pool_exhausted)(void *user_data);
+
+    void (*err_shader_pool_exhausted)(void *user_data);
+
+    void (*err_pipeline_pool_exhausted)(void *user_data);
+
+    void (*err_pass_pool_exhausted)(void *user_data);
+
+    void (*err_context_mismatch)(void *user_data);
+
+    void (*err_pass_invalid)(void *user_data);
+
+    void (*err_draw_invalid)(void *user_data);
+
+    void (*err_bindings_invalid)(void *user_data);
 } sg_trace_hooks;
 
 /*
@@ -2421,33 +2496,46 @@ typedef struct sg_gl_context_desc {
 } sg_gl_context_desc;
 
 typedef struct sg_metal_context_desc {
-    const void* device;
-    const void* (*renderpass_descriptor_cb)(void);
-    const void* (*renderpass_descriptor_userdata_cb)(void*);
-    const void* (*drawable_cb)(void);
-    const void* (*drawable_userdata_cb)(void*);
-    void* user_data;
+    const void *device;
+
+    const void *(*renderpass_descriptor_cb)(void);
+
+    const void *(*renderpass_descriptor_userdata_cb)(void *);
+
+    const void *(*drawable_cb)(void);
+
+    const void *(*drawable_userdata_cb)(void *);
+
+    void *user_data;
 } sg_metal_context_desc;
 
 typedef struct sg_d3d11_context_desc {
-    const void* device;
-    const void* device_context;
-    const void* (*render_target_view_cb)(void);
-    const void* (*render_target_view_userdata_cb)(void*);
-    const void* (*depth_stencil_view_cb)(void);
-    const void* (*depth_stencil_view_userdata_cb)(void*);
-    void* user_data;
+    const void *device;
+    const void *device_context;
+
+    const void *(*render_target_view_cb)(void);
+
+    const void *(*render_target_view_userdata_cb)(void *);
+
+    const void *(*depth_stencil_view_cb)(void);
+
+    const void *(*depth_stencil_view_userdata_cb)(void *);
+
+    void *user_data;
 } sg_d3d11_context_desc;
 
 typedef struct sg_wgpu_context_desc {
-    const void* device;                    /* WGPUDevice */
-    const void* (*render_view_cb)(void);   /* returns WGPUTextureView */
-    const void* (*render_view_userdata_cb)(void*);
-    const void* (*resolve_view_cb)(void);  /* returns WGPUTextureView */
-    const void* (*resolve_view_userdata_cb)(void*);
-    const void* (*depth_stencil_view_cb)(void);    /* returns WGPUTextureView, must be WGPUTextureFormat_Depth24Plus8 */
-    const void* (*depth_stencil_view_userdata_cb)(void*);
-    void* user_data;
+    const void *device;                    /* WGPUDevice */
+    const void *(*render_view_cb)(void);   /* returns WGPUTextureView */
+    const void *(*render_view_userdata_cb)(void *);
+
+    const void *(*resolve_view_cb)(void);  /* returns WGPUTextureView */
+    const void *(*resolve_view_userdata_cb)(void *);
+
+    const void *(*depth_stencil_view_cb)(void);    /* returns WGPUTextureView, must be WGPUTextureFormat_Depth24Plus8 */
+    const void *(*depth_stencil_view_userdata_cb)(void *);
+
+    void *user_data;
 } sg_wgpu_context_desc;
 
 typedef struct sg_context_desc {
@@ -2469,9 +2557,11 @@ typedef struct sg_context_desc {
     override one function but not the other).
 */
 typedef struct sg_allocator {
-    void* (*alloc)(size_t size, void* user_data);
-    void (*free)(void* ptr, void* user_data);
-    void* user_data;
+    void *(*alloc)(size_t size, void *user_data);
+
+    void (*free)(void *ptr, void *user_data);
+
+    void *user_data;
 } sg_allocator;
 
 /*
@@ -2481,8 +2571,9 @@ typedef struct sg_allocator {
     Default behavior is SOKOL_LOG(message).
 */
 typedef struct sg_logger {
-    void (*log_cb)(const char* message, void* user_data);
-    void* user_data;
+    void (*log_cb)(const char *message, void *user_data);
+
+    void *user_data;
 } sg_logger;
 
 typedef struct sg_desc {
@@ -2503,101 +2594,175 @@ typedef struct sg_desc {
 } sg_desc;
 
 /* setup and misc functions */
-SOKOL_GFX_API_DECL void sg_setup(const sg_desc* desc);
+SOKOL_GFX_API_DECL void sg_setup(const sg_desc *desc);
+
 SOKOL_GFX_API_DECL void sg_shutdown(void);
+
 SOKOL_GFX_API_DECL bool sg_isvalid(void);
+
 SOKOL_GFX_API_DECL void sg_reset_state_cache(void);
-SOKOL_GFX_API_DECL sg_trace_hooks sg_install_trace_hooks(const sg_trace_hooks* trace_hooks);
-SOKOL_GFX_API_DECL void sg_push_debug_group(const char* name);
+
+SOKOL_GFX_API_DECL sg_trace_hooks sg_install_trace_hooks(const sg_trace_hooks *trace_hooks);
+
+SOKOL_GFX_API_DECL void sg_push_debug_group(const char *name);
+
 SOKOL_GFX_API_DECL void sg_pop_debug_group(void);
 
 /* resource creation, destruction and updating */
-SOKOL_GFX_API_DECL sg_buffer sg_make_buffer(const sg_buffer_desc* desc);
-SOKOL_GFX_API_DECL sg_image sg_make_image(const sg_image_desc* desc);
-SOKOL_GFX_API_DECL sg_shader sg_make_shader(const sg_shader_desc* desc);
-SOKOL_GFX_API_DECL sg_pipeline sg_make_pipeline(const sg_pipeline_desc* desc);
-SOKOL_GFX_API_DECL sg_pass sg_make_pass(const sg_pass_desc* desc);
+SOKOL_GFX_API_DECL sg_buffer sg_make_buffer(const sg_buffer_desc *desc);
+
+SOKOL_GFX_API_DECL sg_image sg_make_image(const sg_image_desc *desc);
+
+SOKOL_GFX_API_DECL sg_shader sg_make_shader(const sg_shader_desc *desc);
+
+SOKOL_GFX_API_DECL sg_pipeline sg_make_pipeline(const sg_pipeline_desc *desc);
+
+SOKOL_GFX_API_DECL sg_pass sg_make_pass(const sg_pass_desc *desc);
+
 SOKOL_GFX_API_DECL void sg_destroy_buffer(sg_buffer buf);
+
 SOKOL_GFX_API_DECL void sg_destroy_image(sg_image img);
+
 SOKOL_GFX_API_DECL void sg_destroy_shader(sg_shader shd);
+
 SOKOL_GFX_API_DECL void sg_destroy_pipeline(sg_pipeline pip);
+
 SOKOL_GFX_API_DECL void sg_destroy_pass(sg_pass pass);
-SOKOL_GFX_API_DECL void sg_update_buffer(sg_buffer buf, const sg_range* data);
-SOKOL_GFX_API_DECL void sg_update_image(sg_image img, const sg_image_data* data);
-SOKOL_GFX_API_DECL int sg_append_buffer(sg_buffer buf, const sg_range* data);
+
+SOKOL_GFX_API_DECL void sg_update_buffer(sg_buffer buf, const sg_range *data);
+
+SOKOL_GFX_API_DECL void sg_update_image(sg_image img, const sg_image_data *data);
+
+SOKOL_GFX_API_DECL int sg_append_buffer(sg_buffer buf, const sg_range *data);
+
 SOKOL_GFX_API_DECL bool sg_query_buffer_overflow(sg_buffer buf);
+
 SOKOL_GFX_API_DECL bool sg_query_buffer_will_overflow(sg_buffer buf, size_t size);
 
 /* rendering functions */
-SOKOL_GFX_API_DECL void sg_begin_default_pass(const sg_pass_action* pass_action, int width, int height);
-SOKOL_GFX_API_DECL void sg_begin_default_passf(const sg_pass_action* pass_action, float width, float height);
-SOKOL_GFX_API_DECL void sg_begin_pass(sg_pass pass, const sg_pass_action* pass_action);
+SOKOL_GFX_API_DECL void sg_begin_default_pass(const sg_pass_action *pass_action, int width, int height);
+
+SOKOL_GFX_API_DECL void sg_begin_default_passf(const sg_pass_action *pass_action, float width, float height);
+
+SOKOL_GFX_API_DECL void sg_begin_pass(sg_pass pass, const sg_pass_action *pass_action);
+
 SOKOL_GFX_API_DECL void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
+
 SOKOL_GFX_API_DECL void sg_apply_viewportf(float x, float y, float width, float height, bool origin_top_left);
+
 SOKOL_GFX_API_DECL void sg_apply_scissor_rect(int x, int y, int width, int height, bool origin_top_left);
+
 SOKOL_GFX_API_DECL void sg_apply_scissor_rectf(float x, float y, float width, float height, bool origin_top_left);
+
 SOKOL_GFX_API_DECL void sg_apply_pipeline(sg_pipeline pip);
-SOKOL_GFX_API_DECL void sg_apply_bindings(const sg_bindings* bindings);
-SOKOL_GFX_API_DECL void sg_apply_uniforms(sg_shader_stage stage, int ub_index, const sg_range* data);
+
+SOKOL_GFX_API_DECL void sg_apply_bindings(const sg_bindings *bindings);
+
+SOKOL_GFX_API_DECL void sg_apply_uniforms(sg_shader_stage stage, int ub_index, const sg_range *data);
+
 SOKOL_GFX_API_DECL void sg_draw(int base_element, int num_elements, int num_instances);
+
 SOKOL_GFX_API_DECL void sg_end_pass(void);
+
 SOKOL_GFX_API_DECL void sg_commit(void);
 
 /* getting information */
 SOKOL_GFX_API_DECL sg_desc sg_query_desc(void);
+
 SOKOL_GFX_API_DECL sg_backend sg_query_backend(void);
+
 SOKOL_GFX_API_DECL sg_features sg_query_features(void);
+
 SOKOL_GFX_API_DECL sg_limits sg_query_limits(void);
+
 SOKOL_GFX_API_DECL sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
 /* get current state of a resource (INITIAL, ALLOC, VALID, FAILED, INVALID) */
 SOKOL_GFX_API_DECL sg_resource_state sg_query_buffer_state(sg_buffer buf);
+
 SOKOL_GFX_API_DECL sg_resource_state sg_query_image_state(sg_image img);
+
 SOKOL_GFX_API_DECL sg_resource_state sg_query_shader_state(sg_shader shd);
+
 SOKOL_GFX_API_DECL sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
+
 SOKOL_GFX_API_DECL sg_resource_state sg_query_pass_state(sg_pass pass);
 /* get runtime information about a resource */
 SOKOL_GFX_API_DECL sg_buffer_info sg_query_buffer_info(sg_buffer buf);
+
 SOKOL_GFX_API_DECL sg_image_info sg_query_image_info(sg_image img);
+
 SOKOL_GFX_API_DECL sg_shader_info sg_query_shader_info(sg_shader shd);
+
 SOKOL_GFX_API_DECL sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
+
 SOKOL_GFX_API_DECL sg_pass_info sg_query_pass_info(sg_pass pass);
 /* get resource creation desc struct with their default values replaced */
-SOKOL_GFX_API_DECL sg_buffer_desc sg_query_buffer_defaults(const sg_buffer_desc* desc);
-SOKOL_GFX_API_DECL sg_image_desc sg_query_image_defaults(const sg_image_desc* desc);
-SOKOL_GFX_API_DECL sg_shader_desc sg_query_shader_defaults(const sg_shader_desc* desc);
-SOKOL_GFX_API_DECL sg_pipeline_desc sg_query_pipeline_defaults(const sg_pipeline_desc* desc);
-SOKOL_GFX_API_DECL sg_pass_desc sg_query_pass_defaults(const sg_pass_desc* desc);
+SOKOL_GFX_API_DECL sg_buffer_desc sg_query_buffer_defaults(const sg_buffer_desc *desc);
+
+SOKOL_GFX_API_DECL sg_image_desc sg_query_image_defaults(const sg_image_desc *desc);
+
+SOKOL_GFX_API_DECL sg_shader_desc sg_query_shader_defaults(const sg_shader_desc *desc);
+
+SOKOL_GFX_API_DECL sg_pipeline_desc sg_query_pipeline_defaults(const sg_pipeline_desc *desc);
+
+SOKOL_GFX_API_DECL sg_pass_desc sg_query_pass_defaults(const sg_pass_desc *desc);
 
 /* separate resource allocation and initialization (for async setup) */
 SOKOL_GFX_API_DECL sg_buffer sg_alloc_buffer(void);
+
 SOKOL_GFX_API_DECL sg_image sg_alloc_image(void);
+
 SOKOL_GFX_API_DECL sg_shader sg_alloc_shader(void);
+
 SOKOL_GFX_API_DECL sg_pipeline sg_alloc_pipeline(void);
+
 SOKOL_GFX_API_DECL sg_pass sg_alloc_pass(void);
+
 SOKOL_GFX_API_DECL void sg_dealloc_buffer(sg_buffer buf_id);
+
 SOKOL_GFX_API_DECL void sg_dealloc_image(sg_image img_id);
+
 SOKOL_GFX_API_DECL void sg_dealloc_shader(sg_shader shd_id);
+
 SOKOL_GFX_API_DECL void sg_dealloc_pipeline(sg_pipeline pip_id);
+
 SOKOL_GFX_API_DECL void sg_dealloc_pass(sg_pass pass_id);
-SOKOL_GFX_API_DECL void sg_init_buffer(sg_buffer buf_id, const sg_buffer_desc* desc);
-SOKOL_GFX_API_DECL void sg_init_image(sg_image img_id, const sg_image_desc* desc);
-SOKOL_GFX_API_DECL void sg_init_shader(sg_shader shd_id, const sg_shader_desc* desc);
-SOKOL_GFX_API_DECL void sg_init_pipeline(sg_pipeline pip_id, const sg_pipeline_desc* desc);
-SOKOL_GFX_API_DECL void sg_init_pass(sg_pass pass_id, const sg_pass_desc* desc);
+
+SOKOL_GFX_API_DECL void sg_init_buffer(sg_buffer buf_id, const sg_buffer_desc *desc);
+
+SOKOL_GFX_API_DECL void sg_init_image(sg_image img_id, const sg_image_desc *desc);
+
+SOKOL_GFX_API_DECL void sg_init_shader(sg_shader shd_id, const sg_shader_desc *desc);
+
+SOKOL_GFX_API_DECL void sg_init_pipeline(sg_pipeline pip_id, const sg_pipeline_desc *desc);
+
+SOKOL_GFX_API_DECL void sg_init_pass(sg_pass pass_id, const sg_pass_desc *desc);
+
 SOKOL_GFX_API_DECL bool sg_uninit_buffer(sg_buffer buf_id);
+
 SOKOL_GFX_API_DECL bool sg_uninit_image(sg_image img_id);
+
 SOKOL_GFX_API_DECL bool sg_uninit_shader(sg_shader shd_id);
+
 SOKOL_GFX_API_DECL bool sg_uninit_pipeline(sg_pipeline pip_id);
+
 SOKOL_GFX_API_DECL bool sg_uninit_pass(sg_pass pass_id);
+
 SOKOL_GFX_API_DECL void sg_fail_buffer(sg_buffer buf_id);
+
 SOKOL_GFX_API_DECL void sg_fail_image(sg_image img_id);
+
 SOKOL_GFX_API_DECL void sg_fail_shader(sg_shader shd_id);
+
 SOKOL_GFX_API_DECL void sg_fail_pipeline(sg_pipeline pip_id);
+
 SOKOL_GFX_API_DECL void sg_fail_pass(sg_pass pass_id);
 
 /* rendering contexts (optional) */
 SOKOL_GFX_API_DECL sg_context sg_setup_context(void);
+
 SOKOL_GFX_API_DECL void sg_activate_context(sg_context ctx_id);
+
 SOKOL_GFX_API_DECL void sg_discard_context(sg_context ctx_id);
 
 /* Backend-specific helper functions, these may come in handy for mixing
@@ -2607,13 +2772,13 @@ SOKOL_GFX_API_DECL void sg_discard_context(sg_context ctx_id);
 */
 
 /* D3D11: return ID3D11Device */
-SOKOL_GFX_API_DECL const void* sg_d3d11_device(void);
+SOKOL_GFX_API_DECL const void *sg_d3d11_device(void);
 
 /* Metal: return __bridge-casted MTLDevice */
-SOKOL_GFX_API_DECL const void* sg_mtl_device(void);
+SOKOL_GFX_API_DECL const void *sg_mtl_device(void);
 
 /* Metal: return __bridge-casted MTLRenderCommandEncoder in current pass (or zero if outside pass) */
-SOKOL_GFX_API_DECL const void* sg_mtl_render_command_encoder(void);
+SOKOL_GFX_API_DECL const void *sg_mtl_render_command_encoder(void);
 
 #ifdef __cplusplus
 } /* extern "C" */
@@ -2667,55 +2832,55 @@ inline int sg_append_buffer(sg_buffer buf_id, const sg_range& data) { return sg_
 #include <float.h> // FLT_MAX
 
 #ifndef SOKOL_API_IMPL
-    #define SOKOL_API_IMPL
+#define SOKOL_API_IMPL
 #endif
 #ifndef SOKOL_DEBUG
-    #ifndef NDEBUG
-        #define SOKOL_DEBUG
-    #endif
+#ifndef NDEBUG
+#define SOKOL_DEBUG
+#endif
 #endif
 #ifndef SOKOL_ASSERT
-    #include <assert.h>
-    #define SOKOL_ASSERT(c) assert(c)
+#include <assert.h>
+#define SOKOL_ASSERT(c) assert(c)
 #endif
 #ifndef SOKOL_VALIDATE_BEGIN
-    #define SOKOL_VALIDATE_BEGIN() _sg_validate_begin()
+#define SOKOL_VALIDATE_BEGIN() _sg_validate_begin()
 #endif
 #ifndef SOKOL_VALIDATE
-    #define SOKOL_VALIDATE(cond, err) _sg_validate((cond), err)
+#define SOKOL_VALIDATE(cond, err) _sg_validate((cond), err)
 #endif
 #ifndef SOKOL_VALIDATE_END
-    #define SOKOL_VALIDATE_END() _sg_validate_end()
+#define SOKOL_VALIDATE_END() _sg_validate_end()
 #endif
 #ifndef SOKOL_UNREACHABLE
-    #define SOKOL_UNREACHABLE SOKOL_ASSERT(false)
+#define SOKOL_UNREACHABLE SOKOL_ASSERT(false)
 #endif
 
 #if !defined(SOKOL_DEBUG)
-    #define SG_LOG(s)
+#define SG_LOG(s)
 #else
-    #define SG_LOG(s) _sg_log(s)
-    #ifndef SOKOL_LOG
-        #if defined(__ANDROID__)
-            #include <android/log.h>
-            #define SOKOL_LOG(s) __android_log_write(ANDROID_LOG_INFO, "SOKOL_GFX", s)
-        #else
-            #include <stdio.h>
-            #define SOKOL_LOG(s) puts(s)
-        #endif
-    #endif
+#define SG_LOG(s) _sg_log(s)
+#ifndef SOKOL_LOG
+#if defined(__ANDROID__)
+#include <android/log.h>
+#define SOKOL_LOG(s) __android_log_write(ANDROID_LOG_INFO, "SOKOL_GFX", s)
+#else
+#include <stdio.h>
+#define SOKOL_LOG(s) puts(s)
+#endif
+#endif
 #endif
 
 #ifndef _SOKOL_PRIVATE
-    #if defined(__GNUC__) || defined(__clang__)
-        #define _SOKOL_PRIVATE __attribute__((unused)) static
-    #else
-        #define _SOKOL_PRIVATE static
-    #endif
+#if defined(__GNUC__) || defined(__clang__)
+#define _SOKOL_PRIVATE __attribute__((unused)) static
+#else
+#define _SOKOL_PRIVATE static
+#endif
 #endif
 
 #ifndef _SOKOL_UNUSED
-    #define _SOKOL_UNUSED(x) (void)(x)
+#define _SOKOL_UNUSED(x) (void)(x)
 #endif
 
 #if defined(SOKOL_TRACE_HOOKS)
@@ -2756,106 +2921,106 @@ inline int sg_append_buffer(sg_buffer buf_id, const sg_range& data) { return sg_
 #endif
 
 #if defined(SOKOL_D3D11)
-    #ifndef D3D11_NO_HELPERS
-    #define D3D11_NO_HELPERS
-    #endif
-    #ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-    #endif
-    #ifndef NOMINMAX
-    #define NOMINMAX
-    #endif
-    #include <d3d11.h>
-    #include <d3dcompiler.h>
-    #ifdef _MSC_VER
-    #if (defined(WINAPI_FAMILY_PARTITION) && !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
-        #pragma comment (lib, "WindowsApp")
-    #else
-        #pragma comment (lib, "kernel32")
-        #pragma comment (lib, "user32")
-        #pragma comment (lib, "dxgi")
-        #pragma comment (lib, "d3d11")
-    #endif
-    #endif
+#ifndef D3D11_NO_HELPERS
+#define D3D11_NO_HELPERS
+#endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#ifdef _MSC_VER
+#if (defined(WINAPI_FAMILY_PARTITION) && !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
+#pragma comment (lib, "WindowsApp")
+#else
+#pragma comment (lib, "kernel32")
+#pragma comment (lib, "user32")
+#pragma comment (lib, "dxgi")
+#pragma comment (lib, "d3d11")
+#endif
+#endif
 #elif defined(SOKOL_METAL)
     // see https://clang.llvm.org/docs/LanguageExtensions.html#automatic-reference-counting
-    #if !defined(__cplusplus)
-        #if __has_feature(objc_arc) && !__has_feature(objc_arc_fields)
-            #error "sokol_gfx.h requires __has_feature(objc_arc_field) if ARC is enabled (use a more recent compiler version)"
-        #endif
-    #endif
-    #include <TargetConditionals.h>
-    #if defined(TARGET_OS_IPHONE) && !TARGET_OS_IPHONE
-        #define _SG_TARGET_MACOS (1)
-    #else
-        #define _SG_TARGET_IOS (1)
-        #if defined(TARGET_IPHONE_SIMULATOR) && TARGET_IPHONE_SIMULATOR
-            #define _SG_TARGET_IOS_SIMULATOR (1)
-        #endif
-    #endif
-    #import <Metal/Metal.h>
+#if !defined(__cplusplus)
+#if __has_feature(objc_arc) && !__has_feature(objc_arc_fields)
+#error "sokol_gfx.h requires __has_feature(objc_arc_field) if ARC is enabled (use a more recent compiler version)"
+#endif
+#endif
+#include <TargetConditionals.h>
+#if defined(TARGET_OS_IPHONE) && !TARGET_OS_IPHONE
+#define _SG_TARGET_MACOS (1)
+#else
+#define _SG_TARGET_IOS (1)
+#if defined(TARGET_IPHONE_SIMULATOR) && TARGET_IPHONE_SIMULATOR
+#define _SG_TARGET_IOS_SIMULATOR (1)
+#endif
+#endif
+#import <Metal/Metal.h>
 #elif defined(SOKOL_WGPU)
-    #if defined(__EMSCRIPTEN__)
-        #include <webgpu/webgpu.h>
-    #else
-        #include <dawn/webgpu.h>
-    #endif
+#if defined(__EMSCRIPTEN__)
+#include <webgpu/webgpu.h>
+#else
+#include <dawn/webgpu.h>
+#endif
 #elif defined(SOKOL_GLCORE33) || defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
-    #define _SOKOL_ANY_GL (1)
+#define _SOKOL_ANY_GL (1)
 
     // include platform specific GL headers (or on Win32: use an embedded GL loader)
-    #if !defined(SOKOL_EXTERNAL_GL_LOADER)
-        #if defined(_WIN32)
-            #if defined(SOKOL_GLCORE33) && !defined(SOKOL_EXTERNAL_GL_LOADER)
-                #ifndef WIN32_LEAN_AND_MEAN
-                #define WIN32_LEAN_AND_MEAN
-                #endif
-                #ifndef NOMINMAX
-                #define NOMINMAX
-                #endif
-                #include <windows.h>
-                #define _SOKOL_USE_WIN32_GL_LOADER (1)
-                #pragma comment (lib, "kernel32")   // GetProcAddress()
-            #endif
-        #elif defined(__APPLE__)
-            #include <TargetConditionals.h>
-            #ifndef GL_SILENCE_DEPRECATION
-                #define GL_SILENCE_DEPRECATION
-            #endif
-            #if defined(TARGET_OS_IPHONE) && !TARGET_OS_IPHONE
-                #include <OpenGL/gl3.h>
-            #else
-                #include <OpenGLES/ES3/gl.h>
-                #include <OpenGLES/ES3/glext.h>
-            #endif
-        #elif defined(__EMSCRIPTEN__) || defined(__ANDROID__)
-            #if defined(SOKOL_GLES3)
-                #include <GLES3/gl3.h>
-            #elif defined(SOKOL_GLES2)
-                #ifndef GL_EXT_PROTOTYPES
-                #define GL_GLEXT_PROTOTYPES
-                #endif
-                #include <GLES2/gl2.h>
-                #include <GLES2/gl2ext.h>
-            #endif
-        #elif defined(__linux__) || defined(__unix__)
-            #define GL_GLEXT_PROTOTYPES
-            #include <GL/gl.h>
-        #endif
-    #endif
+#if !defined(SOKOL_EXTERNAL_GL_LOADER)
+#if defined(_WIN32)
+#if defined(SOKOL_GLCORE33) && !defined(SOKOL_EXTERNAL_GL_LOADER)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#define _SOKOL_USE_WIN32_GL_LOADER (1)
+#pragma comment (lib, "kernel32")   // GetProcAddress()
+#endif
+#elif defined(__APPLE__)
+#include <TargetConditionals.h>
+#ifndef GL_SILENCE_DEPRECATION
+#define GL_SILENCE_DEPRECATION
+#endif
+#if defined(TARGET_OS_IPHONE) && !TARGET_OS_IPHONE
+#include <OpenGL/gl3.h>
+#else
+#include <OpenGLES/ES3/gl.h>
+#include <OpenGLES/ES3/glext.h>
+#endif
+#elif defined(__EMSCRIPTEN__) || defined(__ANDROID__)
+#if defined(SOKOL_GLES3)
+#include <GLES3/gl3.h>
+#elif defined(SOKOL_GLES2)
+#ifndef GL_EXT_PROTOTYPES
+#define GL_GLEXT_PROTOTYPES
+#endif
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
+#endif
+#elif defined(__linux__) || defined(__unix__)
+#define GL_GLEXT_PROTOTYPES
+#include <GL/gl.h>
+#endif
+#endif
 
     // optional GL loader definitions (only on Win32)
-    #if defined(_SOKOL_USE_WIN32_GL_LOADER)
-        #define __gl_h_ 1
-        #define __gl32_h_ 1
-        #define __gl31_h_ 1
-        #define __GL_H__ 1
-        #define __glext_h_ 1
-        #define __GLEXT_H_ 1
-        #define __gltypes_h_ 1
-        #define __glcorearb_h_ 1
-        #define __gl_glcorearb_h_ 1
-        #define GL_APIENTRY APIENTRY
+#if defined(_SOKOL_USE_WIN32_GL_LOADER)
+#define __gl_h_ 1
+#define __gl32_h_ 1
+#define __gl31_h_ 1
+#define __GL_H__ 1
+#define __glext_h_ 1
+#define __GLEXT_H_ 1
+#define __gltypes_h_ 1
+#define __glcorearb_h_ 1
+#define __gl_glcorearb_h_ 1
+#define GL_APIENTRY APIENTRY
 
         typedef unsigned int  GLenum;
         typedef unsigned int  GLuint;
@@ -2879,314 +3044,314 @@ inline int sg_append_buffer(sg_buffer buf_id, const sg_range& data) { return sg_
         typedef float  GLfloat;
         typedef struct __GLsync * GLsync;
         typedef int  GLint;
-        #define GL_INT_2_10_10_10_REV 0x8D9F
-        #define GL_R32F 0x822E
-        #define GL_PROGRAM_POINT_SIZE 0x8642
-        #define GL_STENCIL_ATTACHMENT 0x8D20
-        #define GL_DEPTH_ATTACHMENT 0x8D00
-        #define GL_COLOR_ATTACHMENT2 0x8CE2
-        #define GL_COLOR_ATTACHMENT0 0x8CE0
-        #define GL_R16F 0x822D
-        #define GL_COLOR_ATTACHMENT22 0x8CF6
-        #define GL_DRAW_FRAMEBUFFER 0x8CA9
-        #define GL_FRAMEBUFFER_COMPLETE 0x8CD5
-        #define GL_NUM_EXTENSIONS 0x821D
-        #define GL_INFO_LOG_LENGTH 0x8B84
-        #define GL_VERTEX_SHADER 0x8B31
-        #define GL_INCR 0x1E02
-        #define GL_DYNAMIC_DRAW 0x88E8
-        #define GL_STATIC_DRAW 0x88E4
-        #define GL_TEXTURE_CUBE_MAP_POSITIVE_Z 0x8519
-        #define GL_TEXTURE_CUBE_MAP 0x8513
-        #define GL_FUNC_SUBTRACT 0x800A
-        #define GL_FUNC_REVERSE_SUBTRACT 0x800B
-        #define GL_CONSTANT_COLOR 0x8001
-        #define GL_DECR_WRAP 0x8508
-        #define GL_R8 0x8229
-        #define GL_LINEAR_MIPMAP_LINEAR 0x2703
-        #define GL_ELEMENT_ARRAY_BUFFER 0x8893
-        #define GL_SHORT 0x1402
-        #define GL_DEPTH_TEST 0x0B71
-        #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y 0x8518
-        #define GL_LINK_STATUS 0x8B82
-        #define GL_TEXTURE_CUBE_MAP_POSITIVE_Y 0x8517
-        #define GL_SAMPLE_ALPHA_TO_COVERAGE 0x809E
-        #define GL_RGBA16F 0x881A
-        #define GL_CONSTANT_ALPHA 0x8003
-        #define GL_READ_FRAMEBUFFER 0x8CA8
-        #define GL_TEXTURE0 0x84C0
-        #define GL_TEXTURE_MIN_LOD 0x813A
-        #define GL_CLAMP_TO_EDGE 0x812F
-        #define GL_UNSIGNED_SHORT_5_6_5 0x8363
-        #define GL_TEXTURE_WRAP_R 0x8072
-        #define GL_UNSIGNED_SHORT_5_5_5_1 0x8034
-        #define GL_NEAREST_MIPMAP_NEAREST 0x2700
-        #define GL_UNSIGNED_SHORT_4_4_4_4 0x8033
-        #define GL_SRC_ALPHA_SATURATE 0x0308
-        #define GL_STREAM_DRAW 0x88E0
-        #define GL_ONE 1
-        #define GL_NEAREST_MIPMAP_LINEAR 0x2702
-        #define GL_RGB10_A2 0x8059
-        #define GL_RGBA8 0x8058
-        #define GL_COLOR_ATTACHMENT1 0x8CE1
-        #define GL_RGBA4 0x8056
-        #define GL_RGB8 0x8051
-        #define GL_ARRAY_BUFFER 0x8892
-        #define GL_STENCIL 0x1802
-        #define GL_TEXTURE_2D 0x0DE1
-        #define GL_DEPTH 0x1801
-        #define GL_FRONT 0x0404
-        #define GL_STENCIL_BUFFER_BIT 0x00000400
-        #define GL_REPEAT 0x2901
-        #define GL_RGBA 0x1908
-        #define GL_TEXTURE_CUBE_MAP_POSITIVE_X 0x8515
-        #define GL_DECR 0x1E03
-        #define GL_FRAGMENT_SHADER 0x8B30
-        #define GL_FLOAT 0x1406
-        #define GL_TEXTURE_MAX_LOD 0x813B
-        #define GL_DEPTH_COMPONENT 0x1902
-        #define GL_ONE_MINUS_DST_ALPHA 0x0305
-        #define GL_COLOR 0x1800
-        #define GL_TEXTURE_2D_ARRAY 0x8C1A
-        #define GL_TRIANGLES 0x0004
-        #define GL_UNSIGNED_BYTE 0x1401
-        #define GL_TEXTURE_MAG_FILTER 0x2800
-        #define GL_ONE_MINUS_CONSTANT_ALPHA 0x8004
-        #define GL_NONE 0
-        #define GL_SRC_COLOR 0x0300
-        #define GL_BYTE 0x1400
-        #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z 0x851A
-        #define GL_LINE_STRIP 0x0003
-        #define GL_TEXTURE_3D 0x806F
-        #define GL_CW 0x0900
-        #define GL_LINEAR 0x2601
-        #define GL_RENDERBUFFER 0x8D41
-        #define GL_GEQUAL 0x0206
-        #define GL_COLOR_BUFFER_BIT 0x00004000
-        #define GL_RGBA32F 0x8814
-        #define GL_BLEND 0x0BE2
-        #define GL_ONE_MINUS_SRC_ALPHA 0x0303
-        #define GL_ONE_MINUS_CONSTANT_COLOR 0x8002
-        #define GL_TEXTURE_WRAP_T 0x2803
-        #define GL_TEXTURE_WRAP_S 0x2802
-        #define GL_TEXTURE_MIN_FILTER 0x2801
-        #define GL_LINEAR_MIPMAP_NEAREST 0x2701
-        #define GL_EXTENSIONS 0x1F03
-        #define GL_NO_ERROR 0
-        #define GL_REPLACE 0x1E01
-        #define GL_KEEP 0x1E00
-        #define GL_CCW 0x0901
-        #define GL_TEXTURE_CUBE_MAP_NEGATIVE_X 0x8516
-        #define GL_RGB 0x1907
-        #define GL_TRIANGLE_STRIP 0x0005
-        #define GL_FALSE 0
-        #define GL_ZERO 0
-        #define GL_CULL_FACE 0x0B44
-        #define GL_INVERT 0x150A
-        #define GL_INT 0x1404
-        #define GL_UNSIGNED_INT 0x1405
-        #define GL_UNSIGNED_SHORT 0x1403
-        #define GL_NEAREST 0x2600
-        #define GL_SCISSOR_TEST 0x0C11
-        #define GL_LEQUAL 0x0203
-        #define GL_STENCIL_TEST 0x0B90
-        #define GL_DITHER 0x0BD0
-        #define GL_DEPTH_COMPONENT16 0x81A5
-        #define GL_EQUAL 0x0202
-        #define GL_FRAMEBUFFER 0x8D40
-        #define GL_RGB5 0x8050
-        #define GL_LINES 0x0001
-        #define GL_DEPTH_BUFFER_BIT 0x00000100
-        #define GL_SRC_ALPHA 0x0302
-        #define GL_INCR_WRAP 0x8507
-        #define GL_LESS 0x0201
-        #define GL_MULTISAMPLE 0x809D
-        #define GL_FRAMEBUFFER_BINDING 0x8CA6
-        #define GL_BACK 0x0405
-        #define GL_ALWAYS 0x0207
-        #define GL_FUNC_ADD 0x8006
-        #define GL_ONE_MINUS_DST_COLOR 0x0307
-        #define GL_NOTEQUAL 0x0205
-        #define GL_DST_COLOR 0x0306
-        #define GL_COMPILE_STATUS 0x8B81
-        #define GL_RED 0x1903
-        #define GL_COLOR_ATTACHMENT3 0x8CE3
-        #define GL_DST_ALPHA 0x0304
-        #define GL_RGB5_A1 0x8057
-        #define GL_GREATER 0x0204
-        #define GL_POLYGON_OFFSET_FILL 0x8037
-        #define GL_TRUE 1
-        #define GL_NEVER 0x0200
-        #define GL_POINTS 0x0000
-        #define GL_ONE_MINUS_SRC_COLOR 0x0301
-        #define GL_MIRRORED_REPEAT 0x8370
-        #define GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS 0x8B4D
-        #define GL_R11F_G11F_B10F 0x8C3A
-        #define GL_UNSIGNED_INT_10F_11F_11F_REV 0x8C3B
-        #define GL_RGB9_E5 0x8C3D
-        #define GL_UNSIGNED_INT_5_9_9_9_REV 0x8C3E
-        #define GL_RGBA32UI 0x8D70
-        #define GL_RGB32UI 0x8D71
-        #define GL_RGBA16UI 0x8D76
-        #define GL_RGB16UI 0x8D77
-        #define GL_RGBA8UI 0x8D7C
-        #define GL_RGB8UI 0x8D7D
-        #define GL_RGBA32I 0x8D82
-        #define GL_RGB32I 0x8D83
-        #define GL_RGBA16I 0x8D88
-        #define GL_RGB16I 0x8D89
-        #define GL_RGBA8I 0x8D8E
-        #define GL_RGB8I 0x8D8F
-        #define GL_RED_INTEGER 0x8D94
-        #define GL_RG 0x8227
-        #define GL_RG_INTEGER 0x8228
-        #define GL_R8 0x8229
-        #define GL_R16 0x822A
-        #define GL_RG8 0x822B
-        #define GL_RG16 0x822C
-        #define GL_R16F 0x822D
-        #define GL_R32F 0x822E
-        #define GL_RG16F 0x822F
-        #define GL_RG32F 0x8230
-        #define GL_R8I 0x8231
-        #define GL_R8UI 0x8232
-        #define GL_R16I 0x8233
-        #define GL_R16UI 0x8234
-        #define GL_R32I 0x8235
-        #define GL_R32UI 0x8236
-        #define GL_RG8I 0x8237
-        #define GL_RG8UI 0x8238
-        #define GL_RG16I 0x8239
-        #define GL_RG16UI 0x823A
-        #define GL_RG32I 0x823B
-        #define GL_RG32UI 0x823C
-        #define GL_RGBA_INTEGER 0x8D99
-        #define GL_R8_SNORM 0x8F94
-        #define GL_RG8_SNORM 0x8F95
-        #define GL_RGB8_SNORM 0x8F96
-        #define GL_RGBA8_SNORM 0x8F97
-        #define GL_R16_SNORM 0x8F98
-        #define GL_RG16_SNORM 0x8F99
-        #define GL_RGB16_SNORM 0x8F9A
-        #define GL_RGBA16_SNORM 0x8F9B
-        #define GL_RGBA16 0x805B
-        #define GL_MAX_TEXTURE_SIZE 0x0D33
-        #define GL_MAX_CUBE_MAP_TEXTURE_SIZE 0x851C
-        #define GL_MAX_3D_TEXTURE_SIZE 0x8073
-        #define GL_MAX_ARRAY_TEXTURE_LAYERS 0x88FF
-        #define GL_MAX_VERTEX_ATTRIBS 0x8869
-        #define GL_CLAMP_TO_BORDER 0x812D
-        #define GL_TEXTURE_BORDER_COLOR 0x1004
-        #define GL_CURRENT_PROGRAM 0x8B8D
-        #define GL_MAX_VERTEX_UNIFORM_VECTORS 0x8DFB
-    #endif
+#define GL_INT_2_10_10_10_REV 0x8D9F
+#define GL_R32F 0x822E
+#define GL_PROGRAM_POINT_SIZE 0x8642
+#define GL_STENCIL_ATTACHMENT 0x8D20
+#define GL_DEPTH_ATTACHMENT 0x8D00
+#define GL_COLOR_ATTACHMENT2 0x8CE2
+#define GL_COLOR_ATTACHMENT0 0x8CE0
+#define GL_R16F 0x822D
+#define GL_COLOR_ATTACHMENT22 0x8CF6
+#define GL_DRAW_FRAMEBUFFER 0x8CA9
+#define GL_FRAMEBUFFER_COMPLETE 0x8CD5
+#define GL_NUM_EXTENSIONS 0x821D
+#define GL_INFO_LOG_LENGTH 0x8B84
+#define GL_VERTEX_SHADER 0x8B31
+#define GL_INCR 0x1E02
+#define GL_DYNAMIC_DRAW 0x88E8
+#define GL_STATIC_DRAW 0x88E4
+#define GL_TEXTURE_CUBE_MAP_POSITIVE_Z 0x8519
+#define GL_TEXTURE_CUBE_MAP 0x8513
+#define GL_FUNC_SUBTRACT 0x800A
+#define GL_FUNC_REVERSE_SUBTRACT 0x800B
+#define GL_CONSTANT_COLOR 0x8001
+#define GL_DECR_WRAP 0x8508
+#define GL_R8 0x8229
+#define GL_LINEAR_MIPMAP_LINEAR 0x2703
+#define GL_ELEMENT_ARRAY_BUFFER 0x8893
+#define GL_SHORT 0x1402
+#define GL_DEPTH_TEST 0x0B71
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y 0x8518
+#define GL_LINK_STATUS 0x8B82
+#define GL_TEXTURE_CUBE_MAP_POSITIVE_Y 0x8517
+#define GL_SAMPLE_ALPHA_TO_COVERAGE 0x809E
+#define GL_RGBA16F 0x881A
+#define GL_CONSTANT_ALPHA 0x8003
+#define GL_READ_FRAMEBUFFER 0x8CA8
+#define GL_TEXTURE0 0x84C0
+#define GL_TEXTURE_MIN_LOD 0x813A
+#define GL_CLAMP_TO_EDGE 0x812F
+#define GL_UNSIGNED_SHORT_5_6_5 0x8363
+#define GL_TEXTURE_WRAP_R 0x8072
+#define GL_UNSIGNED_SHORT_5_5_5_1 0x8034
+#define GL_NEAREST_MIPMAP_NEAREST 0x2700
+#define GL_UNSIGNED_SHORT_4_4_4_4 0x8033
+#define GL_SRC_ALPHA_SATURATE 0x0308
+#define GL_STREAM_DRAW 0x88E0
+#define GL_ONE 1
+#define GL_NEAREST_MIPMAP_LINEAR 0x2702
+#define GL_RGB10_A2 0x8059
+#define GL_RGBA8 0x8058
+#define GL_COLOR_ATTACHMENT1 0x8CE1
+#define GL_RGBA4 0x8056
+#define GL_RGB8 0x8051
+#define GL_ARRAY_BUFFER 0x8892
+#define GL_STENCIL 0x1802
+#define GL_TEXTURE_2D 0x0DE1
+#define GL_DEPTH 0x1801
+#define GL_FRONT 0x0404
+#define GL_STENCIL_BUFFER_BIT 0x00000400
+#define GL_REPEAT 0x2901
+#define GL_RGBA 0x1908
+#define GL_TEXTURE_CUBE_MAP_POSITIVE_X 0x8515
+#define GL_DECR 0x1E03
+#define GL_FRAGMENT_SHADER 0x8B30
+#define GL_FLOAT 0x1406
+#define GL_TEXTURE_MAX_LOD 0x813B
+#define GL_DEPTH_COMPONENT 0x1902
+#define GL_ONE_MINUS_DST_ALPHA 0x0305
+#define GL_COLOR 0x1800
+#define GL_TEXTURE_2D_ARRAY 0x8C1A
+#define GL_TRIANGLES 0x0004
+#define GL_UNSIGNED_BYTE 0x1401
+#define GL_TEXTURE_MAG_FILTER 0x2800
+#define GL_ONE_MINUS_CONSTANT_ALPHA 0x8004
+#define GL_NONE 0
+#define GL_SRC_COLOR 0x0300
+#define GL_BYTE 0x1400
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z 0x851A
+#define GL_LINE_STRIP 0x0003
+#define GL_TEXTURE_3D 0x806F
+#define GL_CW 0x0900
+#define GL_LINEAR 0x2601
+#define GL_RENDERBUFFER 0x8D41
+#define GL_GEQUAL 0x0206
+#define GL_COLOR_BUFFER_BIT 0x00004000
+#define GL_RGBA32F 0x8814
+#define GL_BLEND 0x0BE2
+#define GL_ONE_MINUS_SRC_ALPHA 0x0303
+#define GL_ONE_MINUS_CONSTANT_COLOR 0x8002
+#define GL_TEXTURE_WRAP_T 0x2803
+#define GL_TEXTURE_WRAP_S 0x2802
+#define GL_TEXTURE_MIN_FILTER 0x2801
+#define GL_LINEAR_MIPMAP_NEAREST 0x2701
+#define GL_EXTENSIONS 0x1F03
+#define GL_NO_ERROR 0
+#define GL_REPLACE 0x1E01
+#define GL_KEEP 0x1E00
+#define GL_CCW 0x0901
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_X 0x8516
+#define GL_RGB 0x1907
+#define GL_TRIANGLE_STRIP 0x0005
+#define GL_FALSE 0
+#define GL_ZERO 0
+#define GL_CULL_FACE 0x0B44
+#define GL_INVERT 0x150A
+#define GL_INT 0x1404
+#define GL_UNSIGNED_INT 0x1405
+#define GL_UNSIGNED_SHORT 0x1403
+#define GL_NEAREST 0x2600
+#define GL_SCISSOR_TEST 0x0C11
+#define GL_LEQUAL 0x0203
+#define GL_STENCIL_TEST 0x0B90
+#define GL_DITHER 0x0BD0
+#define GL_DEPTH_COMPONENT16 0x81A5
+#define GL_EQUAL 0x0202
+#define GL_FRAMEBUFFER 0x8D40
+#define GL_RGB5 0x8050
+#define GL_LINES 0x0001
+#define GL_DEPTH_BUFFER_BIT 0x00000100
+#define GL_SRC_ALPHA 0x0302
+#define GL_INCR_WRAP 0x8507
+#define GL_LESS 0x0201
+#define GL_MULTISAMPLE 0x809D
+#define GL_FRAMEBUFFER_BINDING 0x8CA6
+#define GL_BACK 0x0405
+#define GL_ALWAYS 0x0207
+#define GL_FUNC_ADD 0x8006
+#define GL_ONE_MINUS_DST_COLOR 0x0307
+#define GL_NOTEQUAL 0x0205
+#define GL_DST_COLOR 0x0306
+#define GL_COMPILE_STATUS 0x8B81
+#define GL_RED 0x1903
+#define GL_COLOR_ATTACHMENT3 0x8CE3
+#define GL_DST_ALPHA 0x0304
+#define GL_RGB5_A1 0x8057
+#define GL_GREATER 0x0204
+#define GL_POLYGON_OFFSET_FILL 0x8037
+#define GL_TRUE 1
+#define GL_NEVER 0x0200
+#define GL_POINTS 0x0000
+#define GL_ONE_MINUS_SRC_COLOR 0x0301
+#define GL_MIRRORED_REPEAT 0x8370
+#define GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS 0x8B4D
+#define GL_R11F_G11F_B10F 0x8C3A
+#define GL_UNSIGNED_INT_10F_11F_11F_REV 0x8C3B
+#define GL_RGB9_E5 0x8C3D
+#define GL_UNSIGNED_INT_5_9_9_9_REV 0x8C3E
+#define GL_RGBA32UI 0x8D70
+#define GL_RGB32UI 0x8D71
+#define GL_RGBA16UI 0x8D76
+#define GL_RGB16UI 0x8D77
+#define GL_RGBA8UI 0x8D7C
+#define GL_RGB8UI 0x8D7D
+#define GL_RGBA32I 0x8D82
+#define GL_RGB32I 0x8D83
+#define GL_RGBA16I 0x8D88
+#define GL_RGB16I 0x8D89
+#define GL_RGBA8I 0x8D8E
+#define GL_RGB8I 0x8D8F
+#define GL_RED_INTEGER 0x8D94
+#define GL_RG 0x8227
+#define GL_RG_INTEGER 0x8228
+#define GL_R8 0x8229
+#define GL_R16 0x822A
+#define GL_RG8 0x822B
+#define GL_RG16 0x822C
+#define GL_R16F 0x822D
+#define GL_R32F 0x822E
+#define GL_RG16F 0x822F
+#define GL_RG32F 0x8230
+#define GL_R8I 0x8231
+#define GL_R8UI 0x8232
+#define GL_R16I 0x8233
+#define GL_R16UI 0x8234
+#define GL_R32I 0x8235
+#define GL_R32UI 0x8236
+#define GL_RG8I 0x8237
+#define GL_RG8UI 0x8238
+#define GL_RG16I 0x8239
+#define GL_RG16UI 0x823A
+#define GL_RG32I 0x823B
+#define GL_RG32UI 0x823C
+#define GL_RGBA_INTEGER 0x8D99
+#define GL_R8_SNORM 0x8F94
+#define GL_RG8_SNORM 0x8F95
+#define GL_RGB8_SNORM 0x8F96
+#define GL_RGBA8_SNORM 0x8F97
+#define GL_R16_SNORM 0x8F98
+#define GL_RG16_SNORM 0x8F99
+#define GL_RGB16_SNORM 0x8F9A
+#define GL_RGBA16_SNORM 0x8F9B
+#define GL_RGBA16 0x805B
+#define GL_MAX_TEXTURE_SIZE 0x0D33
+#define GL_MAX_CUBE_MAP_TEXTURE_SIZE 0x851C
+#define GL_MAX_3D_TEXTURE_SIZE 0x8073
+#define GL_MAX_ARRAY_TEXTURE_LAYERS 0x88FF
+#define GL_MAX_VERTEX_ATTRIBS 0x8869
+#define GL_CLAMP_TO_BORDER 0x812D
+#define GL_TEXTURE_BORDER_COLOR 0x1004
+#define GL_CURRENT_PROGRAM 0x8B8D
+#define GL_MAX_VERTEX_UNIFORM_VECTORS 0x8DFB
+#endif
 
-    #ifndef GL_UNSIGNED_INT_2_10_10_10_REV
-    #define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
-    #endif
-    #ifndef GL_UNSIGNED_INT_24_8
-    #define GL_UNSIGNED_INT_24_8 0x84FA
-    #endif
-    #ifndef GL_TEXTURE_MAX_ANISOTROPY_EXT
-    #define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
-    #endif
-    #ifndef GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT
-    #define GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
-    #endif
-    #ifndef GL_COMPRESSED_RGBA_S3TC_DXT1_EXT
-    #define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT 0x83F1
-    #endif
-    #ifndef GL_COMPRESSED_RGBA_S3TC_DXT3_EXT
-    #define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT 0x83F2
-    #endif
-    #ifndef GL_COMPRESSED_RGBA_S3TC_DXT5_EXT
-    #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 0x83F3
-    #endif
-    #ifndef GL_COMPRESSED_RED_RGTC1
-    #define GL_COMPRESSED_RED_RGTC1 0x8DBB
-    #endif
-    #ifndef GL_COMPRESSED_SIGNED_RED_RGTC1
-    #define GL_COMPRESSED_SIGNED_RED_RGTC1 0x8DBC
-    #endif
-    #ifndef GL_COMPRESSED_RED_GREEN_RGTC2
-    #define GL_COMPRESSED_RED_GREEN_RGTC2 0x8DBD
-    #endif
-    #ifndef GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2
-    #define GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2 0x8DBE
-    #endif
-    #ifndef GL_COMPRESSED_RGBA_BPTC_UNORM_ARB
-    #define GL_COMPRESSED_RGBA_BPTC_UNORM_ARB 0x8E8C
-    #endif
-    #ifndef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB
-    #define GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB 0x8E8D
-    #endif
-    #ifndef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB
-    #define GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB 0x8E8E
-    #endif
-    #ifndef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB
-    #define GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB 0x8E8F
-    #endif
-    #ifndef GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG
-    #define GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG 0x8C01
-    #endif
-    #ifndef GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG
-    #define GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG 0x8C00
-    #endif
-    #ifndef GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG
-    #define GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG 0x8C03
-    #endif
-    #ifndef GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG
-    #define GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG 0x8C02
-    #endif
-    #ifndef GL_COMPRESSED_RGB8_ETC2
-    #define GL_COMPRESSED_RGB8_ETC2 0x9274
-    #endif
-    #ifndef GL_COMPRESSED_RGBA8_ETC2_EAC
-    #define GL_COMPRESSED_RGBA8_ETC2_EAC 0x9278
-    #endif
-    #ifndef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
-    #define GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9276
-    #endif
-    #ifndef GL_COMPRESSED_RG11_EAC
-    #define GL_COMPRESSED_RG11_EAC 0x9272
-    #endif
-    #ifndef GL_COMPRESSED_SIGNED_RG11_EAC
-    #define GL_COMPRESSED_SIGNED_RG11_EAC 0x9273
-    #endif
-    #ifndef GL_DEPTH24_STENCIL8
-    #define GL_DEPTH24_STENCIL8 0x88F0
-    #endif
-    #ifndef GL_HALF_FLOAT
-    #define GL_HALF_FLOAT 0x140B
-    #endif
-    #ifndef GL_DEPTH_STENCIL
-    #define GL_DEPTH_STENCIL 0x84F9
-    #endif
-    #ifndef GL_LUMINANCE
-    #define GL_LUMINANCE 0x1909
-    #endif
+#ifndef GL_UNSIGNED_INT_2_10_10_10_REV
+#define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
+#endif
+#ifndef GL_UNSIGNED_INT_24_8
+#define GL_UNSIGNED_INT_24_8 0x84FA
+#endif
+#ifndef GL_TEXTURE_MAX_ANISOTROPY_EXT
+#define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
+#endif
+#ifndef GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT
+#define GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
+#endif
+#ifndef GL_COMPRESSED_RGBA_S3TC_DXT1_EXT
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT 0x83F1
+#endif
+#ifndef GL_COMPRESSED_RGBA_S3TC_DXT3_EXT
+#define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT 0x83F2
+#endif
+#ifndef GL_COMPRESSED_RGBA_S3TC_DXT5_EXT
+#define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 0x83F3
+#endif
+#ifndef GL_COMPRESSED_RED_RGTC1
+#define GL_COMPRESSED_RED_RGTC1 0x8DBB
+#endif
+#ifndef GL_COMPRESSED_SIGNED_RED_RGTC1
+#define GL_COMPRESSED_SIGNED_RED_RGTC1 0x8DBC
+#endif
+#ifndef GL_COMPRESSED_RED_GREEN_RGTC2
+#define GL_COMPRESSED_RED_GREEN_RGTC2 0x8DBD
+#endif
+#ifndef GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2
+#define GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2 0x8DBE
+#endif
+#ifndef GL_COMPRESSED_RGBA_BPTC_UNORM_ARB
+#define GL_COMPRESSED_RGBA_BPTC_UNORM_ARB 0x8E8C
+#endif
+#ifndef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB
+#define GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB 0x8E8D
+#endif
+#ifndef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB
+#define GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB 0x8E8E
+#endif
+#ifndef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB
+#define GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB 0x8E8F
+#endif
+#ifndef GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG
+#define GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG 0x8C01
+#endif
+#ifndef GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG
+#define GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG 0x8C00
+#endif
+#ifndef GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG
+#define GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG 0x8C03
+#endif
+#ifndef GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG
+#define GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG 0x8C02
+#endif
+#ifndef GL_COMPRESSED_RGB8_ETC2
+#define GL_COMPRESSED_RGB8_ETC2 0x9274
+#endif
+#ifndef GL_COMPRESSED_RGBA8_ETC2_EAC
+#define GL_COMPRESSED_RGBA8_ETC2_EAC 0x9278
+#endif
+#ifndef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
+#define GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9276
+#endif
+#ifndef GL_COMPRESSED_RG11_EAC
+#define GL_COMPRESSED_RG11_EAC 0x9272
+#endif
+#ifndef GL_COMPRESSED_SIGNED_RG11_EAC
+#define GL_COMPRESSED_SIGNED_RG11_EAC 0x9273
+#endif
+#ifndef GL_DEPTH24_STENCIL8
+#define GL_DEPTH24_STENCIL8 0x88F0
+#endif
+#ifndef GL_HALF_FLOAT
+#define GL_HALF_FLOAT 0x140B
+#endif
+#ifndef GL_DEPTH_STENCIL
+#define GL_DEPTH_STENCIL 0x84F9
+#endif
+#ifndef GL_LUMINANCE
+#define GL_LUMINANCE 0x1909
+#endif
 
-    #ifdef SOKOL_GLES2
-        #ifdef GL_ANGLE_instanced_arrays
-            #define _SOKOL_GL_INSTANCING_ENABLED
-            #define glDrawArraysInstanced(mode, first, count, instancecount)  glDrawArraysInstancedANGLE(mode, first, count, instancecount)
-            #define glDrawElementsInstanced(mode, count, type, indices, instancecount) glDrawElementsInstancedANGLE(mode, count, type, indices, instancecount)
-            #define glVertexAttribDivisor(index, divisor) glVertexAttribDivisorANGLE(index, divisor)
-        #elif defined(GL_EXT_draw_instanced) && defined(GL_EXT_instanced_arrays)
-            #define _SOKOL_GL_INSTANCING_ENABLED
-            #define glDrawArraysInstanced(mode, first, count, instancecount)  glDrawArraysInstancedEXT(mode, first, count, instancecount)
-            #define glDrawElementsInstanced(mode, count, type, indices, instancecount) glDrawElementsInstancedEXT(mode, count, type, indices, instancecount)
-            #define glVertexAttribDivisor(index, divisor) glVertexAttribDivisorEXT(index, divisor)
-        #else
-            #define _SOKOL_GLES2_INSTANCING_ERROR "Select GL_ANGLE_instanced_arrays or (GL_EXT_draw_instanced & GL_EXT_instanced_arrays) to enable instancing in GLES2"
-            #define glDrawArraysInstanced(mode, first, count, instancecount) SOKOL_ASSERT(0 && _SOKOL_GLES2_INSTANCING_ERROR)
-            #define glDrawElementsInstanced(mode, count, type, indices, instancecount) SOKOL_ASSERT(0 && _SOKOL_GLES2_INSTANCING_ERROR)
-            #define glVertexAttribDivisor(index, divisor) SOKOL_ASSERT(0 && _SOKOL_GLES2_INSTANCING_ERROR)
-        #endif
-    #else
-        #define _SOKOL_GL_INSTANCING_ENABLED
-    #endif
-    #define _SG_GL_CHECK_ERROR() { SOKOL_ASSERT(glGetError() == GL_NO_ERROR); }
+#ifdef SOKOL_GLES2
+#ifdef GL_ANGLE_instanced_arrays
+#define _SOKOL_GL_INSTANCING_ENABLED
+#define glDrawArraysInstanced(mode, first, count, instancecount)  glDrawArraysInstancedANGLE(mode, first, count, instancecount)
+#define glDrawElementsInstanced(mode, count, type, indices, instancecount) glDrawElementsInstancedANGLE(mode, count, type, indices, instancecount)
+#define glVertexAttribDivisor(index, divisor) glVertexAttribDivisorANGLE(index, divisor)
+#elif defined(GL_EXT_draw_instanced) && defined(GL_EXT_instanced_arrays)
+#define _SOKOL_GL_INSTANCING_ENABLED
+#define glDrawArraysInstanced(mode, first, count, instancecount)  glDrawArraysInstancedEXT(mode, first, count, instancecount)
+#define glDrawElementsInstanced(mode, count, type, indices, instancecount) glDrawElementsInstancedEXT(mode, count, type, indices, instancecount)
+#define glVertexAttribDivisor(index, divisor) glVertexAttribDivisorEXT(index, divisor)
+#else
+#define _SOKOL_GLES2_INSTANCING_ERROR "Select GL_ANGLE_instanced_arrays or (GL_EXT_draw_instanced & GL_EXT_instanced_arrays) to enable instancing in GLES2"
+#define glDrawArraysInstanced(mode, first, count, instancecount) SOKOL_ASSERT(0 && _SOKOL_GLES2_INSTANCING_ERROR)
+#define glDrawElementsInstanced(mode, count, type, indices, instancecount) SOKOL_ASSERT(0 && _SOKOL_GLES2_INSTANCING_ERROR)
+#define glVertexAttribDivisor(index, divisor) SOKOL_ASSERT(0 && _SOKOL_GLES2_INSTANCING_ERROR)
+#endif
+#else
+#define _SOKOL_GL_INSTANCING_ENABLED
+#endif
+#define _SG_GL_CHECK_ERROR() { SOKOL_ASSERT(glGetError() == GL_NO_ERROR); }
 #endif
 
 /*=== COMMON BACKEND STUFF ===================================================*/
@@ -3669,9 +3834,9 @@ typedef _sg_pass_attachment_common_t _sg_pass_attachment_t;
 
 typedef struct {
     _sg_slot_t slot;
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     GLuint vao;
-    #endif
+#endif
     GLuint default_framebuffer;
 } _sg_gl_context_t;
 typedef _sg_gl_context_t _sg_context_t;
@@ -3726,9 +3891,9 @@ typedef struct {
     bool ext_anisotropic;
     GLint max_anisotropy;
     GLint max_combined_texture_image_units;
-    #if _SOKOL_USE_WIN32_GL_LOADER
+#if _SOKOL_USE_WIN32_GL_LOADER
     HINSTANCE opengl32_dll;
-    #endif
+#endif
 } _sg_gl_backend_t;
 
 /*== D3D11 BACKEND DECLARATIONS ==============================================*/
@@ -4293,26 +4458,26 @@ typedef struct {
     bool pass_valid;
     bool bindings_valid;
     bool next_draw_valid;
-    #if defined(SOKOL_DEBUG)
+#if defined(SOKOL_DEBUG)
     _sg_validate_error_t validate_error;
-    #endif
+#endif
     _sg_pools_t pools;
     sg_backend backend;
     sg_features features;
     sg_limits limits;
     sg_pixelformat_info formats[_SG_PIXELFORMAT_NUM];
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_backend_t gl;
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_backend_t mtl;
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_backend_t d3d11;
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_backend_t wgpu;
-    #endif
-    #if defined(SOKOL_TRACE_HOOKS)
+#endif
+#if defined(SOKOL_TRACE_HOOKS)
     sg_trace_hooks hooks;
-    #endif
+#endif
 } _sg_state_t;
 static _sg_state_t _sg;
 
@@ -4320,13 +4485,13 @@ static _sg_state_t _sg;
 
 // a helper macro to clear a struct with potentially ARC'ed ObjC references
 #if defined(SOKOL_METAL)
-    #if defined(__cplusplus)
-        #define _SG_CLEAR_ARC_STRUCT(type, item) { item = type(); }
-    #else
-        #define _SG_CLEAR_ARC_STRUCT(type, item) { item = (type) { 0 }; }
-    #endif
+#if defined(__cplusplus)
+#define _SG_CLEAR_ARC_STRUCT(type, item) { item = type(); }
 #else
-    #define _SG_CLEAR_ARC_STRUCT(type, item) { _sg_clear(&item, sizeof(item)); }
+#define _SG_CLEAR_ARC_STRUCT(type, item) { item = (type) { 0 }; }
+#endif
+#else
+#define _SG_CLEAR_ARC_STRUCT(type, item) { _sg_clear(&item, sizeof(item)); }
 #endif
 
 _SOKOL_PRIVATE void _sg_clear(void* ptr, size_t size) {
@@ -4384,11 +4549,11 @@ _SOKOL_PRIVATE const char* _sg_strptr(const _sg_str_t* str) {
 _SOKOL_PRIVATE void _sg_strcpy(_sg_str_t* dst, const char* src) {
     SOKOL_ASSERT(dst);
     if (src) {
-        #if defined(_MSC_VER)
+#if defined(_MSC_VER)
         strncpy_s(dst->buf, _SG_STRING_SIZE, src, (_SG_STRING_SIZE-1));
-        #else
+#else
         strncpy(dst->buf, src, _SG_STRING_SIZE);
-        #endif
+#endif
         dst->buf[_SG_STRING_SIZE-1] = 0;
     }
     else {
@@ -5199,9 +5364,9 @@ _SOKOL_PRIVATE  void _sg_gl_load_opengl(void) {
     SOKOL_ASSERT(_sg.gl.opengl32_dll);
     _sg_wglGetProcAddress wgl_getprocaddress = (_sg_wglGetProcAddress) GetProcAddress(_sg.gl.opengl32_dll, "wglGetProcAddress");
     SOKOL_ASSERT(wgl_getprocaddress);
-    #define _SG_XMACRO(name, ret, args) name = (PFN_ ## name) _sg_gl_getprocaddr(#name, wgl_getprocaddress);
+#define _SG_XMACRO(name, ret, args) name = (PFN_ ## name) _sg_gl_getprocaddr(#name, wgl_getprocaddress);
     _SG_GL_FUNCS
-    #undef _SG_XMACRO
+#undef _SG_XMACRO
 }
 
 _SOKOL_PRIVATE void _sg_gl_unload_opengl(void) {
@@ -5224,10 +5389,10 @@ _SOKOL_PRIVATE GLenum _sg_gl_texture_target(sg_image_type t) {
     switch (t) {
         case SG_IMAGETYPE_2D:   return GL_TEXTURE_2D;
         case SG_IMAGETYPE_CUBE: return GL_TEXTURE_CUBE_MAP;
-        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
         case SG_IMAGETYPE_3D:       return GL_TEXTURE_3D;
         case SG_IMAGETYPE_ARRAY:    return GL_TEXTURE_2D_ARRAY;
-        #endif
+#endif
         default: SOKOL_UNREACHABLE; return 0;
     }
 }
@@ -5406,11 +5571,11 @@ _SOKOL_PRIVATE GLenum _sg_gl_filter(sg_filter f) {
 _SOKOL_PRIVATE GLenum _sg_gl_wrap(sg_wrap w) {
     switch (w) {
         case SG_WRAP_CLAMP_TO_EDGE:     return GL_CLAMP_TO_EDGE;
-        #if defined(SOKOL_GLCORE33)
+#if defined(SOKOL_GLCORE33)
         case SG_WRAP_CLAMP_TO_BORDER:   return GL_CLAMP_TO_BORDER;
-        #else
+#else
         case SG_WRAP_CLAMP_TO_BORDER:   return GL_CLAMP_TO_EDGE;
-        #endif
+#endif
         case SG_WRAP_REPEAT:            return GL_REPEAT;
         case SG_WRAP_MIRRORED_REPEAT:   return GL_MIRRORED_REPEAT;
         default: SOKOL_UNREACHABLE; return 0;
@@ -5464,14 +5629,14 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_type(sg_pixel_format fmt) {
         case SG_PIXELFORMAT_RG32F:
         case SG_PIXELFORMAT_RGBA32F:
             return GL_FLOAT;
-        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
         case SG_PIXELFORMAT_RGB10A2:
             return GL_UNSIGNED_INT_2_10_10_10_REV;
         case SG_PIXELFORMAT_RG11B10F:
             return GL_UNSIGNED_INT_10F_11F_11F_REV;
         case SG_PIXELFORMAT_RGB9E5:
             return GL_UNSIGNED_INT_5_9_9_9_REV;
-        #endif
+#endif
         case SG_PIXELFORMAT_DEPTH:
             return GL_UNSIGNED_SHORT;
         case SG_PIXELFORMAT_DEPTH_STENCIL:
@@ -5489,17 +5654,17 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_format(sg_pixel_format fmt) {
         case SG_PIXELFORMAT_R16SN:
         case SG_PIXELFORMAT_R16F:
         case SG_PIXELFORMAT_R32F:
-            #if defined(SOKOL_GLES2)
+#if defined(SOKOL_GLES2)
                 return GL_LUMINANCE;
-            #else
+#else
             if (_sg.gl.gles2) {
                 return GL_LUMINANCE;
             }
             else {
                 return GL_RED;
             }
-            #endif
-        #if !defined(SOKOL_GLES2)
+#endif
+#if !defined(SOKOL_GLES2)
             case SG_PIXELFORMAT_R8UI:
             case SG_PIXELFORMAT_R8SI:
             case SG_PIXELFORMAT_R16UI:
@@ -5521,7 +5686,7 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_format(sg_pixel_format fmt) {
             case SG_PIXELFORMAT_RG32UI:
             case SG_PIXELFORMAT_RG32SI:
                 return GL_RG_INTEGER;
-        #endif
+#endif
         case SG_PIXELFORMAT_RGBA8:
         case SG_PIXELFORMAT_RGBA8SN:
         case SG_PIXELFORMAT_RGBA16:
@@ -5530,7 +5695,7 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_format(sg_pixel_format fmt) {
         case SG_PIXELFORMAT_RGBA32F:
         case SG_PIXELFORMAT_RGB10A2:
             return GL_RGBA;
-        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
             case SG_PIXELFORMAT_RGBA8UI:
             case SG_PIXELFORMAT_RGBA8SI:
             case SG_PIXELFORMAT_RGBA16UI:
@@ -5538,7 +5703,7 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_format(sg_pixel_format fmt) {
             case SG_PIXELFORMAT_RGBA32UI:
             case SG_PIXELFORMAT_RGBA32SI:
                 return GL_RGBA_INTEGER;
-        #endif
+#endif
         case SG_PIXELFORMAT_RG11B10F:
         case SG_PIXELFORMAT_RGB9E5:
             return GL_RGB;
@@ -5590,9 +5755,9 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_format(sg_pixel_format fmt) {
 }
 
 _SOKOL_PRIVATE GLenum _sg_gl_teximage_internal_format(sg_pixel_format fmt) {
-    #if defined(SOKOL_GLES2)
+#if defined(SOKOL_GLES2)
     return _sg_gl_teximage_format(fmt);
-    #else
+#else
     if (_sg.gl.gles2) {
         return _sg_gl_teximage_format(fmt);
     }
@@ -5602,10 +5767,10 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_internal_format(sg_pixel_format fmt) {
             case SG_PIXELFORMAT_R8SN:       return GL_R8_SNORM;
             case SG_PIXELFORMAT_R8UI:       return GL_R8UI;
             case SG_PIXELFORMAT_R8SI:       return GL_R8I;
-            #if !defined(SOKOL_GLES3)
+#if !defined(SOKOL_GLES3)
                 case SG_PIXELFORMAT_R16:        return GL_R16;
                 case SG_PIXELFORMAT_R16SN:      return GL_R16_SNORM;
-            #endif
+#endif
             case SG_PIXELFORMAT_R16UI:      return GL_R16UI;
             case SG_PIXELFORMAT_R16SI:      return GL_R16I;
             case SG_PIXELFORMAT_R16F:       return GL_R16F;
@@ -5616,10 +5781,10 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_internal_format(sg_pixel_format fmt) {
             case SG_PIXELFORMAT_R32UI:      return GL_R32UI;
             case SG_PIXELFORMAT_R32SI:      return GL_R32I;
             case SG_PIXELFORMAT_R32F:       return GL_R32F;
-            #if !defined(SOKOL_GLES3)
+#if !defined(SOKOL_GLES3)
                 case SG_PIXELFORMAT_RG16:       return GL_RG16;
                 case SG_PIXELFORMAT_RG16SN:     return GL_RG16_SNORM;
-            #endif
+#endif
             case SG_PIXELFORMAT_RG16UI:     return GL_RG16UI;
             case SG_PIXELFORMAT_RG16SI:     return GL_RG16I;
             case SG_PIXELFORMAT_RG16F:      return GL_RG16F;
@@ -5633,10 +5798,10 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_internal_format(sg_pixel_format fmt) {
             case SG_PIXELFORMAT_RG32UI:     return GL_RG32UI;
             case SG_PIXELFORMAT_RG32SI:     return GL_RG32I;
             case SG_PIXELFORMAT_RG32F:      return GL_RG32F;
-            #if !defined(SOKOL_GLES3)
+#if !defined(SOKOL_GLES3)
                 case SG_PIXELFORMAT_RGBA16:     return GL_RGBA16;
                 case SG_PIXELFORMAT_RGBA16SN:   return GL_RGBA16_SNORM;
-            #endif
+#endif
             case SG_PIXELFORMAT_RGBA16UI:   return GL_RGBA16UI;
             case SG_PIXELFORMAT_RGBA16SI:   return GL_RGBA16I;
             case SG_PIXELFORMAT_RGBA16F:    return GL_RGBA16F;
@@ -5667,7 +5832,7 @@ _SOKOL_PRIVATE GLenum _sg_gl_teximage_internal_format(sg_pixel_format fmt) {
             default: SOKOL_UNREACHABLE; return 0;
         }
     }
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE GLenum _sg_gl_cubeface_target(int face_index) {
@@ -5692,25 +5857,25 @@ _SOKOL_PRIVATE GLenum _sg_gl_depth_attachment_format(sg_pixel_format fmt) {
 
 /* see: https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glTexImage2D.xhtml */
 _SOKOL_PRIVATE void _sg_gl_init_pixelformats(bool has_bgra) {
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R8]);
     }
     else {
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_R8]);
     }
-    #else
+#else
     _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_R8]);
-    #endif
-    #if !defined(SOKOL_GLES2)
+#endif
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_R8SN]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R8UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R8SI]);
-        #if !defined(SOKOL_GLES3)
+#if !defined(SOKOL_GLES3)
             _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R16]);
             _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R16SN]);
-        #endif
+#endif
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R16UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R16SI]);
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG8]);
@@ -5719,42 +5884,42 @@ _SOKOL_PRIVATE void _sg_gl_init_pixelformats(bool has_bgra) {
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG8SI]);
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_R32UI]);
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_R32SI]);
-        #if !defined(SOKOL_GLES3)
+#if !defined(SOKOL_GLES3)
             _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG16]);
             _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG16SN]);
-        #endif
+#endif
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG16UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG16SI]);
     }
-    #endif
+#endif
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA8]);
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_RGBA8SN]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA8UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA8SI]);
     }
-    #endif
+#endif
     if (has_bgra) {
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_BGRA8]);
     }
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGB10A2]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_RG11B10F]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_RGB9E5]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG32UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG32SI]);
-        #if !defined(SOKOL_GLES3)
+#if !defined(SOKOL_GLES3)
             _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA16]);
             _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA16SN]);
-        #endif
+#endif
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA16UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA16SI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA32UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA32SI]);
     }
-    #endif
+#endif
     // FIXME: WEBGL_depth_texture extension?
     _sg_pixelformat_srmd(&_sg.formats[SG_PIXELFORMAT_DEPTH]);
     _sg_pixelformat_srmd(&_sg.formats[SG_PIXELFORMAT_DEPTH_STENCIL]);
@@ -5762,7 +5927,7 @@ _SOKOL_PRIVATE void _sg_gl_init_pixelformats(bool has_bgra) {
 
 /* FIXME: OES_half_float_blend */
 _SOKOL_PRIVATE void _sg_gl_init_pixelformats_half_float(bool has_colorbuffer_half_float, bool has_texture_half_float_linear) {
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         if (has_texture_half_float_linear) {
             if (has_colorbuffer_half_float) {
@@ -5790,7 +5955,7 @@ _SOKOL_PRIVATE void _sg_gl_init_pixelformats_half_float(bool has_colorbuffer_hal
         }
     }
     else {
-    #endif
+#endif
         /* GLES2 can only render to RGBA, and there's no RG format */
         if (has_texture_half_float_linear) {
             if (has_colorbuffer_half_float) {
@@ -5810,13 +5975,13 @@ _SOKOL_PRIVATE void _sg_gl_init_pixelformats_half_float(bool has_colorbuffer_hal
             }
             _sg_pixelformat_s(&_sg.formats[SG_PIXELFORMAT_R16F]);
         }
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     }
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE void _sg_gl_init_pixelformats_float(bool has_colorbuffer_float, bool has_texture_float_linear, bool has_float_blend) {
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         if (has_texture_float_linear) {
             if (has_colorbuffer_float) {
@@ -5851,7 +6016,7 @@ _SOKOL_PRIVATE void _sg_gl_init_pixelformats_float(bool has_colorbuffer_float, b
         }
     }
     else {
-    #endif
+#endif
         /* GLES2 can only render to RGBA, and there's no RG format */
         if (has_texture_float_linear) {
             if (has_colorbuffer_float) {
@@ -5876,9 +6041,9 @@ _SOKOL_PRIVATE void _sg_gl_init_pixelformats_float(bool has_colorbuffer_float, b
             }
             _sg_pixelformat_s(&_sg.formats[SG_PIXELFORMAT_R32F]);
         }
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     }
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE void _sg_gl_init_pixelformats_s3tc(void) {
@@ -5934,7 +6099,7 @@ _SOKOL_PRIVATE void _sg_gl_init_limits(void) {
     glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS, &gl_int);
     _SG_GL_CHECK_ERROR();
     _sg.limits.gl_max_vertex_uniform_vectors = gl_int;
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, &gl_int);
         _SG_GL_CHECK_ERROR();
@@ -5943,7 +6108,7 @@ _SOKOL_PRIVATE void _sg_gl_init_limits(void) {
         _SG_GL_CHECK_ERROR();
         _sg.limits.max_image_array_layers = gl_int;
     }
-    #endif
+#endif
     if (_sg.gl.ext_anisotropic) {
         glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &gl_int);
         _SG_GL_CHECK_ERROR();
@@ -6052,11 +6217,11 @@ _SOKOL_PRIVATE void _sg_gl_init_caps_gles3(void) {
     bool has_rgtc = false;  /* BC4 and BC5 */
     bool has_bptc = false;  /* BC6H and BC7 */
     bool has_pvrtc = false;
-    #if defined(__EMSCRIPTEN__)
+#if defined(__EMSCRIPTEN__)
         bool has_etc2 = false;
-    #else
+#else
         bool has_etc2 = true;
-    #endif
+#endif
     bool has_colorbuffer_float = false;
     bool has_colorbuffer_half_float = false;
     bool has_texture_float_linear = false;
@@ -6108,9 +6273,9 @@ _SOKOL_PRIVATE void _sg_gl_init_caps_gles3(void) {
     /* on WebGL2, color_buffer_float also includes 16-bit formats
        see: https://developer.mozilla.org/en-US/docs/Web/API/EXT_color_buffer_float
     */
-    #if defined(__EMSCRIPTEN__)
+#if defined(__EMSCRIPTEN__)
     has_colorbuffer_half_float = has_colorbuffer_float;
-    #endif
+#endif
 
     /* limits */
     _sg_gl_init_limits();
@@ -6174,9 +6339,9 @@ _SOKOL_PRIVATE void _sg_gl_init_caps_gles2(void) {
     }
 
     _sg.features.origin_top_left = false;
-    #if defined(_SOKOL_GL_INSTANCING_ENABLED)
+#if defined(_SOKOL_GL_INSTANCING_ENABLED)
         _sg.features.instancing = has_instancing;
-    #endif
+#endif
     _sg.features.multiple_render_targets = false;
     _sg.features.msaa_render_targets = false;
     _sg.features.imagetype_3d = false;
@@ -6313,12 +6478,12 @@ _SOKOL_PRIVATE void _sg_gl_cache_clear_texture_bindings(bool force) {
             glActiveTexture(gl_texture_slot);
             glBindTexture(GL_TEXTURE_2D, 0);
             glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-            #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
             if (!_sg.gl.gles2) {
                 glBindTexture(GL_TEXTURE_3D, 0);
                 glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
             }
-            #endif
+#endif
             _sg.gl.cache.textures[i].target = 0;
             _sg.gl.cache.textures[i].texture = 0;
             _sg.gl.cache.cur_active_texture = gl_texture_slot;
@@ -6404,12 +6569,12 @@ _SOKOL_PRIVATE void _sg_gl_cache_invalidate_pipeline(_sg_pipeline_t* pip) {
 _SOKOL_PRIVATE void _sg_gl_reset_state_cache(void) {
     if (_sg.gl.cur_context) {
         _SG_GL_CHECK_ERROR();
-        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
         if (!_sg.gl.gles2) {
             glBindVertexArray(_sg.gl.cur_context->vao);
             _SG_GL_CHECK_ERROR();
         }
-        #endif
+#endif
         _sg_clear(&_sg.gl.cache, sizeof(_sg.gl.cache));
         _sg_gl_cache_clear_buffer_bindings(true);
         _SG_GL_CHECK_ERROR();
@@ -6475,51 +6640,51 @@ _SOKOL_PRIVATE void _sg_gl_reset_state_cache(void) {
         glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
         glEnable(GL_DITHER);
         glDisable(GL_POLYGON_OFFSET_FILL);
-        #if defined(SOKOL_GLCORE33)
+#if defined(SOKOL_GLCORE33)
             glEnable(GL_MULTISAMPLE);
             glEnable(GL_PROGRAM_POINT_SIZE);
-        #endif
+#endif
     }
 }
 
 _SOKOL_PRIVATE void _sg_gl_setup_backend(const sg_desc* desc) {
     /* assumes that _sg.gl is already zero-initialized */
     _sg.gl.valid = true;
-    #if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
+#if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
     _sg.gl.gles2 = desc->context.gl.force_gles2;
-    #else
+#else
     _SOKOL_UNUSED(desc);
     _sg.gl.gles2 = false;
-    #endif
+#endif
 
-    #if defined(_SOKOL_USE_WIN32_GL_LOADER)
+#if defined(_SOKOL_USE_WIN32_GL_LOADER)
     _sg_gl_load_opengl();
-    #endif
+#endif
 
     /* clear initial GL error state */
-    #if defined(SOKOL_DEBUG)
+#if defined(SOKOL_DEBUG)
         while (glGetError() != GL_NO_ERROR);
-    #endif
-    #if defined(SOKOL_GLCORE33)
+#endif
+#if defined(SOKOL_GLCORE33)
         _sg_gl_init_caps_glcore33();
-    #elif defined(SOKOL_GLES3)
+#elif defined(SOKOL_GLES3)
         if (_sg.gl.gles2) {
             _sg_gl_init_caps_gles2();
         }
         else {
             _sg_gl_init_caps_gles3();
         }
-    #else
+#else
         _sg_gl_init_caps_gles2();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE void _sg_gl_discard_backend(void) {
     SOKOL_ASSERT(_sg.gl.valid);
     _sg.gl.valid = false;
-    #if defined(_SOKOL_USE_WIN32_GL_LOADER)
+#if defined(_SOKOL_USE_WIN32_GL_LOADER)
     _sg_gl_unload_opengl();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE void _sg_gl_activate_context(_sg_context_t* ctx) {
@@ -6536,29 +6701,29 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_context(_sg_context_t* ctx) {
     _SG_GL_CHECK_ERROR();
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint*)&ctx->default_framebuffer);
     _SG_GL_CHECK_ERROR();
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         SOKOL_ASSERT(0 == ctx->vao);
         glGenVertexArrays(1, &ctx->vao);
         glBindVertexArray(ctx->vao);
         _SG_GL_CHECK_ERROR();
     }
-    #endif
+#endif
     return SG_RESOURCESTATE_VALID;
 }
 
 _SOKOL_PRIVATE void _sg_gl_destroy_context(_sg_context_t* ctx) {
     SOKOL_ASSERT(ctx);
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         if (ctx->vao) {
             glDeleteVertexArrays(1, &ctx->vao);
         }
         _SG_GL_CHECK_ERROR();
     }
-    #else
+#else
     _SOKOL_UNUSED(ctx);
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE sg_resource_state _sg_gl_create_buffer(_sg_buffer_t* buf, const sg_buffer_desc* desc) {
@@ -6633,12 +6798,12 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
         return SG_RESOURCESTATE_FAILED;
     }
 
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     bool msaa = false;
     if (!_sg.gl.gles2) {
         msaa = (img->cmn.sample_count > 1) && (_sg.features.msaa_render_targets);
     }
-    #endif
+#endif
 
     if (_sg_is_valid_rendertarget_depth_format(img->cmn.pixel_format)) {
         /* special case depth-stencil-buffer? */
@@ -6647,12 +6812,12 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
         glGenRenderbuffers(1, &img->gl.depth_render_buffer);
         glBindRenderbuffer(GL_RENDERBUFFER, img->gl.depth_render_buffer);
         GLenum gl_depth_format = _sg_gl_depth_attachment_format(img->cmn.pixel_format);
-        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
         if (!_sg.gl.gles2 && msaa) {
             glRenderbufferStorageMultisample(GL_RENDERBUFFER, img->cmn.sample_count, gl_depth_format, img->cmn.width, img->cmn.height);
         }
         else
-        #endif
+#endif
         {
             glRenderbufferStorage(GL_RENDERBUFFER, gl_depth_format, img->cmn.width, img->cmn.height);
         }
@@ -6663,13 +6828,13 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
         const GLenum gl_internal_format = _sg_gl_teximage_internal_format(img->cmn.pixel_format);
 
         /* if this is a MSAA render target, need to create a separate render buffer */
-        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
         if (!_sg.gl.gles2 && img->cmn.render_target && msaa) {
             glGenRenderbuffers(1, &img->gl.msaa_render_buffer);
             glBindRenderbuffer(GL_RENDERBUFFER, img->gl.msaa_render_buffer);
             glRenderbufferStorageMultisample(GL_RENDERBUFFER, img->cmn.sample_count, gl_internal_format, img->cmn.width, img->cmn.height);
         }
-        #endif
+#endif
 
         if (img->gl.ext_textures) {
             /* inject externally GL textures */
@@ -6708,12 +6873,12 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
                 else {
                     glTexParameteri(img->gl.target, GL_TEXTURE_WRAP_S, (GLint)_sg_gl_wrap(img->cmn.wrap_u));
                     glTexParameteri(img->gl.target, GL_TEXTURE_WRAP_T, (GLint)_sg_gl_wrap(img->cmn.wrap_v));
-                    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
                     if (!_sg.gl.gles2 && (img->cmn.type == SG_IMAGETYPE_3D)) {
                         glTexParameteri(img->gl.target, GL_TEXTURE_WRAP_R, (GLint)_sg_gl_wrap(img->cmn.wrap_w));
                     }
-                    #endif
-                    #if defined(SOKOL_GLCORE33)
+#endif
+#if defined(SOKOL_GLCORE33)
                     float border[4];
                     switch (img->cmn.border_color) {
                         case SG_BORDERCOLOR_TRANSPARENT_BLACK:
@@ -6727,9 +6892,9 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
                             break;
                     }
                     glTexParameterfv(img->gl.target, GL_TEXTURE_BORDER_COLOR, border);
-                    #endif
+#endif
                 }
-                #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
                 if (!_sg.gl.gles2) {
                     /* GL spec has strange defaults for mipmap min/max lod: -1000 to +1000 */
                     const float min_lod = _sg_clamp(desc->min_lod, 0.0f, 1000.0f);
@@ -6737,7 +6902,7 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
                     glTexParameterf(img->gl.target, GL_TEXTURE_MIN_LOD, min_lod);
                     glTexParameterf(img->gl.target, GL_TEXTURE_MAX_LOD, max_lod);
                 }
-                #endif
+#endif
                 const int num_faces = img->cmn.type == SG_IMAGETYPE_CUBE ? 6 : 1;
                 int data_index = 0;
                 for (int face_index = 0; face_index < num_faces; face_index++) {
@@ -6767,7 +6932,7 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
                                     mip_width, mip_height, 0, gl_format, gl_type, data_ptr);
                             }
                         }
-                        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
                         else if (!_sg.gl.gles2 && ((SG_IMAGETYPE_3D == img->cmn.type) || (SG_IMAGETYPE_ARRAY == img->cmn.type))) {
                             int mip_depth = img->cmn.num_slices;
                             if (SG_IMAGETYPE_3D == img->cmn.type) {
@@ -6787,7 +6952,7 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_image(_sg_image_t* img, const sg_
                                     mip_width, mip_height, mip_depth, 0, gl_format, gl_type, data_ptr);
                             }
                         }
-                        #endif
+#endif
                     }
                 }
                 _sg_gl_cache_restore_texture_binding(0);
@@ -7107,11 +7272,11 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_pass(_sg_pass_t* pass, _sg_image_
                         break;
                     default:
                         /* 3D- or array-texture */
-                        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
                         if (!_sg.gl.gles2) {
                             glFramebufferTextureLayer(GL_FRAMEBUFFER, gl_att, gl_tex, mip_level, slice);
                         }
-                        #endif
+#endif
                         break;
                 }
             }
@@ -7135,7 +7300,7 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_pass(_sg_pass_t* pass, _sg_image_
     }
 
     /* setup color attachments for the framebuffer */
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2) {
         GLenum att[SG_MAX_COLOR_ATTACHMENTS] = {
             GL_COLOR_ATTACHMENT0,
@@ -7145,7 +7310,7 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_pass(_sg_pass_t* pass, _sg_image_
         };
         glDrawBuffers(pass->cmn.num_color_atts, att);
     }
-    #endif
+#endif
 
     /* create MSAA resolve framebuffers if necessary */
     if (is_msaa) {
@@ -7168,11 +7333,11 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_pass(_sg_pass_t* pass, _sg_image_
                             _sg_gl_cubeface_target(cmn_att->slice), gl_tex, cmn_att->mip_level);
                         break;
                     default:
-                        #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
                         if (!_sg.gl.gles2) {
                             glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, gl_tex, cmn_att->mip_level, cmn_att->slice);
                         }
-                        #endif
+#endif
                         break;
                 }
                 /* check if framebuffer is complete */
@@ -7181,12 +7346,12 @@ _SOKOL_PRIVATE sg_resource_state _sg_gl_create_pass(_sg_pass_t* pass, _sg_image_
                     return SG_RESOURCESTATE_FAILED;
                 }
                 /* setup color attachments for the framebuffer */
-                #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
                 if (!_sg.gl.gles2) {
                     const GLenum gl_draw_bufs = GL_COLOR_ATTACHMENT0;
                     glDrawBuffers(1, &gl_draw_bufs);
                 }
-                #endif
+#endif
             }
         }
     }
@@ -7313,13 +7478,13 @@ _SOKOL_PRIVATE void _sg_gl_begin_pass(_sg_pass_t* pass, const sg_pass_action* ac
         _sg.gl.cache.cur_pipeline_id.id = SG_INVALID_ID;
     }
     bool use_mrt_clear = (0 != pass);
-    #if defined(SOKOL_GLES2)
+#if defined(SOKOL_GLES2)
     use_mrt_clear = false;
-    #else
+#else
     if (_sg.gl.gles2) {
         use_mrt_clear = false;
     }
-    #endif
+#endif
     if (!use_mrt_clear) {
         GLbitfield clear_mask = 0;
         if (clear_color) {
@@ -7329,11 +7494,11 @@ _SOKOL_PRIVATE void _sg_gl_begin_pass(_sg_pass_t* pass, const sg_pass_action* ac
         }
         if (clear_depth) {
             clear_mask |= GL_DEPTH_BUFFER_BIT;
-            #ifdef SOKOL_GLCORE33
+#ifdef SOKOL_GLCORE33
             glClearDepth(action->depth.value);
-            #else
+#else
             glClearDepthf(action->depth.value);
-            #endif
+#endif
         }
         if (clear_stencil) {
             clear_mask |= GL_STENCIL_BUFFER_BIT;
@@ -7343,7 +7508,7 @@ _SOKOL_PRIVATE void _sg_gl_begin_pass(_sg_pass_t* pass, const sg_pass_action* ac
             glClear(clear_mask);
         }
     }
-    #if !defined SOKOL_GLES2
+#if !defined SOKOL_GLES2
     else {
         SOKOL_ASSERT(pass);
         for (int i = 0; i < num_color_atts; i++) {
@@ -7364,7 +7529,7 @@ _SOKOL_PRIVATE void _sg_gl_begin_pass(_sg_pass_t* pass, const sg_pass_action* ac
             }
         }
     }
-    #endif
+#endif
     _SG_GL_CHECK_ERROR();
 }
 
@@ -7374,7 +7539,7 @@ _SOKOL_PRIVATE void _sg_gl_end_pass(void) {
 
     /* if this was an offscreen pass, and MSAA rendering was used, need
        to resolve into the pass images */
-    #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
     if (!_sg.gl.gles2 && _sg.gl.cur_pass) {
         /* check if the pass object is still valid */
         const _sg_pass_t* pass = _sg.gl.cur_pass;
@@ -7400,7 +7565,7 @@ _SOKOL_PRIVATE void _sg_gl_end_pass(void) {
             }
         }
     }
-    #endif
+#endif
     _sg.gl.cur_pass = 0;
     _sg.gl.cur_pass_id.id = SG_INVALID_ID;
     _sg.gl.cur_pass_width = 0;
@@ -7564,20 +7729,20 @@ _SOKOL_PRIVATE void _sg_gl_apply_pipeline(_sg_pipeline_t* pip) {
             if (pip->gl.color_write_mask[i] != _sg.gl.cache.color_write_mask[i]) {
                 const sg_color_mask cm = pip->gl.color_write_mask[i];
                 _sg.gl.cache.color_write_mask[i] = cm;
-                #ifdef SOKOL_GLCORE33
+#ifdef SOKOL_GLCORE33
                     glColorMaski(i,
                                 (cm & SG_COLORMASK_R) != 0,
                                 (cm & SG_COLORMASK_G) != 0,
                                 (cm & SG_COLORMASK_B) != 0,
                                 (cm & SG_COLORMASK_A) != 0);
-                #else
+#else
                     if (0 == i) {
                         glColorMask((cm & SG_COLORMASK_R) != 0,
                                     (cm & SG_COLORMASK_G) != 0,
                                     (cm & SG_COLORMASK_B) != 0,
                                     (cm & SG_COLORMASK_A) != 0);
                     }
-                #endif
+#endif
             }
         }
 
@@ -7615,7 +7780,7 @@ _SOKOL_PRIVATE void _sg_gl_apply_pipeline(_sg_pipeline_t* pip) {
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
             }
         }
-        #ifdef SOKOL_GLCORE33
+#ifdef SOKOL_GLCORE33
         if (pip->gl.sample_count != _sg.gl.cache.sample_count) {
             _sg.gl.cache.sample_count = pip->gl.sample_count;
             if (pip->gl.sample_count > 1) {
@@ -7625,7 +7790,7 @@ _SOKOL_PRIVATE void _sg_gl_apply_pipeline(_sg_pipeline_t* pip) {
                 glDisable(GL_MULTISAMPLE);
             }
         }
-        #endif
+#endif
 
         /* bind shader program */
         if (pip->shader->gl.prog != _sg.gl.cache.prog) {
@@ -7700,11 +7865,11 @@ _SOKOL_PRIVATE void _sg_gl_apply_bindings(
                 glVertexAttribPointer(attr_index, attr->size, attr->type,
                     attr->normalized, attr->stride,
                     (const GLvoid*)(GLintptr)vb_offset);
-                #if defined(_SOKOL_GL_INSTANCING_ENABLED)
+#if defined(_SOKOL_GL_INSTANCING_ENABLED)
                     if (_sg.features.instancing) {
                         glVertexAttribDivisor(attr_index, (GLuint)attr->divisor);
                     }
-                #endif
+#endif
                 cache_attr_dirty = true;
             }
             if (cache_attr->gl_attr.vb_index == -1) {
@@ -7894,7 +8059,7 @@ _SOKOL_PRIVATE void _sg_gl_update_image(_sg_image_t* img, const sg_image_data* d
                     gl_img_format, gl_img_type,
                     data_ptr);
             }
-            #if !defined(SOKOL_GLES2)
+#if !defined(SOKOL_GLES2)
             else if (!_sg.gl.gles2 && ((SG_IMAGETYPE_3D == img->cmn.type) || (SG_IMAGETYPE_ARRAY == img->cmn.type))) {
                 int mip_depth = img->cmn.num_slices >> mip_index;
                 if (mip_depth == 0) {
@@ -7907,7 +8072,7 @@ _SOKOL_PRIVATE void _sg_gl_update_image(_sg_image_t* img, const sg_image_data* d
                     data_ptr);
 
             }
-            #endif
+#endif
         }
     }
     _sg_gl_cache_restore_texture_binding(0);
@@ -7930,371 +8095,371 @@ _SOKOL_PRIVATE void _sg_gl_update_image(_sg_image_t* img, const sg_image_data* d
 
 /*-- D3D11 C/C++ wrappers ----------------------------------------------------*/
 static inline HRESULT _sg_d3d11_CheckFormatSupport(ID3D11Device* self, DXGI_FORMAT Format, UINT* pFormatSupport) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CheckFormatSupport(Format, pFormatSupport);
-    #else
+#else
         return self->lpVtbl->CheckFormatSupport(self, Format, pFormatSupport);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_OMSetRenderTargets(ID3D11DeviceContext* self, UINT NumViews, ID3D11RenderTargetView* const* ppRenderTargetViews, ID3D11DepthStencilView *pDepthStencilView) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->OMSetRenderTargets(NumViews, ppRenderTargetViews, pDepthStencilView);
-    #else
+#else
         self->lpVtbl->OMSetRenderTargets(self, NumViews, ppRenderTargetViews, pDepthStencilView);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_RSSetState(ID3D11DeviceContext* self, ID3D11RasterizerState* pRasterizerState) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->RSSetState(pRasterizerState);
-    #else
+#else
         self->lpVtbl->RSSetState(self, pRasterizerState);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_OMSetDepthStencilState(ID3D11DeviceContext* self, ID3D11DepthStencilState* pDepthStencilState, UINT StencilRef) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->OMSetDepthStencilState(pDepthStencilState, StencilRef);
-    #else
+#else
         self->lpVtbl->OMSetDepthStencilState(self, pDepthStencilState, StencilRef);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_OMSetBlendState(ID3D11DeviceContext* self, ID3D11BlendState* pBlendState, const FLOAT BlendFactor[4], UINT SampleMask) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->OMSetBlendState(pBlendState, BlendFactor, SampleMask);
-    #else
+#else
         self->lpVtbl->OMSetBlendState(self, pBlendState, BlendFactor, SampleMask);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_IASetVertexBuffers(ID3D11DeviceContext* self, UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets);
-    #else
+#else
         self->lpVtbl->IASetVertexBuffers(self, StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_IASetIndexBuffer(ID3D11DeviceContext* self, ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->IASetIndexBuffer(pIndexBuffer, Format, Offset);
-    #else
+#else
         self->lpVtbl->IASetIndexBuffer(self, pIndexBuffer, Format, Offset);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_IASetInputLayout(ID3D11DeviceContext* self, ID3D11InputLayout* pInputLayout) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->IASetInputLayout(pInputLayout);
-    #else
+#else
         self->lpVtbl->IASetInputLayout(self, pInputLayout);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_VSSetShader(ID3D11DeviceContext* self, ID3D11VertexShader* pVertexShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->VSSetShader(pVertexShader, ppClassInstances, NumClassInstances);
-    #else
+#else
         self->lpVtbl->VSSetShader(self, pVertexShader, ppClassInstances, NumClassInstances);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_PSSetShader(ID3D11DeviceContext* self, ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
-    #else
+#else
         self->lpVtbl->PSSetShader(self, pPixelShader, ppClassInstances, NumClassInstances);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_VSSetConstantBuffers(ID3D11DeviceContext* self, UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppConstantBuffers) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->VSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
-    #else
+#else
         self->lpVtbl->VSSetConstantBuffers(self, StartSlot, NumBuffers, ppConstantBuffers);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_PSSetConstantBuffers(ID3D11DeviceContext* self, UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppConstantBuffers) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->PSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
-    #else
+#else
         self->lpVtbl->PSSetConstantBuffers(self, StartSlot, NumBuffers, ppConstantBuffers);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_VSSetShaderResources(ID3D11DeviceContext* self, UINT StartSlot, UINT NumViews, ID3D11ShaderResourceView* const* ppShaderResourceViews) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->VSSetShaderResources(StartSlot, NumViews, ppShaderResourceViews);
-    #else
+#else
         self->lpVtbl->VSSetShaderResources(self, StartSlot, NumViews, ppShaderResourceViews);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_PSSetShaderResources(ID3D11DeviceContext* self, UINT StartSlot, UINT NumViews, ID3D11ShaderResourceView* const* ppShaderResourceViews) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->PSSetShaderResources(StartSlot, NumViews, ppShaderResourceViews);
-    #else
+#else
         self->lpVtbl->PSSetShaderResources(self, StartSlot, NumViews, ppShaderResourceViews);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_VSSetSamplers(ID3D11DeviceContext* self, UINT StartSlot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->VSSetSamplers(StartSlot, NumSamplers, ppSamplers);
-    #else
+#else
         self->lpVtbl->VSSetSamplers(self, StartSlot, NumSamplers, ppSamplers);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_PSSetSamplers(ID3D11DeviceContext* self, UINT StartSlot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->PSSetSamplers(StartSlot, NumSamplers, ppSamplers);
-    #else
+#else
         self->lpVtbl->PSSetSamplers(self, StartSlot, NumSamplers, ppSamplers);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateBuffer(ID3D11Device* self, const D3D11_BUFFER_DESC* pDesc, const D3D11_SUBRESOURCE_DATA* pInitialData, ID3D11Buffer** ppBuffer) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateBuffer(pDesc, pInitialData, ppBuffer);
-    #else
+#else
         return self->lpVtbl->CreateBuffer(self, pDesc, pInitialData, ppBuffer);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateTexture2D(ID3D11Device* self, const D3D11_TEXTURE2D_DESC* pDesc, const D3D11_SUBRESOURCE_DATA* pInitialData, ID3D11Texture2D** ppTexture2D) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateTexture2D(pDesc, pInitialData, ppTexture2D);
-    #else
+#else
         return self->lpVtbl->CreateTexture2D(self, pDesc, pInitialData, ppTexture2D);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateShaderResourceView(ID3D11Device* self, ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateShaderResourceView(pResource, pDesc, ppSRView);
-    #else
+#else
         return self->lpVtbl->CreateShaderResourceView(self, pResource, pDesc, ppSRView);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_GetResource(ID3D11View* self, ID3D11Resource** ppResource) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->GetResource(ppResource);
-    #else
+#else
         self->lpVtbl->GetResource(self, ppResource);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateTexture3D(ID3D11Device* self, const D3D11_TEXTURE3D_DESC* pDesc, const D3D11_SUBRESOURCE_DATA* pInitialData, ID3D11Texture3D** ppTexture3D) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateTexture3D(pDesc, pInitialData, ppTexture3D);
-    #else
+#else
         return self->lpVtbl->CreateTexture3D(self, pDesc, pInitialData, ppTexture3D);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateSamplerState(ID3D11Device* self, const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateSamplerState(pSamplerDesc, ppSamplerState);
-    #else
+#else
         return self->lpVtbl->CreateSamplerState(self, pSamplerDesc, ppSamplerState);
-    #endif
+#endif
 }
 
 static inline LPVOID _sg_d3d11_GetBufferPointer(ID3D10Blob* self) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->GetBufferPointer();
-    #else
+#else
         return self->lpVtbl->GetBufferPointer(self);
-    #endif
+#endif
 }
 
 static inline SIZE_T _sg_d3d11_GetBufferSize(ID3D10Blob* self) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->GetBufferSize();
-    #else
+#else
         return self->lpVtbl->GetBufferSize(self);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateVertexShader(ID3D11Device* self, const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateVertexShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppVertexShader);
-    #else
+#else
         return self->lpVtbl->CreateVertexShader(self, pShaderBytecode, BytecodeLength, pClassLinkage, ppVertexShader);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreatePixelShader(ID3D11Device* self, const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader);
-    #else
+#else
         return self->lpVtbl->CreatePixelShader(self, pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateInputLayout(ID3D11Device* self, const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs, UINT NumElements, const void* pShaderBytecodeWithInputSignature, SIZE_T BytecodeLength, ID3D11InputLayout **ppInputLayout) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateInputLayout(pInputElementDescs, NumElements, pShaderBytecodeWithInputSignature, BytecodeLength, ppInputLayout);
-    #else
+#else
         return self->lpVtbl->CreateInputLayout(self, pInputElementDescs, NumElements, pShaderBytecodeWithInputSignature, BytecodeLength, ppInputLayout);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateRasterizerState(ID3D11Device* self, const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateRasterizerState(pRasterizerDesc, ppRasterizerState);
-    #else
+#else
         return self->lpVtbl->CreateRasterizerState(self, pRasterizerDesc, ppRasterizerState);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateDepthStencilState(ID3D11Device* self, const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateDepthStencilState(pDepthStencilDesc, ppDepthStencilState);
-    #else
+#else
         return self->lpVtbl->CreateDepthStencilState(self, pDepthStencilDesc, ppDepthStencilState);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateBlendState(ID3D11Device* self, const D3D11_BLEND_DESC* pBlendStateDesc, ID3D11BlendState** ppBlendState) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateBlendState(pBlendStateDesc, ppBlendState);
-    #else
+#else
         return self->lpVtbl->CreateBlendState(self, pBlendStateDesc, ppBlendState);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateRenderTargetView(ID3D11Device* self, ID3D11Resource *pResource, const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, ID3D11RenderTargetView** ppRTView) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateRenderTargetView(pResource, pDesc, ppRTView);
-    #else
+#else
         return self->lpVtbl->CreateRenderTargetView(self, pResource, pDesc, ppRTView);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_CreateDepthStencilView(ID3D11Device* self, ID3D11Resource* pResource, const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, ID3D11DepthStencilView** ppDepthStencilView) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->CreateDepthStencilView(pResource, pDesc, ppDepthStencilView);
-    #else
+#else
         return self->lpVtbl->CreateDepthStencilView(self, pResource, pDesc, ppDepthStencilView);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_RSSetViewports(ID3D11DeviceContext* self, UINT NumViewports, const D3D11_VIEWPORT* pViewports) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->RSSetViewports(NumViewports, pViewports);
-    #else
+#else
         self->lpVtbl->RSSetViewports(self, NumViewports, pViewports);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_RSSetScissorRects(ID3D11DeviceContext* self, UINT NumRects, const D3D11_RECT* pRects) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->RSSetScissorRects(NumRects, pRects);
-    #else
+#else
         self->lpVtbl->RSSetScissorRects(self, NumRects, pRects);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_ClearRenderTargetView(ID3D11DeviceContext* self, ID3D11RenderTargetView* pRenderTargetView, const FLOAT ColorRGBA[4]) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->ClearRenderTargetView(pRenderTargetView, ColorRGBA);
-    #else
+#else
         self->lpVtbl->ClearRenderTargetView(self, pRenderTargetView, ColorRGBA);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_ClearDepthStencilView(ID3D11DeviceContext* self, ID3D11DepthStencilView* pDepthStencilView, UINT ClearFlags, FLOAT Depth, UINT8 Stencil) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->ClearDepthStencilView(pDepthStencilView, ClearFlags, Depth, Stencil);
-    #else
+#else
         self->lpVtbl->ClearDepthStencilView(self, pDepthStencilView, ClearFlags, Depth, Stencil);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_ResolveSubresource(ID3D11DeviceContext* self, ID3D11Resource* pDstResource, UINT DstSubresource, ID3D11Resource* pSrcResource, UINT SrcSubresource, DXGI_FORMAT Format) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->ResolveSubresource(pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
-    #else
+#else
         self->lpVtbl->ResolveSubresource(self, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_IASetPrimitiveTopology(ID3D11DeviceContext* self, D3D11_PRIMITIVE_TOPOLOGY Topology) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->IASetPrimitiveTopology(Topology);
-    #else
+#else
         self->lpVtbl->IASetPrimitiveTopology(self, Topology);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_UpdateSubresource(ID3D11DeviceContext* self, ID3D11Resource* pDstResource, UINT DstSubresource, const D3D11_BOX* pDstBox, const void* pSrcData, UINT SrcRowPitch, UINT SrcDepthPitch) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->UpdateSubresource(pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
-    #else
+#else
         self->lpVtbl->UpdateSubresource(self, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_DrawIndexed(ID3D11DeviceContext* self, UINT IndexCount, UINT StartIndexLocation, INT  BaseVertexLocation) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
-    #else
+#else
         self->lpVtbl->DrawIndexed(self, IndexCount, StartIndexLocation, BaseVertexLocation);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_DrawIndexedInstanced(ID3D11DeviceContext* self, UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
-    #else
+#else
         self->lpVtbl->DrawIndexedInstanced(self, IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_Draw(ID3D11DeviceContext* self, UINT VertexCount, UINT StartVertexLocation) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->Draw(VertexCount, StartVertexLocation);
-    #else
+#else
         self->lpVtbl->Draw(self, VertexCount, StartVertexLocation);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_DrawInstanced(ID3D11DeviceContext* self, UINT VertexCountPerInstance, UINT InstanceCount, UINT StartVertexLocation, UINT StartInstanceLocation) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->DrawInstanced(VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
-    #else
+#else
         self->lpVtbl->DrawInstanced(self, VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
-    #endif
+#endif
 }
 
 static inline HRESULT _sg_d3d11_Map(ID3D11DeviceContext* self, ID3D11Resource* pResource, UINT Subresource, D3D11_MAP MapType, UINT MapFlags, D3D11_MAPPED_SUBRESOURCE* pMappedResource) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         return self->Map(pResource, Subresource, MapType, MapFlags, pMappedResource);
-    #else
+#else
         return self->lpVtbl->Map(self, pResource, Subresource, MapType, MapFlags, pMappedResource);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_Unmap(ID3D11DeviceContext* self, ID3D11Resource* pResource, UINT Subresource) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->Unmap(pResource, Subresource);
-    #else
+#else
         self->lpVtbl->Unmap(self, pResource, Subresource);
-    #endif
+#endif
 }
 
 static inline void _sg_d3d11_ClearState(ID3D11DeviceContext* self) {
-    #if defined(__cplusplus)
+#if defined(__cplusplus)
         self->ClearState();
-    #else
+#else
         self->lpVtbl->ClearState(self);
-    #endif
+#endif
 }
 
 /*-- enum translation functions ----------------------------------------------*/
@@ -9012,9 +9177,9 @@ _SOKOL_PRIVATE void _sg_d3d11_destroy_image(_sg_image_t* img) {
 
 _SOKOL_PRIVATE bool _sg_d3d11_load_d3dcompiler_dll(void) {
     /* on UWP, don't do anything (not tested) */
-    #if (defined(WINAPI_FAMILY_PARTITION) && !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
+#if (defined(WINAPI_FAMILY_PARTITION) && !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
         return true;
-    #else
+#else
         /* load DLL on demand */
         if ((0 == _sg.d3d11.d3dcompiler_dll) && !_sg.d3d11.d3dcompiler_dll_load_failed) {
             _sg.d3d11.d3dcompiler_dll = LoadLibraryA("d3dcompiler_47.dll");
@@ -9029,7 +9194,7 @@ _SOKOL_PRIVATE bool _sg_d3d11_load_d3dcompiler_dll(void) {
             SOKOL_ASSERT(_sg.d3d11.D3DCompile_func);
         }
         return 0 != _sg.d3d11.d3dcompiler_dll;
-    #endif
+#endif
 }
 
 #if (defined(WINAPI_FAMILY_PARTITION) && !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP))
@@ -9823,18 +9988,18 @@ _SOKOL_PRIVATE MTLLoadAction _sg_mtl_load_action(sg_action a) {
 _SOKOL_PRIVATE MTLResourceOptions _sg_mtl_buffer_resource_options(sg_usage usg) {
     switch (usg) {
         case SG_USAGE_IMMUTABLE:
-            #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
             return MTLResourceStorageModeManaged;
-            #else
+#else
             return MTLResourceStorageModeShared;
-            #endif
+#endif
         case SG_USAGE_DYNAMIC:
         case SG_USAGE_STREAM:
-            #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
             return MTLResourceCPUCacheModeWriteCombined|MTLResourceStorageModeManaged;
-            #else
+#else
             return MTLResourceCPUCacheModeWriteCombined|MTLResourceStorageModeShared;
-            #endif
+#endif
         default:
             SOKOL_UNREACHABLE;
             return 0;
@@ -9925,7 +10090,7 @@ _SOKOL_PRIVATE MTLPixelFormat _sg_mtl_pixel_format(sg_pixel_format fmt) {
         case SG_PIXELFORMAT_RGBA32F:                return MTLPixelFormatRGBA32Float;
         case SG_PIXELFORMAT_DEPTH:                  return MTLPixelFormatDepth32Float;
         case SG_PIXELFORMAT_DEPTH_STENCIL:          return MTLPixelFormatDepth32Float_Stencil8;
-        #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         case SG_PIXELFORMAT_BC1_RGBA:               return MTLPixelFormatBC1_RGBA;
         case SG_PIXELFORMAT_BC2_RGBA:               return MTLPixelFormatBC2_RGBA;
         case SG_PIXELFORMAT_BC3_RGBA:               return MTLPixelFormatBC3_RGBA;
@@ -9936,7 +10101,7 @@ _SOKOL_PRIVATE MTLPixelFormat _sg_mtl_pixel_format(sg_pixel_format fmt) {
         case SG_PIXELFORMAT_BC6H_RGBF:              return MTLPixelFormatBC6H_RGBFloat;
         case SG_PIXELFORMAT_BC6H_RGBUF:             return MTLPixelFormatBC6H_RGBUfloat;
         case SG_PIXELFORMAT_BC7_RGBA:               return MTLPixelFormatBC7_RGBAUnorm;
-        #else
+#else
         case SG_PIXELFORMAT_PVRTC_RGB_2BPP:         return MTLPixelFormatPVRTC_RGB_2BPP;
         case SG_PIXELFORMAT_PVRTC_RGB_4BPP:         return MTLPixelFormatPVRTC_RGB_4BPP;
         case SG_PIXELFORMAT_PVRTC_RGBA_2BPP:        return MTLPixelFormatPVRTC_RGBA_2BPP;
@@ -9946,7 +10111,7 @@ _SOKOL_PRIVATE MTLPixelFormat _sg_mtl_pixel_format(sg_pixel_format fmt) {
         case SG_PIXELFORMAT_ETC2_RGBA8:             return MTLPixelFormatEAC_RGBA8;
         case SG_PIXELFORMAT_ETC2_RG11:              return MTLPixelFormatEAC_RG11Unorm;
         case SG_PIXELFORMAT_ETC2_RG11SN:            return MTLPixelFormatEAC_RG11Snorm;
-        #endif
+#endif
         default: return MTLPixelFormatInvalid;
     }
 }
@@ -10086,12 +10251,12 @@ _SOKOL_PRIVATE MTLSamplerAddressMode _sg_mtl_address_mode(sg_wrap w) {
     switch (w) {
         case SG_WRAP_REPEAT:            return MTLSamplerAddressModeRepeat;
         case SG_WRAP_CLAMP_TO_EDGE:     return MTLSamplerAddressModeClampToEdge;
-        #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         case SG_WRAP_CLAMP_TO_BORDER:   return MTLSamplerAddressModeClampToBorderColor;
-        #else
+#else
         /* clamp-to-border not supported on iOS, fall back to clamp-to-edge */
         case SG_WRAP_CLAMP_TO_BORDER:   return MTLSamplerAddressModeClampToEdge;
-        #endif
+#endif
         case SG_WRAP_MIRRORED_REPEAT:   return MTLSamplerAddressModeMirrorRepeat;
         default: SOKOL_UNREACHABLE; return (MTLSamplerAddressMode)0;
     }
@@ -10300,9 +10465,9 @@ _SOKOL_PRIVATE int _sg_mtl_create_sampler(id<MTLDevice> mtl_device, const sg_ima
         if (SG_IMAGETYPE_3D == img_desc->type) {
             mtl_desc.rAddressMode = _sg_mtl_address_mode(img_desc->wrap_w);
         }
-        #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
             mtl_desc.borderColor = _sg_mtl_border_color(img_desc->border_color);
-        #endif
+#endif
         mtl_desc.minFilter = _sg_mtl_minmag_filter(img_desc->min_filter);
         mtl_desc.magFilter = _sg_mtl_minmag_filter(img_desc->mag_filter);
         mtl_desc.mipFilter = _sg_mtl_mip_filter(img_desc->min_filter);
@@ -10325,56 +10490,56 @@ _SOKOL_PRIVATE void _sg_mtl_clear_state_cache(void) {
 
 /* https://developer.apple.com/metal/Metal-Feature-Set-Tables.pdf */
 _SOKOL_PRIVATE void _sg_mtl_init_caps(void) {
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg.backend = SG_BACKEND_METAL_MACOS;
-    #elif defined(_SG_TARGET_IOS)
-        #if defined(_SG_TARGET_IOS_SIMULATOR)
+#elif defined(_SG_TARGET_IOS)
+#if defined(_SG_TARGET_IOS_SIMULATOR)
             _sg.backend = SG_BACKEND_METAL_SIMULATOR;
-        #else
+#else
             _sg.backend = SG_BACKEND_METAL_IOS;
-        #endif
-    #endif
+#endif
+#endif
     _sg.features.instancing = true;
     _sg.features.origin_top_left = true;
     _sg.features.multiple_render_targets = true;
     _sg.features.msaa_render_targets = true;
     _sg.features.imagetype_3d = true;
     _sg.features.imagetype_array = true;
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg.features.image_clamp_to_border = true;
-    #else
+#else
         _sg.features.image_clamp_to_border = false;
-    #endif
+#endif
     _sg.features.mrt_independent_blend_state = true;
     _sg.features.mrt_independent_write_mask = true;
 
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg.limits.max_image_size_2d = 16 * 1024;
         _sg.limits.max_image_size_cube = 16 * 1024;
         _sg.limits.max_image_size_3d = 2 * 1024;
         _sg.limits.max_image_size_array = 16 * 1024;
         _sg.limits.max_image_array_layers = 2 * 1024;
-    #else
+#else
         /* newer iOS devices support 16k textures */
         _sg.limits.max_image_size_2d = 8 * 1024;
         _sg.limits.max_image_size_cube = 8 * 1024;
         _sg.limits.max_image_size_3d = 2 * 1024;
         _sg.limits.max_image_size_array = 8 * 1024;
         _sg.limits.max_image_array_layers = 2 * 1024;
-    #endif
+#endif
     _sg.limits.max_vertex_attrs = SG_MAX_VERTEX_ATTRIBUTES;
 
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R8]);
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R8SN]);
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R8UI]);
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R8SI]);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R16]);
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R16SN]);
-    #else
+#else
         _sg_pixelformat_sfbr(&_sg.formats[SG_PIXELFORMAT_R16]);
         _sg_pixelformat_sfbr(&_sg.formats[SG_PIXELFORMAT_R16SN]);
-    #endif
+#endif
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R16UI]);
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_R16SI]);
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R16F]);
@@ -10384,18 +10549,18 @@ _SOKOL_PRIVATE void _sg_mtl_init_caps(void) {
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG8SI]);
     _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_R32UI]);
     _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_R32SI]);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_R32F]);
-    #else
+#else
         _sg_pixelformat_sbr(&_sg.formats[SG_PIXELFORMAT_R32F]);
-    #endif
-    #if defined(_SG_TARGET_MACOS)
+#endif
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG16]);
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG16SN]);
-    #else
+#else
         _sg_pixelformat_sfbr(&_sg.formats[SG_PIXELFORMAT_RG16]);
         _sg_pixelformat_sfbr(&_sg.formats[SG_PIXELFORMAT_RG16SN]);
-    #endif
+#endif
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG16UI]);
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG16SI]);
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG16F]);
@@ -10406,42 +10571,42 @@ _SOKOL_PRIVATE void _sg_mtl_init_caps(void) {
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_BGRA8]);
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGB10A2]);
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG11B10F]);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_RGB9E5]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG32UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RG32SI]);
-    #else
+#else
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGB9E5]);
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_RG32UI]);
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_RG32SI]);
-    #endif
-    #if defined(_SG_TARGET_MACOS)
+#endif
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RG32F]);
-    #else
+#else
         _sg_pixelformat_sbr(&_sg.formats[SG_PIXELFORMAT_RG32F]);
-    #endif
-    #if defined(_SG_TARGET_MACOS)
+#endif
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA16]);
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA16SN]);
-    #else
+#else
         _sg_pixelformat_sfbr(&_sg.formats[SG_PIXELFORMAT_RGBA16]);
         _sg_pixelformat_sfbr(&_sg.formats[SG_PIXELFORMAT_RGBA16SN]);
-    #endif
+#endif
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA16UI]);
     _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA16SI]);
     _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA16F]);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA32UI]);
         _sg_pixelformat_srm(&_sg.formats[SG_PIXELFORMAT_RGBA32SI]);
         _sg_pixelformat_all(&_sg.formats[SG_PIXELFORMAT_RGBA32F]);
-    #else
+#else
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_RGBA32UI]);
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_RGBA32SI]);
         _sg_pixelformat_sr(&_sg.formats[SG_PIXELFORMAT_RGBA32F]);
-    #endif
+#endif
     _sg_pixelformat_srmd(&_sg.formats[SG_PIXELFORMAT_DEPTH]);
     _sg_pixelformat_srmd(&_sg.formats[SG_PIXELFORMAT_DEPTH_STENCIL]);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_BC1_RGBA]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_BC2_RGBA]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_BC3_RGBA]);
@@ -10452,7 +10617,7 @@ _SOKOL_PRIVATE void _sg_mtl_init_caps(void) {
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_BC6H_RGBF]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_BC6H_RGBUF]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_BC7_RGBA]);
-    #else
+#else
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_PVRTC_RGB_2BPP]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_PVRTC_RGB_4BPP]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_PVRTC_RGBA_2BPP]);
@@ -10462,7 +10627,7 @@ _SOKOL_PRIVATE void _sg_mtl_init_caps(void) {
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_ETC2_RGBA8]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_ETC2_RG11]);
         _sg_pixelformat_sf(&_sg.formats[SG_PIXELFORMAT_ETC2_RG11SN]);
-    #endif
+#endif
 }
 
 /*-- main Metal backend state and functions ----------------------------------*/
@@ -10694,13 +10859,13 @@ _SOKOL_PRIVATE bool _sg_mtl_init_texdesc_common(MTLTextureDescriptor* mtl_desc, 
     if (img->cmn.usage != SG_USAGE_IMMUTABLE) {
         res_options |= MTLResourceCPUCacheModeWriteCombined;
     }
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
         /* macOS: use managed textures */
         res_options |= MTLResourceStorageModeManaged;
-    #else
+#else
         /* iOS: use CPU/GPU shared memory */
         res_options |= MTLResourceStorageModeShared;
-    #endif
+#endif
     mtl_desc.resourceOptions = res_options;
     return true;
 }
@@ -11482,9 +11647,9 @@ _SOKOL_PRIVATE void _sg_mtl_update_buffer(_sg_buffer_t* buf, const sg_range* dat
     __unsafe_unretained id<MTLBuffer> mtl_buf = _sg_mtl_id(buf->mtl.buf[buf->cmn.active_slot]);
     void* dst_ptr = [mtl_buf contents];
     memcpy(dst_ptr, data->ptr, data->size);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
     [mtl_buf didModifyRange:NSMakeRange(0, data->size)];
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE int _sg_mtl_append_buffer(_sg_buffer_t* buf, const sg_range* data, bool new_frame) {
@@ -11498,9 +11663,9 @@ _SOKOL_PRIVATE int _sg_mtl_append_buffer(_sg_buffer_t* buf, const sg_range* data
     uint8_t* dst_ptr = (uint8_t*) [mtl_buf contents];
     dst_ptr += buf->cmn.append_pos;
     memcpy(dst_ptr, data->ptr, data->size);
-    #if defined(_SG_TARGET_MACOS)
+#if defined(_SG_TARGET_MACOS)
     [mtl_buf didModifyRange:NSMakeRange((NSUInteger)buf->cmn.append_pos, (NSUInteger)data->size)];
-    #endif
+#endif
     /* NOTE: this is a requirement from WebGPU, but we want identical behaviour across all backends */
     return _sg_roundup((int)data->size, 4);
 }
@@ -13241,371 +13406,371 @@ _SOKOL_PRIVATE void _sg_wgpu_update_image(_sg_image_t* img, const sg_image_data*
 
 /*== BACKEND API WRAPPERS ====================================================*/
 static inline void _sg_setup_backend(const sg_desc* desc) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_setup_backend(desc);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_setup_backend(desc);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_setup_backend(desc);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_setup_backend(desc);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_setup_backend(desc);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_discard_backend(void) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_discard_backend();
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_discard_backend();
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_discard_backend();
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_discard_backend();
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_discard_backend();
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_reset_state_cache(void) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_reset_state_cache();
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_reset_state_cache();
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_reset_state_cache();
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_reset_state_cache();
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_reset_state_cache();
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_activate_context(_sg_context_t* ctx) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_activate_context(ctx);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_activate_context(ctx);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_activate_context(ctx);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_activate_context(ctx);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_activate_context(ctx);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline sg_resource_state _sg_create_context(_sg_context_t* ctx) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_create_context(ctx);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_create_context(ctx);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_create_context(ctx);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_create_context(ctx);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_create_context(ctx);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_destroy_context(_sg_context_t* ctx) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_destroy_context(ctx);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_destroy_context(ctx);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_destroy_context(ctx);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_destroy_context(ctx);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_destroy_context(ctx);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline sg_resource_state _sg_create_buffer(_sg_buffer_t* buf, const sg_buffer_desc* desc) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_create_buffer(buf, desc);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_create_buffer(buf, desc);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_create_buffer(buf, desc);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_create_buffer(buf, desc);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_create_buffer(buf, desc);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_destroy_buffer(_sg_buffer_t* buf) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_destroy_buffer(buf);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_destroy_buffer(buf);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_destroy_buffer(buf);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_destroy_buffer(buf);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_destroy_buffer(buf);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline sg_resource_state _sg_create_image(_sg_image_t* img, const sg_image_desc* desc) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_create_image(img, desc);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_create_image(img, desc);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_create_image(img, desc);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_create_image(img, desc);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_create_image(img, desc);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_destroy_image(_sg_image_t* img) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_destroy_image(img);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_destroy_image(img);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_destroy_image(img);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_destroy_image(img);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_destroy_image(img);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline sg_resource_state _sg_create_shader(_sg_shader_t* shd, const sg_shader_desc* desc) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_create_shader(shd, desc);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_create_shader(shd, desc);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_create_shader(shd, desc);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_create_shader(shd, desc);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_create_shader(shd, desc);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_destroy_shader(_sg_shader_t* shd) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_destroy_shader(shd);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_destroy_shader(shd);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_destroy_shader(shd);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_destroy_shader(shd);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_destroy_shader(shd);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline sg_resource_state _sg_create_pipeline(_sg_pipeline_t* pip, _sg_shader_t* shd, const sg_pipeline_desc* desc) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_create_pipeline(pip, shd, desc);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_create_pipeline(pip, shd, desc);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_create_pipeline(pip, shd, desc);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_create_pipeline(pip, shd, desc);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_create_pipeline(pip, shd, desc);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_destroy_pipeline(_sg_pipeline_t* pip) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_destroy_pipeline(pip);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_destroy_pipeline(pip);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_destroy_pipeline(pip);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_destroy_pipeline(pip);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_destroy_pipeline(pip);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline sg_resource_state _sg_create_pass(_sg_pass_t* pass, _sg_image_t** att_images, const sg_pass_desc* desc) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_create_pass(pass, att_images, desc);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_create_pass(pass, att_images, desc);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_create_pass(pass, att_images, desc);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_create_pass(pass, att_images, desc);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_create_pass(pass, att_images, desc);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_destroy_pass(_sg_pass_t* pass) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_destroy_pass(pass);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_destroy_pass(pass);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_destroy_pass(pass);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_destroy_pass(pass);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_destroy_pass(pass);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline _sg_image_t* _sg_pass_color_image(const _sg_pass_t* pass, int index) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_pass_color_image(pass, index);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_pass_color_image(pass, index);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_pass_color_image(pass, index);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_pass_color_image(pass, index);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_pass_color_image(pass, index);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline _sg_image_t* _sg_pass_ds_image(const _sg_pass_t* pass) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_pass_ds_image(pass);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_pass_ds_image(pass);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_pass_ds_image(pass);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_pass_ds_image(pass);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_pass_ds_image(pass);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_begin_pass(_sg_pass_t* pass, const sg_pass_action* action, int w, int h) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_begin_pass(pass, action, w, h);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_begin_pass(pass, action, w, h);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_begin_pass(pass, action, w, h);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_begin_pass(pass, action, w, h);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_begin_pass(pass, action, w, h);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_end_pass(void) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_end_pass();
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_end_pass();
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_end_pass();
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_end_pass();
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_end_pass();
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_apply_viewport(int x, int y, int w, int h, bool origin_top_left) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_apply_viewport(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_apply_viewport(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_apply_viewport(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_apply_viewport(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_apply_viewport(x, y, w, h, origin_top_left);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_apply_scissor_rect(int x, int y, int w, int h, bool origin_top_left) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_apply_scissor_rect(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_apply_scissor_rect(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_apply_scissor_rect(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_apply_scissor_rect(x, y, w, h, origin_top_left);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_apply_scissor_rect(x, y, w, h, origin_top_left);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_apply_pipeline(_sg_pipeline_t* pip) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_apply_pipeline(pip);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_apply_pipeline(pip);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_apply_pipeline(pip);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_apply_pipeline(pip);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_apply_pipeline(pip);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_apply_bindings(
@@ -13615,115 +13780,115 @@ static inline void _sg_apply_bindings(
     _sg_image_t** vs_imgs, int num_vs_imgs,
     _sg_image_t** fs_imgs, int num_fs_imgs)
 {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_apply_bindings(pip, vbs, vb_offsets, num_vbs, ib, ib_offset, vs_imgs, num_vs_imgs, fs_imgs, num_fs_imgs);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_apply_bindings(pip, vbs, vb_offsets, num_vbs, ib, ib_offset, vs_imgs, num_vs_imgs, fs_imgs, num_fs_imgs);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_apply_bindings(pip, vbs, vb_offsets, num_vbs, ib, ib_offset, vs_imgs, num_vs_imgs, fs_imgs, num_fs_imgs);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_apply_bindings(pip, vbs, vb_offsets, num_vbs, ib, ib_offset, vs_imgs, num_vs_imgs, fs_imgs, num_fs_imgs);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_apply_bindings(pip, vbs, vb_offsets, num_vbs, ib, ib_offset, vs_imgs, num_vs_imgs, fs_imgs, num_fs_imgs);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_apply_uniforms(sg_shader_stage stage_index, int ub_index, const sg_range* data) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_apply_uniforms(stage_index, ub_index, data);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_apply_uniforms(stage_index, ub_index, data);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_apply_uniforms(stage_index, ub_index, data);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_apply_uniforms(stage_index, ub_index, data);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_apply_uniforms(stage_index, ub_index, data);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_draw(int base_element, int num_elements, int num_instances) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_draw(base_element, num_elements, num_instances);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_draw(base_element, num_elements, num_instances);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_draw(base_element, num_elements, num_instances);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_draw(base_element, num_elements, num_instances);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_draw(base_element, num_elements, num_instances);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_commit(void) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_commit();
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_commit();
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_commit();
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_commit();
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_commit();
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_update_buffer(_sg_buffer_t* buf, const sg_range* data) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_update_buffer(buf, data);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_update_buffer(buf, data);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_update_buffer(buf, data);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_update_buffer(buf, data);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_update_buffer(buf, data);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline int _sg_append_buffer(_sg_buffer_t* buf, const sg_range* data, bool new_frame) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     return _sg_gl_append_buffer(buf, data, new_frame);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     return _sg_mtl_append_buffer(buf, data, new_frame);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     return _sg_d3d11_append_buffer(buf, data, new_frame);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     return _sg_wgpu_append_buffer(buf, data, new_frame);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     return _sg_dummy_append_buffer(buf, data, new_frame);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 static inline void _sg_update_image(_sg_image_t* img, const sg_image_data* data) {
-    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
     _sg_gl_update_image(img, data);
-    #elif defined(SOKOL_METAL)
+#elif defined(SOKOL_METAL)
     _sg_mtl_update_image(img, data);
-    #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
     _sg_d3d11_update_image(img, data);
-    #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
     _sg_wgpu_update_image(img, data);
-    #elif defined(SOKOL_DUMMY_BACKEND)
+#elif defined(SOKOL_DUMMY_BACKEND)
     _sg_dummy_update_image(img, data);
-    #else
-    #error("INVALID BACKEND");
-    #endif
+#else
+#error("INVALID BACKEND");
+#endif
 }
 
 /*== RESOURCE POOLS ==========================================================*/
@@ -13775,12 +13940,12 @@ _SOKOL_PRIVATE void _sg_pool_free_index(_sg_pool_t* pool, int slot_index) {
     SOKOL_ASSERT(pool);
     SOKOL_ASSERT(pool->free_queue);
     SOKOL_ASSERT(pool->queue_top < pool->size);
-    #ifdef SOKOL_DEBUG
+#ifdef SOKOL_DEBUG
     /* debug check against double-free */
     for (int i = 0; i < pool->queue_top; i++) {
         SOKOL_ASSERT(pool->free_queue[i] != slot_index);
     }
-    #endif
+#endif
     pool->free_queue[pool->queue_top++] = slot_index;
     SOKOL_ASSERT(pool->queue_top <= (pool->size-1));
 }
@@ -14223,10 +14388,10 @@ _SOKOL_PRIVATE void _sg_validate(bool cond, _sg_validate_error_t err) {
 
 _SOKOL_PRIVATE bool _sg_validate_end(void) {
     if (_sg.validate_error != _SG_VALIDATE_SUCCESS) {
-        #if !defined(SOKOL_VALIDATE_NON_FATAL)
+#if !defined(SOKOL_VALIDATE_NON_FATAL)
             SG_LOG("^^^^  SOKOL-GFX VALIDATION FAILED, TERMINATING ^^^^");
             SOKOL_ASSERT(false);
-        #endif
+#endif
         return false;
     }
     else {
@@ -14236,10 +14401,10 @@ _SOKOL_PRIVATE bool _sg_validate_end(void) {
 #endif
 
 _SOKOL_PRIVATE bool _sg_validate_buffer_desc(const sg_buffer_desc* desc) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(desc);
         return true;
-    #else
+#else
         SOKOL_ASSERT(desc);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(desc->_start_canary == 0, _SG_VALIDATE_BUFFERDESC_CANARY);
@@ -14257,11 +14422,11 @@ _SOKOL_PRIVATE bool _sg_validate_buffer_desc(const sg_buffer_desc* desc) {
             SOKOL_VALIDATE(0 == desc->data.ptr, _SG_VALIDATE_BUFFERDESC_NO_DATA);
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE void _sg_validate_image_data(const sg_image_data* data, sg_pixel_format fmt, int width, int height, int num_faces, int num_mips, int num_slices) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(data);
         _SOKOL_UNUSED(fmt);
         _SOKOL_UNUSED(width);
@@ -14269,7 +14434,7 @@ _SOKOL_PRIVATE void _sg_validate_image_data(const sg_image_data* data, sg_pixel_
         _SOKOL_UNUSED(num_faces);
         _SOKOL_UNUSED(num_mips);
         _SOKOL_UNUSED(num_slices);
-    #else
+#else
         for (int face_index = 0; face_index < num_faces; face_index++) {
             for (int mip_index = 0; mip_index < num_mips; mip_index++) {
                 const bool has_data = data->subimage[face_index][mip_index].ptr != 0;
@@ -14282,14 +14447,14 @@ _SOKOL_PRIVATE void _sg_validate_image_data(const sg_image_data* data, sg_pixel_
                 SOKOL_VALIDATE(expected_size == (int)data->subimage[face_index][mip_index].size, _SG_VALIDATE_IMAGEDATA_DATA_SIZE);
             }
         }
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_image_desc(const sg_image_desc* desc) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(desc);
         return true;
-    #else
+#else
         SOKOL_ASSERT(desc);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(desc->_start_canary == 0, _SG_VALIDATE_IMAGEDESC_CANARY);
@@ -14306,15 +14471,15 @@ _SOKOL_PRIVATE bool _sg_validate_image_desc(const sg_image_desc* desc) {
             SOKOL_ASSERT(((int)fmt >= 0) && ((int)fmt < _SG_PIXELFORMAT_NUM));
             SOKOL_VALIDATE(_sg.formats[fmt].render, _SG_VALIDATE_IMAGEDESC_RT_PIXELFORMAT);
             /* on GLES2, sample count for render targets is completely ignored */
-            #if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
+#if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
             if (!_sg.gl.gles2) {
-            #endif
+#endif
                 if (desc->sample_count > 1) {
                     SOKOL_VALIDATE(_sg.features.msaa_render_targets && _sg.formats[fmt].msaa, _SG_VALIDATE_IMAGEDESC_NO_MSAA_RT_SUPPORT);
                 }
-            #if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
+#if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
             }
-            #endif
+#endif
             SOKOL_VALIDATE(usage == SG_USAGE_IMMUTABLE, _SG_VALIDATE_IMAGEDESC_RT_IMMUTABLE);
             SOKOL_VALIDATE(desc->data.subimage[0][0].ptr==0, _SG_VALIDATE_IMAGEDESC_RT_NO_DATA);
         }
@@ -14354,38 +14519,38 @@ _SOKOL_PRIVATE bool _sg_validate_image_desc(const sg_image_desc* desc) {
             }
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_shader_desc(const sg_shader_desc* desc) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(desc);
         return true;
-    #else
+#else
         SOKOL_ASSERT(desc);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(desc->_start_canary == 0, _SG_VALIDATE_SHADERDESC_CANARY);
         SOKOL_VALIDATE(desc->_end_canary == 0, _SG_VALIDATE_SHADERDESC_CANARY);
-        #if defined(SOKOL_GLES2)
+#if defined(SOKOL_GLES2)
             SOKOL_VALIDATE(0 != desc->attrs[0].name, _SG_VALIDATE_SHADERDESC_ATTR_NAMES);
-        #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
             SOKOL_VALIDATE(0 != desc->attrs[0].sem_name, _SG_VALIDATE_SHADERDESC_ATTR_SEMANTICS);
-        #endif
-        #if defined(SOKOL_GLCORE33) || defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
+#endif
+#if defined(SOKOL_GLCORE33) || defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
             /* on GL, must provide shader source code */
             SOKOL_VALIDATE(0 != desc->vs.source, _SG_VALIDATE_SHADERDESC_SOURCE);
             SOKOL_VALIDATE(0 != desc->fs.source, _SG_VALIDATE_SHADERDESC_SOURCE);
-        #elif defined(SOKOL_METAL) || defined(SOKOL_D3D11)
+#elif defined(SOKOL_METAL) || defined(SOKOL_D3D11)
             /* on Metal or D3D11, must provide shader source code or byte code */
             SOKOL_VALIDATE((0 != desc->vs.source)||(0 != desc->vs.bytecode.ptr), _SG_VALIDATE_SHADERDESC_SOURCE_OR_BYTECODE);
             SOKOL_VALIDATE((0 != desc->fs.source)||(0 != desc->fs.bytecode.ptr), _SG_VALIDATE_SHADERDESC_SOURCE_OR_BYTECODE);
-        #elif defined(SOKOL_WGPU)
+#elif defined(SOKOL_WGPU)
             /* on WGPU byte code must be provided */
             SOKOL_VALIDATE((0 != desc->vs.bytecode.ptr), _SG_VALIDATE_SHADERDESC_BYTECODE);
             SOKOL_VALIDATE((0 != desc->fs.bytecode.ptr), _SG_VALIDATE_SHADERDESC_BYTECODE);
-        #else
+#else
             /* Dummy Backend, don't require source or bytecode */
-        #endif
+#endif
         for (int i = 0; i < SG_MAX_VERTEX_ATTRIBUTES; i++) {
             if (desc->attrs[i].name) {
                 SOKOL_VALIDATE(strlen(desc->attrs[i].name) < _SG_STRING_SIZE, _SG_VALIDATE_SHADERDESC_ATTR_STRING_TOO_LONG);
@@ -14408,7 +14573,7 @@ _SOKOL_PRIVATE bool _sg_validate_shader_desc(const sg_shader_desc* desc) {
                 const sg_shader_uniform_block_desc* ub_desc = &stage_desc->uniform_blocks[ub_index];
                 if (ub_desc->size > 0) {
                     SOKOL_VALIDATE(uniform_blocks_continuous, _SG_VALIDATE_SHADERDESC_NO_CONT_UBS);
-                    #if defined(_SOKOL_ANY_GL)
+#if defined(_SOKOL_ANY_GL)
                     bool uniforms_continuous = true;
                     uint32_t uniform_offset = 0;
                     int num_uniforms = 0;
@@ -14416,9 +14581,9 @@ _SOKOL_PRIVATE bool _sg_validate_shader_desc(const sg_shader_desc* desc) {
                         const sg_shader_uniform_desc* u_desc = &ub_desc->uniforms[u_index];
                         if (u_desc->type != SG_UNIFORMTYPE_INVALID) {
                             SOKOL_VALIDATE(uniforms_continuous, _SG_VALIDATE_SHADERDESC_NO_CONT_UB_MEMBERS);
-                            #if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
+#if defined(SOKOL_GLES2) || defined(SOKOL_GLES3)
                             SOKOL_VALIDATE(0 != u_desc->name, _SG_VALIDATE_SHADERDESC_UB_MEMBER_NAME);
-                            #endif
+#endif
                             const int array_count = u_desc->array_count;
                             SOKOL_VALIDATE(array_count > 0, _SG_VALIDATE_SHADERDESC_UB_ARRAY_COUNT);
                             const uint32_t u_align = _sg_uniform_alignment(u_desc->type, array_count, ub_desc->layout);
@@ -14442,7 +14607,7 @@ _SOKOL_PRIVATE bool _sg_validate_shader_desc(const sg_shader_desc* desc) {
                     }
                     SOKOL_VALIDATE((size_t)uniform_offset == ub_desc->size, _SG_VALIDATE_SHADERDESC_UB_SIZE_MISMATCH);
                     SOKOL_VALIDATE(num_uniforms > 0, _SG_VALIDATE_SHADERDESC_NO_UB_MEMBERS);
-                    #endif
+#endif
                 }
                 else {
                     uniform_blocks_continuous = false;
@@ -14453,9 +14618,9 @@ _SOKOL_PRIVATE bool _sg_validate_shader_desc(const sg_shader_desc* desc) {
                 const sg_shader_image_desc* img_desc = &stage_desc->images[img_index];
                 if (img_desc->image_type != _SG_IMAGETYPE_DEFAULT) {
                     SOKOL_VALIDATE(images_continuous, _SG_VALIDATE_SHADERDESC_NO_CONT_IMGS);
-                    #if defined(SOKOL_GLES2)
+#if defined(SOKOL_GLES2)
                     SOKOL_VALIDATE(0 != img_desc->name, _SG_VALIDATE_SHADERDESC_IMG_NAME);
-                    #endif
+#endif
                 }
                 else {
                     images_continuous = false;
@@ -14463,14 +14628,14 @@ _SOKOL_PRIVATE bool _sg_validate_shader_desc(const sg_shader_desc* desc) {
             }
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_pipeline_desc(const sg_pipeline_desc* desc) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(desc);
         return true;
-    #else
+#else
         SOKOL_ASSERT(desc);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(desc->_start_canary == 0, _SG_VALIDATE_PIPELINEDESC_CANARY);
@@ -14497,24 +14662,24 @@ _SOKOL_PRIVATE bool _sg_validate_pipeline_desc(const sg_pipeline_desc* desc) {
                 }
                 SOKOL_VALIDATE(attrs_cont, _SG_VALIDATE_PIPELINEDESC_NO_ATTRS);
                 SOKOL_ASSERT(a_desc->buffer_index < SG_MAX_SHADERSTAGE_BUFFERS);
-                #if defined(SOKOL_GLES2)
+#if defined(SOKOL_GLES2)
                 /* on GLES2, vertex attribute names must be provided */
                 SOKOL_VALIDATE(!_sg_strempty(&shd->gl.attrs[attr_index].name), _SG_VALIDATE_PIPELINEDESC_ATTR_NAME);
-                #elif defined(SOKOL_D3D11)
+#elif defined(SOKOL_D3D11)
                 /* on D3D11, semantic names (and semantic indices) must be provided */
                 SOKOL_VALIDATE(!_sg_strempty(&shd->d3d11.attrs[attr_index].sem_name), _SG_VALIDATE_PIPELINEDESC_ATTR_SEMANTICS);
-                #endif
+#endif
             }
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_pass_desc(const sg_pass_desc* desc) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(desc);
         return true;
-    #else
+#else
         SOKOL_ASSERT(desc);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(desc->_start_canary == 0, _SG_VALIDATE_PASSDESC_CANARY);
@@ -14577,14 +14742,14 @@ _SOKOL_PRIVATE bool _sg_validate_pass_desc(const sg_pass_desc* desc) {
             SOKOL_VALIDATE(_sg_is_valid_rendertarget_depth_format(img->cmn.pixel_format), _SG_VALIDATE_PASSDESC_DEPTH_INV_PIXELFORMAT);
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_begin_pass(_sg_pass_t* pass) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(pass);
         return true;
-    #else
+#else
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(pass->slot.state == SG_RESOURCESTATE_VALID, _SG_VALIDATE_BEGINPASS_PASS);
 
@@ -14603,14 +14768,14 @@ _SOKOL_PRIVATE bool _sg_validate_begin_pass(_sg_pass_t* pass) {
             SOKOL_VALIDATE(ds_img->slot.id == att->image_id.id, _SG_VALIDATE_BEGINPASS_IMAGE);
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_apply_pipeline(sg_pipeline pip_id) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(pip_id);
         return true;
-    #else
+#else
         SOKOL_VALIDATE_BEGIN();
         /* the pipeline object must be alive and valid */
         SOKOL_VALIDATE(pip_id.id != SG_INVALID_ID, _SG_VALIDATE_APIP_PIPELINE_VALID_ID);
@@ -14650,14 +14815,14 @@ _SOKOL_PRIVATE bool _sg_validate_apply_pipeline(sg_pipeline pip_id) {
             SOKOL_VALIDATE(pip->cmn.sample_count == _sg.desc.context.sample_count, _SG_VALIDATE_APIP_SAMPLE_COUNT);
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_apply_bindings(const sg_bindings* bindings) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(bindings);
         return true;
-    #else
+#else
         SOKOL_VALIDATE_BEGIN();
 
         /* a pipeline object must have been applied */
@@ -14739,16 +14904,16 @@ _SOKOL_PRIVATE bool _sg_validate_apply_bindings(const sg_bindings* bindings) {
             }
         }
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_apply_uniforms(sg_shader_stage stage_index, int ub_index, const sg_range* data) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(stage_index);
         _SOKOL_UNUSED(ub_index);
         _SOKOL_UNUSED(data);
         return true;
-    #else
+#else
         SOKOL_ASSERT((stage_index == SG_SHADERSTAGE_VS) || (stage_index == SG_SHADERSTAGE_FS));
         SOKOL_ASSERT((ub_index >= 0) && (ub_index < SG_MAX_SHADERSTAGE_UBS));
         SOKOL_VALIDATE_BEGIN();
@@ -14765,15 +14930,15 @@ _SOKOL_PRIVATE bool _sg_validate_apply_uniforms(sg_shader_stage stage_index, int
         SOKOL_VALIDATE(data->size <= stage->uniform_blocks[ub_index].size, _SG_VALIDATE_AUB_SIZE);
 
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_update_buffer(const _sg_buffer_t* buf, const sg_range* data) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(buf);
         _SOKOL_UNUSED(data);
         return true;
-    #else
+#else
         SOKOL_ASSERT(buf && data && data->ptr);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(buf->cmn.usage != SG_USAGE_IMMUTABLE, _SG_VALIDATE_UPDATEBUF_USAGE);
@@ -14781,30 +14946,30 @@ _SOKOL_PRIVATE bool _sg_validate_update_buffer(const _sg_buffer_t* buf, const sg
         SOKOL_VALIDATE(buf->cmn.update_frame_index != _sg.frame_index, _SG_VALIDATE_UPDATEBUF_ONCE);
         SOKOL_VALIDATE(buf->cmn.append_frame_index != _sg.frame_index, _SG_VALIDATE_UPDATEBUF_APPEND);
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_append_buffer(const _sg_buffer_t* buf, const sg_range* data) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(buf);
         _SOKOL_UNUSED(data);
         return true;
-    #else
+#else
         SOKOL_ASSERT(buf && data && data->ptr);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(buf->cmn.usage != SG_USAGE_IMMUTABLE, _SG_VALIDATE_APPENDBUF_USAGE);
         SOKOL_VALIDATE(buf->cmn.size >= (buf->cmn.append_pos + (int)data->size), _SG_VALIDATE_APPENDBUF_SIZE);
         SOKOL_VALIDATE(buf->cmn.update_frame_index != _sg.frame_index, _SG_VALIDATE_APPENDBUF_UPDATE);
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 _SOKOL_PRIVATE bool _sg_validate_update_image(const _sg_image_t* img, const sg_image_data* data) {
-    #if !defined(SOKOL_DEBUG)
+#if !defined(SOKOL_DEBUG)
         _SOKOL_UNUSED(img);
         _SOKOL_UNUSED(data);
         return true;
-    #else
+#else
         SOKOL_ASSERT(img && data);
         SOKOL_VALIDATE_BEGIN();
         SOKOL_VALIDATE(img->cmn.usage != SG_USAGE_IMMUTABLE, _SG_VALIDATE_UPDIMG_USAGE);
@@ -14817,7 +14982,7 @@ _SOKOL_PRIVATE bool _sg_validate_update_image(const _sg_image_t* img, const sg_i
             img->cmn.num_mipmaps,
             img->cmn.num_slices);
         return SOKOL_VALIDATE_END();
-    #endif
+#endif
 }
 
 /*== fill in desc default values =============================================*/
@@ -14861,21 +15026,21 @@ _SOKOL_PRIVATE sg_image_desc _sg_image_desc_defaults(const sg_image_desc* desc) 
 
 _SOKOL_PRIVATE sg_shader_desc _sg_shader_desc_defaults(const sg_shader_desc* desc) {
     sg_shader_desc def = *desc;
-    #if defined(SOKOL_METAL)
+#if defined(SOKOL_METAL)
         def.vs.entry = _sg_def(def.vs.entry, "_main");
         def.fs.entry = _sg_def(def.fs.entry, "_main");
-    #else
+#else
         def.vs.entry = _sg_def(def.vs.entry, "main");
         def.fs.entry = _sg_def(def.fs.entry, "main");
-    #endif
-    #if defined(SOKOL_D3D11)
+#endif
+#if defined(SOKOL_D3D11)
         if (def.vs.source) {
             def.vs.d3d11_target = _sg_def(def.vs.d3d11_target, "vs_4_0");
         }
         if (def.fs.source) {
             def.fs.d3d11_target = _sg_def(def.fs.d3d11_target, "ps_4_0");
         }
-    #endif
+#endif
     for (int stage_index = 0; stage_index < SG_NUM_SHADER_STAGES; stage_index++) {
         sg_shader_stage_desc* stage_desc = (stage_index == SG_SHADERSTAGE_VS)? &def.vs : &def.fs;
         for (int ub_index = 0; ub_index < SG_MAX_SHADERSTAGE_UBS; ub_index++) {
@@ -15278,13 +15443,13 @@ _SOKOL_PRIVATE sg_desc _sg_desc_defaults(const sg_desc* desc) {
         cannot be a default compile-time constant.
     */
     sg_desc res = *desc;
-    #if defined(SOKOL_WGPU)
+#if defined(SOKOL_WGPU)
         SOKOL_ASSERT(SG_PIXELFORMAT_NONE != res.context.color_format);
-    #elif defined(SOKOL_METAL) || defined(SOKOL_D3D11)
+#elif defined(SOKOL_METAL) || defined(SOKOL_D3D11)
         res.context.color_format = _sg_def(res.context.color_format, SG_PIXELFORMAT_BGRA8);
-    #else
+#else
         res.context.color_format = _sg_def(res.context.color_format, SG_PIXELFORMAT_RGBA8);
-    #endif
+#endif
     res.context.depth_format = _sg_def(res.context.depth_format, SG_PIXELFORMAT_DEPTH_STENCIL);
     res.context.sample_count = _sg_def(res.context.sample_count, 1);
     res.buffer_pool_size = _sg_def(res.buffer_pool_size, _SG_DEFAULT_BUFFER_POOL_SIZE);
@@ -15407,13 +15572,13 @@ SOKOL_API_IMPL sg_trace_hooks sg_install_trace_hooks(const sg_trace_hooks* trace
     SOKOL_ASSERT(_sg.valid);
     SOKOL_ASSERT(trace_hooks);
     _SOKOL_UNUSED(trace_hooks);
-    #if defined(SOKOL_TRACE_HOOKS)
+#if defined(SOKOL_TRACE_HOOKS)
         sg_trace_hooks old_hooks = _sg.hooks;
         _sg.hooks = *trace_hooks;
-    #else
+#else
         static sg_trace_hooks old_hooks;
         SG_LOG("sg_install_trace_hooks() called, but SG_TRACE_HOOKS is not defined!");
-    #endif
+#endif
     return old_hooks;
 }
 
@@ -15948,11 +16113,11 @@ SOKOL_API_IMPL void sg_draw(int base_element, int num_elements, int num_instance
     SOKOL_ASSERT(base_element >= 0);
     SOKOL_ASSERT(num_elements >= 0);
     SOKOL_ASSERT(num_instances >= 0);
-    #if defined(SOKOL_DEBUG)
+#if defined(SOKOL_DEBUG)
         if (!_sg.bindings_valid) {
             SG_LOG("attempting to draw without resource bindings");
         }
-    #endif
+#endif
     if (!_sg.pass_valid) {
         _SG_TRACE_NOARGS(err_pass_invalid);
         return;
@@ -16118,13 +16283,13 @@ SOKOL_API_IMPL sg_buffer_info sg_query_buffer_info(sg_buffer buf_id) {
         info.append_frame_index = buf->cmn.append_frame_index;
         info.append_pos = buf->cmn.append_pos;
         info.append_overflow = buf->cmn.append_overflow;
-        #if defined(SOKOL_D3D11)
+#if defined(SOKOL_D3D11)
         info.num_slots = 1;
         info.active_slot = 0;
-        #else
+#else
         info.num_slots = buf->cmn.num_slots;
         info.active_slot = buf->cmn.active_slot;
-        #endif
+#endif
     }
     return info;
 }
@@ -16139,13 +16304,13 @@ SOKOL_API_IMPL sg_image_info sg_query_image_info(sg_image img_id) {
         info.slot.res_id = img->slot.id;
         info.slot.ctx_id = img->slot.ctx_id;
         info.upd_frame_index = img->cmn.upd_frame_index;
-        #if defined(SOKOL_D3D11)
+#if defined(SOKOL_D3D11)
         info.num_slots = 1;
         info.active_slot = 0;
-        #else
+#else
         info.num_slots = img->cmn.num_slots;
         info.active_slot = img->cmn.active_slot;
-        #endif
+#endif
         info.width = img->cmn.width;
         info.height = img->cmn.height;
     }
@@ -16238,16 +16403,16 @@ SOKOL_API_IMPL const void* sg_mtl_device(void) {
 }
 
 SOKOL_API_IMPL const void* sg_mtl_render_command_encoder(void) {
-    #if defined(SOKOL_METAL)
+#if defined(SOKOL_METAL)
         if (nil != _sg.mtl.cmd_encoder) {
             return (__bridge const void*) _sg.mtl.cmd_encoder;
         }
         else {
             return 0;
         }
-    #else
+#else
         return 0;
-    #endif
+#endif
 }
 
 #ifdef _MSC_VER

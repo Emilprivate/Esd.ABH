@@ -8,13 +8,11 @@
 
 #define TRANSPORT_OPTIONS 4 //Amount of transport options
 
-bool validate_credentials_in_database(FILE * file, char * file_name, char username[], char password[],
-                                      t_user_profile database[], int * id, bool IDFLAG){
+bool validate_credentials_in_database(FILE *file, char *file_name, char username[], char password[],
+                                      t_user_profile database[], int *id, bool IDFLAG) {
 
-    for (int i = 0; i < count_lines_in_file(file, file_name); i++)
-    {
-        if (strcmp(database[i].username, username) == 0 && strcmp(database[i].password, password) == 0)
-        {
+    for (int i = 0; i < count_lines_in_file(file, file_name); i++) {
+        if (strcmp(database[i].username, username) == 0 && strcmp(database[i].password, password) == 0) {
             if (IDFLAG)
                 *id = i;
 
@@ -25,8 +23,7 @@ bool validate_credentials_in_database(FILE * file, char * file_name, char userna
     return false;
 }
 
-t_user_profile terminal_create_user(int id)
-{
+t_user_profile terminal_create_user(int id) {
     t_user_profile new_profile;
 
     new_profile.id = id;
@@ -47,8 +44,7 @@ t_user_profile terminal_create_user(int id)
     scanf("%lf", &new_profile.max_distance);
 
     printf("Select a transport option>\n");
-    for (int i = 0; i < TRANSPORT_OPTIONS; i++)
-    {
+    for (int i = 0; i < TRANSPORT_OPTIONS; i++) {
         printf("[%d] %s\n", i, string_from_enum_transport(i));
     }
     scanf("%d", &new_profile.transport);
@@ -62,46 +58,44 @@ t_user_profile terminal_create_user(int id)
     return new_profile;
 }
 
-t_user_profile load_profile(FILE * file, char * file_name, int id)
-{
+t_user_profile load_profile(FILE *file, char *file_name, int id) {
     file = fopen(file_name, "r");
 
     validate_file_pointer(file);
 
     t_user_profile new_profile;
 
-    do{
+    do {
         fscanf(file, "%d %s %s %s %s %lf %lf %lf %d %u",
                &new_profile.id, new_profile.name, new_profile.address, new_profile.username, new_profile.password,
-               &new_profile.longitude, &new_profile.latitude, &new_profile.max_distance, &new_profile.age, &new_profile.transport);
-    }while (new_profile.id != id);
+               &new_profile.longitude, &new_profile.latitude, &new_profile.max_distance, &new_profile.age,
+               &new_profile.transport);
+    } while (new_profile.id != id);
 
     fclose(file);
 
     return new_profile;
 }
 
-void upload_profile(FILE * file, char * file_name, t_user_profile profile, t_user_profile database[])
-{
+void upload_profile(FILE *file, char *file_name, t_user_profile profile, t_user_profile database[]) {
     file = fopen(file_name, "a");
 
     validate_file_pointer(file);
 
     if (!validate_credentials_in_database(file, file_name, profile.username, profile.password, database, NULL, false))
-        fprintf(file, "%d %s %s %s %s %lf %lf %f %d %u\n", profile.id, profile.name, profile.address, profile.username, profile.password,
-            profile.longitude, profile.latitude, profile.max_distance, profile.age, profile.transport);
+        fprintf(file, "%d %s %s %s %s %lf %lf %f %d %u\n", profile.id, profile.name, profile.address, profile.username,
+                profile.password,
+                profile.longitude, profile.latitude, profile.max_distance, profile.age, profile.transport);
 
     fclose(file);
 }
 
-t_user_profile * load_database(FILE * file, char * file_name)
-{
+t_user_profile *load_database(FILE *file, char *file_name) {
     int lines_in_file = count_lines_in_file(file, file_name);
 
-    t_user_profile * database = malloc(lines_in_file * sizeof(*database));
+    t_user_profile *database = malloc(lines_in_file * sizeof(*database));
 
-    for (int i = 0; i < lines_in_file; i++)
-    {
+    for (int i = 0; i < lines_in_file; i++) {
         database[i] = load_profile(file, file_name, i);
     }
 

@@ -94,7 +94,9 @@ extern "C" {
 #endif
 
 #if defined(SOKOL_GFX_INCLUDED) && defined(SOKOL_APP_INCLUDED)
+
 SOKOL_GLUE_API_DECL sg_context_desc sapp_sgcontext(void);
+
 #endif
 
 #ifdef __cplusplus
@@ -108,7 +110,7 @@ SOKOL_GLUE_API_DECL sg_context_desc sapp_sgcontext(void);
 #include <string.h> /* memset */
 
 #ifndef SOKOL_API_IMPL
-    #define SOKOL_API_IMPL
+#define SOKOL_API_IMPL
 #endif
 
 #if defined(SOKOL_GFX_INCLUDED) && defined(SOKOL_APP_INCLUDED)
