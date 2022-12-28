@@ -53,17 +53,17 @@ if (CMAKE_SYSTEM_NAME STREQUAL Windows)
     add_executable(Automatic-Bargain-Hunting WIN32 "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
             "src/Source/profile_management.c" "src/Header/profile_management.h"
             "src/Source/utilities.c" "src/Header/utilities.h"
-            "src/UI/Source/user_interface.c" "src/UI/Header/user_interface.h"
-            "src/UI/Source/window_navigation_control.c" "src/UI/Header/window_navigation_control.h"
-            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/Source/ui_window_settings.c src/UI/Header/ui_window_settings.h)
+            "src/UI/ui_window_design.c" "src/UI/ui_window_design.h"
+            "src/UI/ui_window_control.c" "src/UI/ui_window_control.h"
+            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/ui_window_settings.c src/UI/ui_window_settings.h)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Automatic-Bargain-Hunting)
 else ()
     add_executable(Automatic-Bargain-Hunting "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
             "src/Source/profile_management.c" "src/Header/profile_management.h"
             "src/Source/utilities.c" "src/Header/utilities.h"
-            "src/UI/Source/user_interface.c" "src/UI/Header/user_interface.h"
-            "src/UI/Source/window_navigation_control.c" "src/UI/Header/window_navigation_control.h"
-            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/Source/ui_window_settings.c src/UI/Header/ui_window_settings.h)
+            "src/UI/ui_window_design.c" "src/UI/ui_window_design.h"
+            "src/UI/ui_window_control.c" "src/UI/ui_window_control.h"
+            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/ui_window_settings.c src/UI/ui_window_settings.h)
 endif ()
 target_link_libraries(Automatic-Bargain-Hunting sokol)
 

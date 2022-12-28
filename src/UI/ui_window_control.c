@@ -1,16 +1,16 @@
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
 
-#include "../../Definitions/struct_definitions.h"
-#include "../../Header/utilities.h"
-#include "../Header/user_interface.h"
-#include "../Header/window_navigation_control.h"
-#include "../Header/ui_window_settings.h"
+#include "../Definitions/struct_definitions.h"
+#include "../Header/utilities.h"
+#include "ui_window_design.h"
+#include "ui_window_control.h"
+#include "ui_window_settings.h"
 
 void run_new_window(t_new_window newWindowInfo, void callActiveWindow()) {
     igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f, 0.5f));
     igSetNextWindowSize(newWindowInfo.size, newWindowInfo.size_cond);
 
-    igBegin(" ", 0, newWindowInfo.windowflags);
+    igBegin("##new_window", 0, newWindowInfo.windowflags);
     igPushStyleVar_Float(ImGuiStyleVar_ChildRounding, 100.f);
     {
         igSetNextWindowPos(newWindowInfo.pos, newWindowInfo.pos_cond, Vec2(0.5f, 0.5f));

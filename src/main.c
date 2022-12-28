@@ -11,7 +11,7 @@
 #include "cimgui.h"
 
 #include "Header/utilities.h"
-#include "UI/Header/user_interface.h"
+#include "UI/ui_window_design.h"
 #include "Definitions/struct_definitions.h"
 #include "Header/profile_management.h"
 
@@ -25,8 +25,6 @@ static void frame(void);
 static void cleanup(void);
 
 static void event(const sapp_event *ev);
-
-static void init_font();
 
 void debug_admin_profile(FILE *file, char *file_name);
 
@@ -67,18 +65,19 @@ static void init(void) {
     simgui_setup(&(simgui_desc_t) {0});
 
     state.pass_action = (sg_pass_action) {
-            .colors[0] = {.action = SG_ACTION_CLEAR, .value = {0.6f, 0.6f, 0.6f, 1.0f}}
+            .colors[0] = {.action = SG_ACTION_CLEAR, .value = {1.0f, 1.0f, 1.0f, 1.0f}}
     };
 }
 
 static void frame(void) {
-
     simgui_new_frame(&(simgui_frame_desc_t) {
             .width = sapp_width(),
             .height = sapp_height(),
             .delta_time = sapp_frame_duration(),
             .dpi_scale = sapp_dpi_scale(),
     });
+
+
 
     initialise_ui(WIDTH, HEIGHT);
 
@@ -111,11 +110,4 @@ void initialise_database(FILE *file, char *file_name) {
     file = fopen(file_name, "a");
     validate_file_pointer(file);
     fclose(file);
-}
-
-void init_font() {
-    ImGuiIO *io = igGetIO();
-    ImFontAtlas_Clear(io->Fonts);
-    ImFontAtlas_AddFontFromFileTTF(io->Fonts, "Verdana.ttf", 14, NULL, ImFontAtlas_GetGlyphRangesDefault(io->Fonts));
-    ImFontAtlas_Build(io->Fonts);
 }
