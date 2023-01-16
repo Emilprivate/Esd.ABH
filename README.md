@@ -31,9 +31,9 @@ project.
 
 ## Demonstration
 
-```
-https://github.com/emil0212/Automatic-Bargain-Hunter/blob/main/Ressources/Demonstration.gif
-```
+
+(https://github.com/emil0212/Automatic-Bargain-Hunter/blob/main/Ressources/Demonstration.gif)
+
 
 ## Contributing
 
