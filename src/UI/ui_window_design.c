@@ -71,7 +71,7 @@ void initialise_ui(float WIDTH, float HEIGHT)
 
         initialise_initial_window_settings(&sharedData.windowSettings);
 
-        update_window_settings(&sharedData.programStatus, &sharedData.windowSettings, 1);
+        update_window_settings(&sharedData.programStatus, &sharedData.windowSettings, 0);
 
         sharedData.initWindow.initialised = !sharedData.initWindow.initialised;
     }

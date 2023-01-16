@@ -33,16 +33,31 @@ void update_window_settings(t_program_status *program, t_new_window *window_sett
     program->current_active_window_id = id;
 
     switch (id) {
+        case 0:
+            initialise_initial_window_settings(window_settings);
+            break;
         case 1:
             initialise_main_window_settings(window_settings);
+            break;
+        case 2:
+            initialise_login_window_settings(window_settings);
             break;
         case 3:
             initialise_registration_window_settings(window_settings);
             break;
         case 4:
-            initialise_main_window_settings(window_settings);
+            initialise_view_profile_window_settings(window_settings);
+            break;
+        case 5:
+            initialise_view_cart_window_settings(window_settings);
+            break;
+        case 6:
+            initialise_search_window_settings(window_settings);
+            break;
+        case 7:
+            initialise_settings_window_settings(window_settings);
             break;
         default:
-            initialise_initial_window_settings(window_settings);
+            default_window_settings(window_settings);
     }
 }
