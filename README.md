@@ -32,7 +32,7 @@ project.
 ## Demonstration
 
 ```
-work in progress
+https://github.com/emil0212/Automatic-Bargain-Hunter/blob/main/Ressources/Demonstration.gif
 ```
 
 ## Contributing
