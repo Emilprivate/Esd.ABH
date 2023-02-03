@@ -1,7 +1,7 @@
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
 
 #include "../Definitions/struct_definitions.h"
-#include "../Header/utilities.h"
+#include "../Utilities/utilities.h"
 #include "ui_window_design.h"
 #include "ui_window_control.h"
 #include "ui_window_settings.h"

@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "../Definitions/struct_definitions.h"
-#include "../Header/utilities.h"
-#include "../Header/profile_management.h"
+#include "../Utilities/utilities.h"
+#include "db_management.h"
 
 #define TRANSPORT_OPTIONS 4 //Amount of transport options
 

@@ -51,21 +51,33 @@ target_include_directories(sokol INTERFACE sokol)
 #=== EXECUTABLE:
 if (CMAKE_SYSTEM_NAME STREQUAL Windows)
     add_executable(Automatic-Bargain-Hunting WIN32 "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
-            "src/Source/profile_management.c" "src/Header/profile_management.h"
-            "src/Source/utilities.c" "src/Header/utilities.h"
+            "src/Database/db_management.c" "src/Database/db_management.h"
+            "src/Utilities/utilities.c" "src/Utilities/utilities.h"
             "src/UI/ui_window_design.c" "src/UI/ui_window_design.h"
             "src/UI/ui_window_control.c" "src/UI/ui_window_control.h"
-            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/ui_window_settings.c src/UI/ui_window_settings.h)
+            "src/Database/db_operations.c" "src/Database/db_operations.h"
+            "src/Definitions/struct_definitions.h" "src/Definitions/enum_definitions.h"
+            "src/UI/ui_window_settings.c" "src/UI/ui_window_settings.h"
+            "src/Datacollection/data_collection_management.c" "src/Datacollection/data_collection_management.h" src/Geography/google_maps.c src/Geography/google_maps.h src/Datacollection/Stores/netto.c src/Datacollection/Stores/netto.h src/Datacollection/Stores/rema1000.c src/Datacollection/Stores/rema1000.h src/Datacollection/Stores/bilka.c src/Datacollection/Stores/bilka.h src/Datacollection/Stores/365coop.c src/Datacollection/Stores/365coop.h src/Datacollection/Stores/meny.c src/Datacollection/Stores/meny.h src/Datacollection/Stores/foetex.c src/Datacollection/Stores/foetex.h)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Automatic-Bargain-Hunting)
 else ()
     add_executable(Automatic-Bargain-Hunting "src/main.c" "Debug/terminal_debug_menu.c" "Debug/terminal_debug_menu.h"
-            "src/Source/profile_management.c" "src/Header/profile_management.h"
-            "src/Source/utilities.c" "src/Header/utilities.h"
+            "src/Database/db_management.c" "src/Database/db_management.h"
+            "src/Utilities/utilities.c" "src/Utilities/utilities.h"
             "src/UI/ui_window_design.c" "src/UI/ui_window_design.h"
             "src/UI/ui_window_control.c" "src/UI/ui_window_control.h"
-            "src/Source/user_operations.c" "src/Header/user_operations.h" src/Definitions/struct_definitions.h src/Definitions/enum_definitions.h src/UI/ui_window_settings.c src/UI/ui_window_settings.h)
+            "src/Database/db_operations.c" "src/Database/db_operations.h"
+            "src/Definitions/struct_definitions.h" "src/Definitions/enum_definitions.h"
+            "src/UI/ui_window_settings.c" "src/UI/ui_window_settings.h"
+            "src/Datacollection/data_collection_management.c" "src/Datacollection/data_collection_management.h" src/Geography/google_maps.c src/Geography/google_maps.h src/Datacollection/Stores/netto.c src/Datacollection/Stores/netto.h src/Datacollection/Stores/rema1000.c src/Datacollection/Stores/rema1000.h src/Datacollection/Stores/bilka.c src/Datacollection/Stores/bilka.h src/Datacollection/Stores/365coop.c src/Datacollection/Stores/365coop.h src/Datacollection/Stores/meny.c src/Datacollection/Stores/meny.h src/Datacollection/Stores/foetex.c src/Datacollection/Stores/foetex.h)
 endif ()
-target_link_libraries(Automatic-Bargain-Hunting sokol)
+target_link_libraries(Automatic-Bargain-Hunting PUBLIC sokol)
+
+find_package(CURL REQUIRED)
+if (CURL_FOUND)
+    target_include_directories(Automatic-Bargain-Hunting PRIVATE ${CURL_INCLUDE_DIRS})
+    target_link_libraries(Automatic-Bargain-Hunting PRIVATE ${CURL_LIBRARIES})
+endif()
 
 # Emscripten-specific linker options
 if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)

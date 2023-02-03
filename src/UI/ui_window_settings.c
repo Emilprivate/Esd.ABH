@@ -5,7 +5,7 @@
 #include "../Definitions/struct_definitions.h"
 
 #include "ui_window_settings.h"
-#include "../Header/utilities.h"
+#include "../Utilities/utilities.h"
 
 void default_window_settings(t_new_window *windowSettings)
 {

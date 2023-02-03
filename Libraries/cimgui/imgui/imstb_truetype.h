@@ -3232,7 +3232,7 @@ stbtt__fill_active_edges_new(float *scanline, float *scanline_fill, int len, stb
 
                     // in second pixel, area covered by line segment found in first pixel
                     // is always a rectangle 1 wide * the height of that line segment; this
-                    // is exactly what the variable 'area' stores. it also gets a contribution
+                    // is exactly what the variable 'area' Stores. it also gets a contribution
                     // from the line segment within it. the THIRD pixel will get the first
                     // pixel's rectangle contribution, the second pixel's rectangle contribution,
                     // and its own contribution. the 'own contribution' is the same in every pixel except

@@ -2,8 +2,8 @@
 
 #include "cimgui.h"
 #include "../Definitions/struct_definitions.h"
-#include "../Header/user_operations.h"
-#include "../Header/utilities.h"
+#include "../Database/db_operations.h"
+#include "../Utilities/utilities.h"
 
 #include "ui_window_control.h"
 #include "ui_window_design.h"

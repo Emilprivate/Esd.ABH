@@ -8,12 +8,12 @@
 #include "../Libraries/sokol/sokol_gfx.h"
 #include "../Libraries/sokol/sokol_glue.h"
 #include "../Libraries/sokol/sokol_imgui.h"
-#include "cimgui.h"
 
-#include "Header/utilities.h"
+#include "Utilities/utilities.h"
 #include "UI/ui_window_design.h"
 #include "Definitions/struct_definitions.h"
-#include "Header/profile_management.h"
+#include "Database/db_management.h"
+#include "Datacollection/data_collection_management.h"
 
 #define WIDTH  750
 #define HEIGHT 600
@@ -47,6 +47,8 @@ sapp_desc sokol_main(int argc, char *argv[]) {
 
     debug_admin_profile(file, file_name);
 
+    testfile();
+
     return (sapp_desc)
             {
                     .init_cb = init,
@@ -76,8 +78,6 @@ static void frame(void) {
             .delta_time = sapp_frame_duration(),
             .dpi_scale = sapp_dpi_scale(),
     });
-
-
 
     initialise_ui(WIDTH, HEIGHT);
 
