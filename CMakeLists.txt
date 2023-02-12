@@ -69,7 +69,7 @@ else ()
             "src/Database/db_operations.c" "src/Database/db_operations.h"
             "src/Definitions/struct_definitions.h" "src/Definitions/enum_definitions.h"
             "src/UI/ui_window_settings.c" "src/UI/ui_window_settings.h"
-            "src/Datacollection/data_collection_management.c" "src/Datacollection/data_collection_management.h" src/Geography/google_maps.c src/Geography/google_maps.h src/Datacollection/Stores/netto.c src/Datacollection/Stores/netto.h src/Datacollection/Stores/rema1000.c src/Datacollection/Stores/rema1000.h src/Datacollection/Stores/bilka.c src/Datacollection/Stores/bilka.h src/Datacollection/Stores/365coop.c src/Datacollection/Stores/365coop.h src/Datacollection/Stores/meny.c src/Datacollection/Stores/meny.h src/Datacollection/Stores/foetex.c src/Datacollection/Stores/foetex.h)
+            "src/Datacollection/data_collection_management.c" "src/Datacollection/data_collection_management.h" src/Geography/google_maps.c src/Geography/google_maps.h src/Datacollection/Stores/netto.c src/Datacollection/Stores/netto.h src/Datacollection/Stores/rema1000.c src/Datacollection/Stores/rema1000.h src/Datacollection/Stores/bilka.c src/Datacollection/Stores/bilka.h src/Datacollection/Stores/365coop.c src/Datacollection/Stores/365coop.h src/Datacollection/Stores/meny.c src/Datacollection/Stores/meny.h src/Datacollection/Stores/foetex.c src/Datacollection/Stores/foetex.h src/Datacollection/Stores/teststore.c src/Datacollection/Stores/teststore.h)
 endif ()
 target_link_libraries(Automatic-Bargain-Hunting PUBLIC sokol)
 

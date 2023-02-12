@@ -251,6 +251,49 @@ void register_window()
 
 void view_profile_window()
 {
+    //-----------------LEFT PANEL-----------------//
+    igPushItemWidth(-200);
+    igSetCursorPos(Vec2(25, 40));
+    igBeginGroup();
+
+    igText("Name");
+    igInputText("##name", sharedData.loginUserProfile.name, MAX, ImGuiInputTextFlags_ReadOnly, NULL, NULL);
+
+    igText("Address");
+    igInputText("##address", sharedData.loginUserProfile.address, MAX, ImGuiInputTextFlags_ReadOnly, NULL, NULL);
+
+    igText("Username");
+    igInputText("##username", sharedData.loginUserProfile.username, MAX, ImGuiInputTextFlags_ReadOnly, NULL, NULL);
+
+    igText("Password");
+    igInputText("##password", sharedData.loginUserProfile.password, MAX, ImGuiInputTextFlags_Password, NULL, NULL);
+
+    igEndGroup();
+    igPopItemWidth();
+
+    //-----------------RIGHT PANEL-----------------//
+    igPushItemWidth(-20);
+    igSetCursorPos(Vec2(200, 40));
+    igBeginGroup();
+
+    igText("Age");
+    igInputScalar("##age", ImGuiDataType_U8, &sharedData.loginUserProfile.age, NULL, NULL, NULL,
+                  ImGuiInputTextFlags_ReadOnly);
+
+    igText("Longitude");
+    igInputScalar("##longitude", ImGuiDataType_Double, &sharedData.loginUserProfile.longitude, NULL, NULL, NULL,
+                  ImGuiInputTextFlags_ReadOnly);
+
+    igText("Latitude");
+    igInputScalar("##latitude", ImGuiDataType_Double, &sharedData.loginUserProfile.latitude, NULL, NULL, NULL,
+                  ImGuiInputTextFlags_ReadOnly);
+
+    igText("Max traveling distance");
+    igInputScalar("##max_traveling_distance", ImGuiDataType_Double, &sharedData.loginUserProfile.max_distance, NULL, NULL, NULL,
+                  ImGuiInputTextFlags_ReadOnly);
+
+    igEndGroup();
+    igPopItemWidth();
 
     igSetCursorPos(Vec2(5, 5));
     if (igButton("<", Vec2(25, 25)))
@@ -258,6 +301,7 @@ void view_profile_window()
         update_window_settings(&sharedData.programStatus, &sharedData.windowSettings, 1);
     }
 }
+
 
 void view_cart_window()
 {

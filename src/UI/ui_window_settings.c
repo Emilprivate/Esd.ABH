@@ -71,7 +71,7 @@ void initialise_main_window_settings(t_new_window *windowSettings)
 void initialise_view_profile_window_settings(t_new_window *windowSettings)
 {
     ImVec2 CENTER_POS = Vec2(windowSettings->WIDTH * 0.5f, windowSettings->HEIGHT * 0.5f);
-    ImVec2 MAIN_CHILD_FRAME = Vec2(windowSettings->WIDTH * 0.9f, windowSettings->HEIGHT * 0.9f);
+    ImVec2 MAIN_CHILD_FRAME = Vec2(windowSettings->WIDTH * 0.53f, windowSettings->HEIGHT * 0.53f);
 
     windowSettings->pos = CENTER_POS;
     windowSettings->pos_cond = ImGuiCond_Always;
