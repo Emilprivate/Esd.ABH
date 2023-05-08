@@ -1,4 +1,4 @@
-# Automatic Bargain Hunting
+# Esd.ABH
 
 This is an extension to the [P1 Project](https://github.com/emil0212/Aalborg-University-Software/tree/main/Project-P1)
 made by a group and I at Aalborg University. The aim of the project is to develop a software application in the C
